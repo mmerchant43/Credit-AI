@@ -1,4 +1,4 @@
-import DealForm from "@/components/DealForm";
+import EntryModeToggle from "@/components/EntryModeToggle";
 
 export default function NewDealAnalysisPage() {
   return (
@@ -8,10 +8,10 @@ export default function NewDealAnalysisPage() {
         <div className="rule" />
       </div>
       <p className="text-sm text-slate-500 mb-4">
-        Enter the subject deal from its OM. Saving runs the five-filter screen against the comp
-        database, saves the analysis, and adds the deal to the database automatically.
+        Upload the subject deal&apos;s OM — the facts are read out of it, the five-filter screen runs
+        against the comp database, and the deal is added automatically. Or enter it manually.
       </p>
-      <DealForm mode="deal" />
+      <EntryModeToggle mode="deal" />
     </div>
   );
 }

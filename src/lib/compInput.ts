@@ -7,7 +7,10 @@ import { z } from "zod";
 
 const YEAR_LABELS = ["Year 1", "Year 2", "Year 3", "Stabilized"];
 
-const blankToUndef = (v: unknown) => (typeof v === "string" && v.trim() === "" ? undefined : v);
+// null (JSON from the OM-upload path) and "" (empty form fields) both mean
+// "not stated" — they must become undefined, never 0 via Number(null).
+const blankToUndef = (v: unknown) =>
+  v == null || (typeof v === "string" && v.trim() === "") ? undefined : v;
 const optNum = z.preprocess(blankToUndef, z.coerce.number().finite().optional());
 const optInt = z.preprocess(blankToUndef, z.coerce.number().int().optional());
 const optStr = z.preprocess(blankToUndef, z.string().trim().max(2000).optional());

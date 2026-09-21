@@ -9,7 +9,7 @@
 export const VINTAGE_TOLERANCE = 3; // subject year built ± 3
 export const OCCUPANCY_TOLERANCE = 0.10; // ± 10 points (fractions: 0.10)
 
-export type LocationMode = "zip" | "city" | "none";
+export type LocationMode = "zip" | "city" | "radius" | "none";
 
 export interface Screenable {
   id: string;
@@ -18,6 +18,8 @@ export interface Screenable {
   city: string | null;
   state: string | null;
   zip: string | null;
+  lat?: number | null; // zip-centroid coords (radius mode)
+  lon?: number | null;
   propertyType: string;
   yearBuilt: number | null;
   occupancyPct: number | null; // fraction, current/in-place only
@@ -40,6 +42,27 @@ export interface TraceRow {
 
 const zip5 = (z: string | null | undefined) => (z ?? "").trim().slice(0, 5);
 const norm = (s: string | null | undefined) => (s ?? "").trim().toLowerCase();
+
+function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 3958.7613;
+  const p1 = (lat1 * Math.PI) / 180, p2 = (lat2 * Math.PI) / 180;
+  const dp = p2 - p1, dl = ((lon2 - lon1) * Math.PI) / 180;
+  const a = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function fLocationRadius(subject: Screenable, comp: Screenable, radiusMiles: number): Check {
+  if (subject.lat == null || subject.lon == null)
+    return { filter: "1. Location", passed: false, reason: "subject has no coordinates (zip unknown)" };
+  if (comp.lat == null || comp.lon == null)
+    return { filter: "1. Location", passed: false, reason: "no coordinates on record (zip missing or unknown)" };
+  const d = haversine(subject.lat, subject.lon, comp.lat, comp.lon);
+  return {
+    filter: "1. Location",
+    passed: d <= radiusMiles,
+    reason: `${d.toFixed(1)} mi from subject (zip centroids, limit ${radiusMiles} mi)`,
+  };
+}
 
 function fLocation(subject: Screenable, comp: Screenable, mode: LocationMode): Check {
   if (mode === "zip") {
@@ -102,14 +125,16 @@ function fCategory(subject: Screenable, comp: Screenable): Check {
   };
 }
 
-function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode) {
+function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode, radiusMiles?: number) {
   const matched: Screenable[] = [];
   const trace: TraceRow[] = [];
   for (const comp of comps) {
     const checks: Check[] = [];
     let failedAt: string | null = null;
     for (const fn of [
-      () => fLocation(subject, comp, mode),
+      () => (mode === "radius" && radiusMiles != null
+        ? fLocationRadius(subject, comp, radiusMiles)
+        : fLocation(subject, comp, mode)),
       () => fPropertyType(subject, comp),
       () => fVintage(subject, comp),
       () => fOccupancy(subject, comp),
@@ -131,9 +156,15 @@ function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode
   return { matched, trace };
 }
 
-/** Zip first; only if that yields nothing, widen to same city+state.
- *  If that is also empty, stop — no further fallback. */
-export function runScreen(subject: Screenable, comps: Screenable[]) {
+/** Default ladder: zip first; only if that yields nothing, widen to same
+ *  city+state; if that is also empty, stop — no further fallback.
+ *  With radiusMiles set (the analysis page's slider), the location filter is
+ *  instead a hard distance cutoff on zip-centroid coordinates. */
+export function runScreen(subject: Screenable, comps: Screenable[], radiusMiles?: number) {
+  if (radiusMiles != null && radiusMiles > 0) {
+    const { matched, trace } = screenPass(subject, comps, "radius", radiusMiles);
+    return { matched, trace, locationMode: "radius" as LocationMode, candidatesScreened: comps.length };
+  }
   let { matched, trace } = screenPass(subject, comps, "zip");
   let mode: LocationMode = "zip";
   if (matched.length === 0) {

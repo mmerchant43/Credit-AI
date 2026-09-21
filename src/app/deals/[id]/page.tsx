@@ -1,14 +1,17 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { DASH, fmtMoney, fmtPct, fmtX, CATEGORY_LABELS } from "@/lib/format";
-import type { StatRow, TraceRow } from "@/lib/screen";
+import { runScreen, summarize, type Screenable, type StatRow, type TraceRow } from "@/lib/screen";
+import { ensureCoords } from "@/lib/geo";
+import RadiusSlider from "@/components/RadiusSlider";
 
 export const dynamic = "force-dynamic";
 
-// A saved deal analysis, re-rendered from its snapshot: subject snapshot,
-// side-by-side comparison, summary stats with range bars (navy range, navy
-// median tick, gold subject dot, red when outside), and the screening trace.
+// A saved deal analysis. Default view renders the snapshot exactly as saved;
+// moving the radius slider re-screens the live database within N miles of the
+// subject (zip-centroid distance) — Mason, 9/21/26.
 
 const COMP_COLS: { key: string; label: string; kind: "usd" | "pct" | "x" | "num" }[] = [
   { key: "loanAmount", label: "Loan Amount", kind: "usd" },
@@ -53,30 +56,87 @@ function RangeBar({ row }: { row: StatRow }) {
   );
 }
 
-export default async function DealAnalysisPage({ params }: { params: { id: string } }) {
+export default async function DealAnalysisPage({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams?: { radius?: string };
+}) {
   const analysis = await prisma.dealAnalysis.findUnique({
     where: { id: params.id },
     include: { subject: { include: { metricYears: true } } },
   });
   if (!analysis) notFound();
+  const s = analysis.subject;
 
-  const snap = analysis.snapshot as unknown as {
+  const radius = Math.min(Math.max(Number(searchParams?.radius ?? 0) || 0, 0), 100);
+
+  const savedSnap = analysis.snapshot as unknown as {
     matchedIds: string[];
     trace: TraceRow[];
     stats: StatRow[];
     candidatesScreened: number;
     classificationEvidence?: string;
   };
+
+  let view: {
+    matchedIds: string[];
+    trace: TraceRow[];
+    stats: StatRow[];
+    candidatesScreened: number;
+    modeLabel: string;
+    matchedCount: number;
+  };
+
+  if (radius > 0) {
+    // Live re-screen within the radius, against today's database.
+    const comps = await prisma.creditComp.findMany({
+      where: { archived: false, id: { not: s.id } },
+    });
+    await ensureCoords([s, ...comps]);
+    const screen = runScreen(
+      s as unknown as Screenable,
+      comps as unknown as Screenable[],
+      radius
+    );
+    const matchedSet = new Set(screen.matched.map((m) => m.id));
+    const matchedFull = comps.filter((c) => matchedSet.has(c.id));
+    const stats = summarize(
+      s as unknown as Record<string, unknown>,
+      matchedFull as unknown as Record<string, unknown>[]
+    );
+    view = {
+      matchedIds: screen.matched.map((m) => m.id),
+      trace: screen.trace,
+      stats,
+      candidatesScreened: screen.candidatesScreened,
+      modeLabel: `${radius}-mile radius (live)`,
+      matchedCount: screen.matched.length,
+    };
+  } else {
+    view = {
+      matchedIds: savedSnap.matchedIds,
+      trace: savedSnap.trace,
+      stats: savedSnap.stats,
+      candidatesScreened: savedSnap.candidatesScreened,
+      modeLabel:
+        { zip: "same zip", city: "same city (radius fallback)", none: "no database comps", radius: "radius" }[
+          analysis.locationMode
+        ] ?? analysis.locationMode,
+      matchedCount: analysis.matchedCount,
+    };
+  }
+
   const matched = await prisma.creditComp.findMany({
-    where: { id: { in: snap.matchedIds } },
+    where: { id: { in: view.matchedIds } },
     include: { metricYears: true },
   });
-  const s = analysis.subject;
-  const modeLabel = { zip: "same zip", city: "same city (radius fallback)", none: "no database comps" }[analysis.locationMode] ?? analysis.locationMode;
-
   const rows = [
     { r: s, isSubject: true },
-    ...snap.matchedIds.map((id) => ({ r: matched.find((m) => m.id === id), isSubject: false })).filter((x) => x.r),
+    ...view.matchedIds
+      .map((id) => ({ r: matched.find((m) => m.id === id), isSubject: false }))
+      .filter((x) => x.r),
   ] as { r: typeof s; isSubject: boolean }[];
 
   return (
@@ -97,14 +157,19 @@ export default async function DealAnalysisPage({ params }: { params: { id: strin
           <span>Vintage: <b>{s.yearBuilt ?? DASH}</b></span>
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
         </div>
-        {snap.classificationEvidence && (
-          <p className="text-xs text-slate-600 mt-2"><b>Classification evidence:</b> {snap.classificationEvidence}</p>
+        {savedSnap.classificationEvidence && (
+          <p className="text-xs text-slate-600 mt-2"><b>Classification evidence:</b> {savedSnap.classificationEvidence}</p>
         )}
         <p className="text-xs text-slate-500 mt-2">
-          Screened {snap.candidatesScreened} database comp{snap.candidatesScreened === 1 ? "" : "s"} via {modeLabel} →{" "}
-          <b>{analysis.matchedCount} match{analysis.matchedCount === 1 ? "" : "es"}</b> · saved by {analysis.createdBy ?? DASH} · this deal was added to the comp database automatically.
+          Screened {view.candidatesScreened} database comp{view.candidatesScreened === 1 ? "" : "s"} via {view.modeLabel} →{" "}
+          <b>{view.matchedCount} match{view.matchedCount === 1 ? "" : "es"}</b> · saved by {analysis.createdBy ?? DASH} · this deal was added to the comp database automatically.
         </p>
       </section>
+
+      {/* Radius control */}
+      <Suspense>
+        <RadiusSlider />
+      </Suspense>
 
       {/* Comparison table */}
       <section>
@@ -137,9 +202,11 @@ export default async function DealAnalysisPage({ params }: { params: { id: strin
                   })}
                 </tr>
               ))}
-              {analysis.matchedCount === 0 && (
+              {view.matchedCount === 0 && (
                 <tr><td colSpan={14} className="px-3 py-6 text-center text-slate-400">
-                  No database comps passed the five filters — the subject stands alone above.
+                  {radius > 0
+                    ? `No comps within ${radius} miles passed the five filters — widen the radius.`
+                    : "No database comps passed the five filters — the subject stands alone above."}
                 </td></tr>
               )}
             </tbody>
@@ -148,7 +215,7 @@ export default async function DealAnalysisPage({ params }: { params: { id: strin
       </section>
 
       {/* Summary stats & subject placement */}
-      {analysis.matchedCount > 0 && (
+      {view.matchedCount > 0 && (
         <section>
           <div className="section-head"><h2>Summary Statistics & Subject Placement</h2><div className="rule" /></div>
           <div className="card overflow-x-auto">
@@ -164,7 +231,7 @@ export default async function DealAnalysisPage({ params }: { params: { id: strin
                 </tr>
               </thead>
               <tbody>
-                {snap.stats.map((row) => (
+                {view.stats.map((row) => (
                   <tr key={row.key} className="border-b border-slate-100">
                     <td className="px-3 py-2">{row.label}{row.outside && <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">outside range</span>}</td>
                     <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBy(row.kind, row.subject)}</td>
@@ -193,7 +260,7 @@ export default async function DealAnalysisPage({ params }: { params: { id: strin
               </tr>
             </thead>
             <tbody>
-              {snap.trace.map((t) => {
+              {view.trace.map((t) => {
                 const last = t.checks[t.checks.length - 1];
                 return (
                   <tr key={t.compId} className="border-b border-slate-100">

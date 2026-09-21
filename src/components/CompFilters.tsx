@@ -1,13 +1,10 @@
 "use client";
 
-// The comps filter bar — Mason's spec (9/21/26): stories range, state, city,
-// zip, loan amount range, LTV/LTC ranges, DSCR and Debt Yield with a
-// projection-year picker, loan PSF range, loan per unit range.
+// The comps filter bar — trimmed per Mason (9/21/26): Category, Stories
+// range, State, City, Zip, LTV range. Nothing else.
 // Plain GET form: the URL is the filter state, so views are shareable.
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
-
-const YEAR_OPTIONS = ["In-Place", "Year 1", "Year 2", "Year 3", "Year 4", "Year 5", "Stabilized"];
 
 function Range({ name, label, step, placeholderMin, placeholderMax, defaults }: {
   name: string; label: string; step?: string;
@@ -47,7 +44,15 @@ export default function CompFilters() {
 
   return (
     <form ref={formRef} onSubmit={onSubmit} className="card p-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div>
+          <span className="label">Category</span>
+          <select className="field" name="category" defaultValue={defaults.get("category") ?? ""}>
+            <option value="">All</option>
+            <option value="BRIDGE_REFI">Bridge / Refi</option>
+            <option value="CONSTRUCTION">Construction</option>
+          </select>
+        </div>
         <Range name="stories" label="Stories" step="1" defaults={defaults} />
         <div>
           <span className="label">State</span>
@@ -61,35 +66,7 @@ export default function CompFilters() {
           <span className="label">Zip Code</span>
           <input className="field" name="zip" placeholder="5-digit" defaultValue={defaults.get("zip") ?? ""} />
         </div>
-        <Range name="loan" label="Loan Amount ($)" placeholderMin="$ min" placeholderMax="$ max" defaults={defaults} />
         <Range name="ltv" label="LTV (%)" placeholderMin="% min" placeholderMax="% max" defaults={defaults} />
-        <Range name="ltc" label="LTC (%)" placeholderMin="% min" placeholderMax="% max" defaults={defaults} />
-        <div>
-          <span className="label">DSCR — year, then range</span>
-          <div className="flex items-center gap-1">
-            <select className="field" name="dscrYear" defaultValue={defaults.get("dscrYear") ?? "Year 1"}>
-              {YEAR_OPTIONS.map((y) => <option key={y}>{y}</option>)}
-            </select>
-            <input className="field" type="number" step="any" name="dscrMin" placeholder="min"
-              defaultValue={defaults.get("dscrMin") ?? ""} />
-            <input className="field" type="number" step="any" name="dscrMax" placeholder="max"
-              defaultValue={defaults.get("dscrMax") ?? ""} />
-          </div>
-        </div>
-        <div>
-          <span className="label">Debt Yield — year, then range (%)</span>
-          <div className="flex items-center gap-1">
-            <select className="field" name="dyYear" defaultValue={defaults.get("dyYear") ?? "Year 1"}>
-              {YEAR_OPTIONS.map((y) => <option key={y}>{y}</option>)}
-            </select>
-            <input className="field" type="number" step="any" name="dyMin" placeholder="% min"
-              defaultValue={defaults.get("dyMin") ?? ""} />
-            <input className="field" type="number" step="any" name="dyMax" placeholder="% max"
-              defaultValue={defaults.get("dyMax") ?? ""} />
-          </div>
-        </div>
-        <Range name="psf" label="Loan Amount PSF ($)" placeholderMin="$ min" placeholderMax="$ max" defaults={defaults} />
-        <Range name="perUnit" label="Loan Amount / Unit ($)" placeholderMin="$ min" placeholderMax="$ max" defaults={defaults} />
       </div>
       <div className="flex items-center gap-2 mt-4">
         <button type="submit" className="btn btn-primary text-sm">Apply Filters</button>

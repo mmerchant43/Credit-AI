@@ -1,0 +1,92 @@
+import { NextResponse } from "next/server";
+import { currentUser } from "@/lib/auth";
+
+// OM text → structured deal fields, using the Anthropic API server-side.
+// The browser extracts the PDF's text (no big file ever hits this function)
+// and posts it here; we return fields shaped exactly like the manual form,
+// so the same validation and unit conversion applies either way.
+export const maxDuration = 60;
+
+const EXTRACTION_PROMPT = `You are a real-estate private equity credit analyst extracting deal facts from a multifamily Offering Memorandum (debt/financing package). Extract the subject deal's facts from the OM text below.
+
+IRON RULES:
+- VERBATIM-OR-NULL: every value must be stated in the text. NEVER compute, derive, or back into a value (no loan/units math, no LTV from loan and value). Not stated => null.
+- Occupancy is CURRENT / IN-PLACE only, never stabilized or projected. A construction deal has null occupancy.
+- If the OM quotes a range for a figure, use null and mention the range in "notes".
+- category: "BRIDGE_REFI" if the property is BUILT AND EXISTS (C of O, rent roll, T-12, in-place occupancy, maturing loan, lease-up refi, construction takeout). "CONSTRUCTION" if NOT BUILT / to be built (cost budget, GC fees, completion timeline, entitlements, yield-on-cost, no rent roll). Decide from evidence, not keywords.
+- classificationEvidence: 1-2 sentences of the evidence behind the category call. Required.
+- ALL PERCENT VALUES AS PERCENTS (65 not 0.65): occupancyPct, ratePct, ltvPct, ltcPct, impliedCapPct, stabilizedCapPct, dy0-dy3. DSCR as a plain multiple (1.25).
+- dscr0/dy0 = Year 1 (or the OM's single/UW figure), dscr1/dy1 = Year 2, dscr2/dy2 = Year 3, dscr3/dy3 = Stabilized. Only years the OM states.
+- Dollar amounts as plain numbers ("$53.0M" => 53000000).
+
+Respond with ONLY a JSON object (no markdown fence, no commentary) with exactly these keys (null when not stated): propertyName, address, city, state (2-letter), zip, market ("City, ST" metro), submarket, units, stories, sizeSf, yearBuilt, occupancyPct, category, classificationEvidence, loanAmount, loanPerUnit, loanPerSf, rateType ("FIXED"|"FLOATING"|null), indexName, spreadBps, ratePct, termMonths, ioMonths, ltvPct, ltcPct, totalProjectCost, tpcPerUnit, impliedCapPct, stabilizedCapPct, dscr0, dy0, dscr1, dy1, dscr2, dy2, dscr3, dy3, borrowerSponsor, brokerage, sourceNote (e.g. "OM dated Jun-26"), notes (ranges, ambiguities, caveats).
+
+OM TEXT:
+`;
+
+export async function POST(req: Request) {
+  try {
+    await currentUser();
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "OM extraction isn't configured yet — add ANTHROPIC_API_KEY in Vercel → Settings → Environment Variables and redeploy." },
+        { status: 503 }
+      );
+    }
+    const { text, fileName, mode } = (await req.json()) as { text?: string; fileName?: string; mode?: string };
+    if (!text || text.trim().length < 500) {
+      return NextResponse.json(
+        { error: "Couldn't read enough text from that PDF — it may be a scanned document. Enter the deal manually instead." },
+        { status: 400 }
+      );
+    }
+
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-5",
+        max_tokens: 2000,
+        messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, 180000) }],
+      }),
+      signal: AbortSignal.timeout(55000),
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      console.error("anthropic error", res.status, detail.slice(0, 300));
+      return NextResponse.json({ error: `Extraction service error (${res.status}). Try again, or enter the deal manually.` }, { status: 502 });
+    }
+    const body = (await res.json()) as { content?: { type: string; text?: string }[] };
+    const raw = body.content?.find((c) => c.type === "text")?.text ?? "";
+    const jsonText = raw.slice(raw.indexOf("{"), raw.lastIndexOf("}") + 1);
+    let fields: Record<string, unknown>;
+    try {
+      fields = JSON.parse(jsonText);
+    } catch {
+      return NextResponse.json({ error: "The extraction came back malformed. Try again, or enter the deal manually." }, { status: 502 });
+    }
+    // Evidence is only load-bearing for a deal analysis (the Filter 5 row);
+    // a plain comp add shouldn't fail extraction over it.
+    const needsEvidence = mode !== "comp";
+    if (!fields.propertyName || !fields.city || !fields.state || !fields.category || (needsEvidence && !fields.classificationEvidence)) {
+      return NextResponse.json(
+        { error: "The OM text didn't yield the required basics (property, city, state, category). Enter the deal manually." },
+        { status: 422 }
+      );
+    }
+    if (fileName) {
+      fields.sourceNote = [fields.sourceNote, `OM file: ${fileName}`].filter(Boolean).join(" · ");
+    }
+    // Drop nulls so downstream validation treats them as "not stated".
+    for (const k of Object.keys(fields)) if (fields[k] == null) delete fields[k];
+    return NextResponse.json({ fields });
+  } catch (e) {
+    console.error("POST /api/extract", e);
+    return NextResponse.json({ error: "Extraction failed. Try again, or enter the deal manually." }, { status: 500 });
+  }
+}

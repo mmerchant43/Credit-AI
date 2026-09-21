@@ -101,6 +101,8 @@ model CreditComp {
   city         String?
   state        String?
   zip          String? // location filter #1 works zip-first
+  lat          Float? // zip-centroid coords, geocoded lazily and cached (radius filter)
+  lon          Float?
   market       String
   submarket    String?
   propertyType PropertyType @default(UNKNOWN)

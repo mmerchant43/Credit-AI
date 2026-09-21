@@ -27,8 +27,12 @@ const range = (min?: number, max?: number) =>
 const pctRange = (min?: number, max?: number) =>
   range(min != null ? min / 100 : undefined, max != null ? max / 100 : undefined);
 
+// Filter set per Mason (9/21/26): Category, Stories range, State, City, Zip, LTV range.
 function buildWhere(p: Params) {
   const where: Record<string, unknown> = { archived: false };
+
+  const category = str(p, "category");
+  if (category === "BRIDGE_REFI" || category === "CONSTRUCTION") where.category = category;
 
   const stories = range(num(p, "storiesMin"), num(p, "storiesMax"));
   if (stories) where.stories = stories;
@@ -40,36 +44,9 @@ function buildWhere(p: Params) {
   const zip = str(p, "zip");
   if (zip) where.zip = { startsWith: zip.slice(0, 5) };
 
-  const loan = range(num(p, "loanMin"), num(p, "loanMax"));
-  if (loan) where.loanAmount = loan;
   const ltv = pctRange(num(p, "ltvMin"), num(p, "ltvMax"));
   if (ltv) where.ltvPct = ltv;
-  const ltc = pctRange(num(p, "ltcMin"), num(p, "ltcMax"));
-  if (ltc) where.ltcPct = ltc;
-  const psf = range(num(p, "psfMin"), num(p, "psfMax"));
-  if (psf) where.loanPerSf = psf;
-  const perUnit = range(num(p, "perUnitMin"), num(p, "perUnitMax"));
-  if (perUnit) where.loanPerUnit = perUnit;
 
-  // DSCR / Debt Yield filter against the chosen projection year's stated value.
-  const dscr = range(num(p, "dscrMin"), num(p, "dscrMax"));
-  if (dscr) {
-    where.metricYears = {
-      some: { yearLabel: str(p, "dscrYear") ?? "Year 1", dscr },
-    };
-  }
-  const dy = pctRange(num(p, "dyMin"), num(p, "dyMax"));
-  if (dy) {
-    const existing = (where.metricYears as { some: Record<string, unknown> } | undefined)?.some;
-    const dyCond = { yearLabel: str(p, "dyYear") ?? "Year 1", debtYieldPct: dy };
-    // Both DSCR and DY filters set: each must hold on its own chosen year.
-    if (existing) {
-      where.AND = [{ metricYears: { some: existing } }, { metricYears: { some: dyCond } }];
-      delete where.metricYears;
-    } else {
-      where.metricYears = { some: dyCond };
-    }
-  }
   return where;
 }
 

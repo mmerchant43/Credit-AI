@@ -1,4 +1,4 @@
-# Credit Comp Platform — Version 4.0
+# Credit Comp Platform — Version 5.0
 
 Crow Holdings internal credit comp database. Past underwritten deals ("comps")
 compared against new opportunities. Sister site to the Industrial Comp
@@ -25,14 +25,21 @@ vars, signed session cookies — no third-party auth.
 - `DATABASE_URL`, `DATABASE_URL_UNPOOLED` — auto-added by the Neon integration
 - `AUTH_SECRET` — any long random string
 - `ANALYST_PASSWORD`, `ADMIN_PASSWORD` — the two shared team passwords
+- `ANTHROPIC_API_KEY` — powers the OM-upload extraction (console.anthropic.com);
+  without it the upload tab shows a friendly "not configured" message and
+  manual entry still works
 
 ## Deploy
 
 Push to the connected GitHub repo → Vercel builds (`prisma generate && prisma
-db push --accept-data-loss && next build`) — schema changes apply themselves.
+db push --accept-data-loss && node prisma/seed.mjs && next build`) — schema
+changes apply themselves and the 356-comp seed re-imports idempotently on
+every deploy.
 
-## Next planned features (see Website Change List.md in the project folder)
+## What's live (see Website Change List.md in the project folder)
 
-Import of the rebuilt multifamily comp index · Add-a-Comp form · New Deal
-Analysis with the five-filter screen (zip/radius, property type, vintage ±3,
-occupancy ±10pt, same-bucket category) and subject-vs-comps placement bars.
+356 imported comps · comps table with filters (category, stories, state,
+city, zip, LTV) · Add a Comp (OM upload or manual) · New Deal Analysis
+(OM upload or manual → five-filter screen → comparison, stats + range bars,
+screening trace; subject auto-added to the database) · radius slider on the
+analysis page (zip-centroid distance, live re-screen).
