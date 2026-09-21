@@ -1,4 +1,4 @@
-# Credit Comp Platform — Version 1.0 (shell)
+# Credit Comp Platform — Version 4.0
 
 Crow Holdings internal credit comp database. Past underwritten deals ("comps")
 compared against new opportunities. Sister site to the Industrial Comp
@@ -12,8 +12,9 @@ vars, signed session cookies — no third-party auth.
 
 - Crow-branded chrome: navy/gold, EB Garamond, top bar, tile homepage.
 - Sign-in (name + team password → Analyst or Admin role, attributed records).
-- The full `CreditComp` data model: property/market, A/B/C/D/GE deal
-  category, Crow position, loan terms, LTV/LTC/DSCR/debt yield, sponsor,
+- The full `CreditComp` data model: property/market, two-way deal category
+  (Bridge/Refi = built and existing · Construction = not built / to be
+  built), Crow position, loan terms, LTV/LTC/DSCR/debt yield, sponsor,
   outcome — verbatim-or-null doctrine (nothing derived; null renders as —).
 - `/comps` — the database table (empty until data lands).
 - Placeholder pages for Add a Comp and New Deal Analysis describing what
@@ -32,6 +33,6 @@ db push --accept-data-loss && next build`) — schema changes apply themselves.
 
 ## Next planned features (see Website Change List.md in the project folder)
 
-Import of the Multifamily OM Index workbook · Add-a-Comp form · New Deal
+Import of the rebuilt multifamily comp index · Add-a-Comp form · New Deal
 Analysis with the five-filter screen (zip/radius, property type, vintage ±3,
-occupancy ±10pt, category matching) and subject-vs-comps placement bars.
+occupancy ±10pt, same-bucket category) and subject-vs-comps placement bars.

@@ -5,8 +5,8 @@
 //     into. A source that doesn't state a value leaves the field null, and
 //     the UI renders an em dash.
 //   · Occupancy is always current / in-place — never stabilized or projected.
-//   · Category A/B match only themselves; C, D and GE are mutually
-//     comparable (all ground-up, underwritten on LTC and yield-on-cost).
+//   · Two categories: BRIDGE_REFI (built, existing) and CONSTRUCTION (not
+//     built / needs to be built). A subject only matches comps in its bucket.
 //   · Crow's position in the stack comes from the internal record, never
 //     inferred from an OM.
 // Doctrines carried over from the Industrial platform: nothing hard-deleted,
@@ -45,13 +45,12 @@ enum PropertyType {
   UNKNOWN
 }
 
-/// The team's five deal categories (A/B/C/D/GE in the analysis instructions).
+/// Two deal categories (simplified from A/B/C/D/GE by Mason, 9/21/26).
+/// The asset's stage decides it — what the OM asks for is recorded
+/// separately (crowPosition, loan terms) and does not drive screening.
 enum DealCategory {
-  EXISTING_MEZZANINE // A — existing property, equity request
-  EXISTING_STRETCH_SENIOR // B — existing property, refinance / takeout
-  CONSTRUCTION_BRIDGE // C — needs development, bridge loan
-  CONSTRUCTION_LOAN // D — needs development, full construction loan
-  GROUND_UP_EQUITY // GE — needs development, equity
+  BRIDGE_REFI // property is built and exists (former A + B)
+  CONSTRUCTION // not built / needs to be built (former C + D + GE)
 }
 
 /// Crow's position in the capital stack — from the internal deal record,
@@ -106,7 +105,8 @@ model CreditComp {
   submarket    String?
   propertyType PropertyType @default(UNKNOWN)
   units        Int? // multifamily
-  sizeSf       Int? // commercial
+  stories      Int? // number of stories (filterable)
+  sizeSf       Int? // NRA / commercial SF
   yearBuilt    Int?
   occupancyPct Float? // CURRENT / in-place only — null for pre-delivery assets
 
@@ -115,8 +115,9 @@ model CreditComp {
   crowPosition CrowPosition?
 
   // ── Loan terms (verbatim from source; null when not stated) ──
-  loanAmount       Float?
+  loanAmount       Float? // total / requested loan amount
   loanPerUnit      Float? // stated, never computed
+  loanPerSf        Float? // stated, never computed
   rateType         RateType?
   indexName        String? // e.g. "SOFR" when floating
   spreadBps        Int? // over the index, when floating
@@ -141,7 +142,11 @@ model CreditComp {
   outcome         DealOutcome @default(SCREENED)
   outcomeNote     String? // pricing where we landed / why we passed / who won
 
+  // ── Per-year underwriting metrics (verbatim from the OM's projections) ──
+  metricYears CompMetricYear[]
+
   // ── Provenance ──
+  sourceKey   String? @unique // stable id for the build-time import (hash of source file) — never shown
   sourceNote  String? // "OM Index row 14", "term sheet 3/24", broker call…
   omLink      String? // SharePoint link to the underlying OM, if any
   notes       String?
@@ -151,8 +156,42 @@ model CreditComp {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  analyses DealAnalysis[]
+
   @@index([market])
   @@index([propertyType])
   @@index([category])
   @@index([zip])
+  @@index([state, city])
+}
+
+/// DSCR and Debt Yield as the OM states them, per projection year
+/// ("Year 1", "Year 2", "Year 3", "Stabilized"). Verbatim-or-null —
+/// a year the OM doesn't quote simply has no row.
+model CompMetricYear {
+  id           String     @id @default(cuid())
+  compId       String
+  comp         CreditComp @relation(fields: [compId], references: [id], onDelete: Cascade)
+  yearLabel    String // "Year 1" | "Year 2" | "Year 3" | "Stabilized" | ...
+  dscr         Float?
+  debtYieldPct Float? // fraction (0.085 = 8.5%)
+
+  @@unique([compId, yearLabel])
+  @@index([yearLabel])
+}
+
+/// A saved New Deal Analysis. The subject deal is ITSELF a CreditComp row
+/// (auto-added on save — Mason, 9/21/26), so it screens as a comp for every
+/// future deal. The matched set and stats are snapshotted for reproducibility.
+model DealAnalysis {
+  id           String     @id @default(cuid())
+  subjectId    String
+  subject      CreditComp @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  locationMode String // "zip" | "city" | "none"
+  matchedCount Int
+  snapshot     Json // { matchedIds, trace, stats } as computed at save time
+  createdBy    String? // signed-in user's name
+  createdAt    DateTime   @default(now())
+
+  @@index([createdAt])
 }

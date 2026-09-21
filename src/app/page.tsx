@@ -24,10 +24,25 @@ const Icons = {
 };
 
 export default async function Home() {
-  const [total, marketCount] = await Promise.all([
+  const [total, marketCount, recent] = await Promise.all([
     prisma.creditComp.count({ where: { archived: false } }).catch(() => 0),
     prisma.creditComp.groupBy({ by: ["market"], where: { archived: false } }).then((g) => g.length).catch(() => 0),
+    prisma.dealAnalysis.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 8,
+      include: { subject: true },
+    }).catch(() => []),
   ]);
+
+  const analyses = recent.map((a) => ({
+    id: a.id,
+    subjectName: a.subject.propertyName ?? a.subject.dealName ?? "Subject",
+    location: [a.subject.city, a.subject.state].filter(Boolean).join(", "),
+    category: a.subject.category === "BRIDGE_REFI" ? "Bridge / Refi" : a.subject.category === "CONSTRUCTION" ? "Construction" : "—",
+    matchedCount: a.matchedCount,
+    createdBy: a.createdBy,
+    createdAt: a.createdAt,
+  }));
 
   const tiles = [
     { href: "/deals/new", label: "New Deal Analysis", icon: Icons.deal },
@@ -52,7 +67,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <ActiveDealAnalyses />
+      <ActiveDealAnalyses analyses={analyses} />
 
       {/* Health line */}
       <div className="text-xs text-slate-500 border-t border-accent/30 pt-3 flex gap-5">

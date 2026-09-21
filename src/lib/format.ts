@@ -29,11 +29,8 @@ export const PROPERTY_TYPE_LABELS: Record<string, string> = {
 };
 
 export const CATEGORY_LABELS: Record<string, string> = {
-  EXISTING_MEZZANINE: "A — Existing Mezz",
-  EXISTING_STRETCH_SENIOR: "B — Stretch Senior",
-  CONSTRUCTION_BRIDGE: "C — Construction",
-  CONSTRUCTION_LOAN: "D — Construction",
-  GROUND_UP_EQUITY: "GE — Ground-Up Equity",
+  BRIDGE_REFI: "Bridge / Refi",
+  CONSTRUCTION: "Construction",
 };
 
 export const POSITION_LABELS: Record<string, string> = {
