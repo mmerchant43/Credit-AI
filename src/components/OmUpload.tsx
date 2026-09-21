@@ -68,7 +68,7 @@ export default function OmUpload({ mode }: { mode: "comp" | "deal" }) {
       });
       const saveBody = await save.json();
       if (!save.ok) throw new Error(saveBody.error ?? "Could not save.");
-      router.push(mode === "deal" ? `/deals/${saveBody.analysisId}` : "/comps");
+      router.push(mode === "deal" ? `/deals/${saveBody.analysisId}?new=1` : "/comps");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");

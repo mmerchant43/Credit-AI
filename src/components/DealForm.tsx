@@ -62,7 +62,7 @@ export default function DealForm({ mode }: { mode: "comp" | "deal" }) {
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body.error ?? "Something went wrong.");
-      router.push(mode === "deal" ? `/deals/${body.analysisId}` : "/comps");
+      router.push(mode === "deal" ? `/deals/${body.analysisId}?new=1` : "/comps");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");

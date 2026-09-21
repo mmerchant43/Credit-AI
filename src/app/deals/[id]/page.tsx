@@ -3,15 +3,20 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { DASH, fmtMoney, fmtPct, fmtX, CATEGORY_LABELS } from "@/lib/format";
-import { runScreen, summarize, type Screenable, type StatRow, type TraceRow } from "@/lib/screen";
+import {
+  runScreen, summarize, DEFAULT_CRITERIA,
+  type Criteria, type Screenable, type StatRow, type TraceRow,
+} from "@/lib/screen";
 import { ensureCoords } from "@/lib/geo";
-import RadiusSlider from "@/components/RadiusSlider";
+import CriteriaPanel from "@/components/CriteriaPanel";
+import MetricStrip from "@/components/MetricStrip";
+import { RemoveCompButton, UndoRemoveButton } from "@/components/CompRemove";
 
 export const dynamic = "force-dynamic";
 
-// A saved deal analysis. Default view renders the snapshot exactly as saved;
-// moving the radius slider re-screens the live database within N miles of the
-// subject (zip-centroid distance) — Mason, 9/21/26.
+// A saved deal analysis. The five screening criteria are adjustable from the
+// popup (auto-opens on a fresh deal); any change re-screens the live database
+// immediately. With no criteria in the URL, the saved snapshot renders.
 
 const COMP_COLS: { key: string; label: string; kind: "usd" | "pct" | "x" | "num" }[] = [
   { key: "loanAmount", label: "Loan Amount", kind: "usd" },
@@ -34,35 +39,32 @@ function fmtBy(kind: string, v: number | null | undefined) {
   return String(v);
 }
 
-function RangeBar({ row }: { row: StatRow }) {
-  if (row.min == null) return <span className="text-xs text-slate-400">no comp values</span>;
-  // Both indicators share one coordinate system: [-0.15, 1.15] mapped onto [0, 1].
-  const pos = row.position != null ? Math.max(0, Math.min(1, (row.position + 0.15) / 1.3)) : null;
-  const med = row.medianPosition != null ? (row.medianPosition + 0.15) / 1.3 : null;
-  return (
-    <div className="relative h-4 w-full min-w-[140px]">
-      <div className="absolute top-1/2 -translate-y-1/2 h-1.5 w-full rounded-full bg-navy/20" />
-      {med != null && (
-        <div className="absolute top-1/2 -translate-y-1/2 h-3 w-0.5 bg-navy" style={{ left: `${med * 100}%` }} />
-      )}
-      {pos != null && (
-        <div
-          className={`absolute top-1/2 -translate-y-1/2 h-3 w-3 rounded-full border-2 border-white shadow ${row.outside ? "bg-red-500" : "bg-accent"}`}
-          style={{ left: `calc(${pos * 100}% - 6px)` }}
-          title={row.outside ? "outside comp range" : "within comp range"}
-        />
-      )}
-    </div>
-  );
+type Params = { [k: string]: string | string[] | undefined };
+const one = (p: Params, k: string) => (Array.isArray(p[k]) ? p[k]?.[0] : p[k]) as string | undefined;
+
+function parseCriteria(p: Params): { criteria: Criteria; anySet: boolean } {
+  const loc = one(p, "loc");
+  const radius = Number(one(p, "radius") ?? 0) || 0;
+  const vin = one(p, "vin");
+  const occ = one(p, "occ");
+  const cat = one(p, "cat");
+  const typ = one(p, "typ");
+
+  const anySet = Boolean(loc || radius > 0 || vin || occ || cat || typ);
+  const criteria: Criteria = {
+    location: loc === "off" ? "off" : loc === "radius" || radius > 0 ? "radius" : "auto",
+    radiusMiles: radius > 0 ? Math.min(radius, 25) : null,
+    propertyType: typ !== "off",
+    vintageYears: vin === "off" ? null : vin != null && vin !== "" ? Math.max(0, Number(vin) || 0) : DEFAULT_CRITERIA.vintageYears,
+    occupancyPts: occ === "off" ? null : occ != null && occ !== "" ? Math.max(0, Number(occ) || 0) : DEFAULT_CRITERIA.occupancyPts,
+    category: cat !== "off",
+  };
+  return { criteria, anySet };
 }
 
 export default async function DealAnalysisPage({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams?: { radius?: string };
-}) {
+  params, searchParams,
+}: { params: { id: string }; searchParams?: Params }) {
   const analysis = await prisma.dealAnalysis.findUnique({
     where: { id: params.id },
     include: { subject: { include: { metricYears: true } } },
@@ -70,7 +72,13 @@ export default async function DealAnalysisPage({
   if (!analysis) notFound();
   const s = analysis.subject;
 
-  const radius = Math.min(Math.max(Number(searchParams?.radius ?? 0) || 0, 0), 100);
+  const { criteria, anySet: criteriaSet } = parseCriteria(searchParams ?? {});
+  const excluded = new Set(
+    (one(searchParams ?? {}, "x") ?? "").split(",").filter(Boolean)
+  );
+  // Any adjustment — criteria or removed comps — switches to a live recompute
+  // so the stats and charts always agree with what's shown.
+  const anySet = criteriaSet || excluded.size > 0;
 
   const savedSnap = analysis.snapshot as unknown as {
     matchedIds: string[];
@@ -78,53 +86,45 @@ export default async function DealAnalysisPage({
     stats: StatRow[];
     candidatesScreened: number;
     classificationEvidence?: string;
+    writeup?: string;
   };
 
   let view: {
-    matchedIds: string[];
-    trace: TraceRow[];
-    stats: StatRow[];
-    candidatesScreened: number;
-    modeLabel: string;
-    matchedCount: number;
+    matchedIds: string[]; trace: TraceRow[]; stats: StatRow[];
+    candidatesScreened: number; modeLabel: string; matchedCount: number; live: boolean;
   };
 
-  if (radius > 0) {
-    // Live re-screen within the radius, against today's database.
+  if (anySet) {
     const comps = await prisma.creditComp.findMany({
       where: { archived: false, id: { not: s.id } },
     });
-    await ensureCoords([s, ...comps]);
-    const screen = runScreen(
-      s as unknown as Screenable,
-      comps as unknown as Screenable[],
-      radius
-    );
-    const matchedSet = new Set(screen.matched.map((m) => m.id));
-    const matchedFull = comps.filter((c) => matchedSet.has(c.id));
+    if (criteria.location === "radius" && criteria.radiusMiles) await ensureCoords([s, ...comps]);
+    const screen = runScreen(s as unknown as Screenable, comps as unknown as Screenable[], criteria);
+    const kept = screen.matched.filter((m) => !excluded.has(m.id));
+    const keptSet = new Set(kept.map((m) => m.id));
+    const matchedFull = comps.filter((c) => keptSet.has(c.id));
     const stats = summarize(
       s as unknown as Record<string, unknown>,
       matchedFull as unknown as Record<string, unknown>[]
     );
+    const modeLabel =
+      criteria.location === "off" || (criteria.location === "radius" && !criteria.radiusMiles)
+        ? "custom criteria (location off, live)"
+      : criteria.location === "radius" ? `${criteria.radiusMiles}-mile radius (live)`
+      : { zip: "same zip (live)", city: "same city (live)", none: "no database comps (live)" }[screen.locationMode] ?? "live";
     view = {
-      matchedIds: screen.matched.map((m) => m.id),
-      trace: screen.trace,
-      stats,
+      matchedIds: kept.map((m) => m.id),
+      trace: screen.trace, stats,
       candidatesScreened: screen.candidatesScreened,
-      modeLabel: `${radius}-mile radius (live)`,
-      matchedCount: screen.matched.length,
+      modeLabel, matchedCount: kept.length, live: true,
     };
   } else {
     view = {
-      matchedIds: savedSnap.matchedIds,
-      trace: savedSnap.trace,
-      stats: savedSnap.stats,
+      matchedIds: savedSnap.matchedIds, trace: savedSnap.trace, stats: savedSnap.stats,
       candidatesScreened: savedSnap.candidatesScreened,
       modeLabel:
-        { zip: "same zip", city: "same city (radius fallback)", none: "no database comps", radius: "radius" }[
-          analysis.locationMode
-        ] ?? analysis.locationMode,
-      matchedCount: analysis.matchedCount,
+        { zip: "same zip", city: "same city (fallback)", none: "no database comps", radius: "radius" }[analysis.locationMode] ?? analysis.locationMode,
+      matchedCount: analysis.matchedCount, live: false,
     };
   }
 
@@ -132,12 +132,17 @@ export default async function DealAnalysisPage({
     where: { id: { in: view.matchedIds } },
     include: { metricYears: true },
   });
-  const rows = [
-    { r: s, isSubject: true },
-    ...view.matchedIds
-      .map((id) => ({ r: matched.find((m) => m.id === id), isSubject: false }))
-      .filter((x) => x.r),
-  ] as { r: typeof s; isSubject: boolean }[];
+  const orderedMatched = view.matchedIds
+    .map((id) => matched.find((m) => m.id === id))
+    .filter((m): m is NonNullable<typeof m> => Boolean(m));
+  const rows = [{ r: s, isSubject: true }, ...orderedMatched.map((r) => ({ r, isSubject: false }))];
+
+  const avail = {
+    zip: Boolean(s.zip),
+    yearBuilt: s.yearBuilt != null,
+    occupancy: s.category !== "CONSTRUCTION" && s.occupancyPct != null,
+    category: Boolean(s.category),
+  };
 
   return (
     <div className="space-y-8 pb-10">
@@ -157,23 +162,26 @@ export default async function DealAnalysisPage({
           <span>Vintage: <b>{s.yearBuilt ?? DASH}</b></span>
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
         </div>
-        {savedSnap.classificationEvidence && (
-          <p className="text-xs text-slate-600 mt-2"><b>Classification evidence:</b> {savedSnap.classificationEvidence}</p>
+        {savedSnap.writeup && (
+          <p className="font-display text-[15px] leading-relaxed text-ink/90 mt-3">{savedSnap.writeup}</p>
         )}
-        <p className="text-xs text-slate-500 mt-2">
-          Screened {view.candidatesScreened} database comp{view.candidatesScreened === 1 ? "" : "s"} via {view.modeLabel} →{" "}
-          <b>{view.matchedCount} match{view.matchedCount === 1 ? "" : "es"}</b> · saved by {analysis.createdBy ?? DASH} · this deal was added to the comp database automatically.
-        </p>
       </section>
 
-      {/* Radius control */}
+      {/* Screening criteria (popup on new deals; summary bar always) */}
       <Suspense>
-        <RadiusSlider />
+        <CriteriaPanel avail={avail} />
       </Suspense>
 
       {/* Comparison table */}
       <section>
-        <div className="section-head"><h2>Comparison</h2><div className="rule" /></div>
+        <div className="section-head">
+          <h2>Comparison</h2>
+          <div className="rule" />
+          <span className="text-xs text-slate-500 whitespace-nowrap">
+            {view.candidatesScreened} screened via {view.modeLabel} → <b>{view.matchedCount} match{view.matchedCount === 1 ? "" : "es"}</b>
+          </span>
+          <Suspense><UndoRemoveButton /></Suspense>
+        </div>
         <div className="card overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -183,6 +191,7 @@ export default async function DealAnalysisPage({
                 <th className="px-3 py-2 text-center">Vintage</th>
                 <th className="px-3 py-2 text-center">Units</th>
                 {COMP_COLS.map((c) => <th key={c.key} className="px-3 py-2 text-right">{c.label}</th>)}
+                <th className="px-1 py-2" aria-label="remove" />
               </tr>
             </thead>
             <tbody>
@@ -200,13 +209,18 @@ export default async function DealAnalysisPage({
                       </td>
                     );
                   })}
+                  <td className="px-1 py-2 text-center">
+                    {!isSubject && (
+                      <Suspense>
+                        <RemoveCompButton compId={r.id} name={r.propertyName ?? r.dealName ?? "comp"} />
+                      </Suspense>
+                    )}
+                  </td>
                 </tr>
               ))}
               {view.matchedCount === 0 && (
-                <tr><td colSpan={14} className="px-3 py-6 text-center text-slate-400">
-                  {radius > 0
-                    ? `No comps within ${radius} miles passed the five filters — widen the radius.`
-                    : "No database comps passed the five filters — the subject stands alone above."}
+                <tr><td colSpan={15} className="px-3 py-6 text-center text-slate-400">
+                  No comps passed the current criteria — loosen or switch off a filter in “Adjust Criteria”.
                 </td></tr>
               )}
             </tbody>
@@ -214,10 +228,10 @@ export default async function DealAnalysisPage({
         </div>
       </section>
 
-      {/* Summary stats & subject placement */}
+      {/* Subject vs. comps — line charts */}
       {view.matchedCount > 0 && (
         <section>
-          <div className="section-head"><h2>Summary Statistics & Subject Placement</h2><div className="rule" /></div>
+          <div className="section-head"><h2>Subject vs. Comps</h2><div className="rule" /></div>
           <div className="card overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -227,56 +241,59 @@ export default async function DealAnalysisPage({
                   <th className="px-3 py-2 text-right">Min</th>
                   <th className="px-3 py-2 text-right">Median</th>
                   <th className="px-3 py-2 text-right">Max</th>
-                  <th className="px-3 py-2 text-left w-56">Placement</th>
+                  <th className="px-3 py-2 text-left">Distribution — comps (navy) · median (tick) · subject (gold)</th>
                 </tr>
               </thead>
               <tbody>
-                {view.stats.map((row) => (
-                  <tr key={row.key} className="border-b border-slate-100">
-                    <td className="px-3 py-2">{row.label}{row.outside && <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">outside range</span>}</td>
-                    <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBy(row.kind, row.subject)}</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.min)}</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.median)}</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.max)}</td>
-                    <td className="px-3 py-2"><RangeBar row={row} /></td>
-                  </tr>
-                ))}
+                {view.stats.map((row) => {
+                  const values = orderedMatched
+                    .map((c) => (c as unknown as Record<string, number | null>)[row.key])
+                    .filter((v): v is number => typeof v === "number" && isFinite(v));
+                  return (
+                    <tr key={row.key} className="border-b border-slate-100">
+                      <td className="px-3 py-2">{row.label}{row.outside && <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">outside range</span>}</td>
+                      <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBy(row.kind, row.subject)}</td>
+                      <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.min)}</td>
+                      <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.median)}</td>
+                      <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.max)}</td>
+                      <td className="px-3 py-2">
+                        <MetricStrip kind={row.kind} values={values} subject={row.subject} median={row.median} />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         </section>
       )}
 
-      {/* Screening trace */}
+      {/* Screening trace — failed candidates stay out of the way unless opened */}
       <section>
-        <div className="section-head"><h2>Comps Screened</h2><div className="rule" /></div>
-        <div className="card overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
-                <th className="px-3 py-2 text-left">Candidate</th>
-                <th className="px-3 py-2 text-center">Result</th>
-                <th className="px-3 py-2 text-left">Detail</th>
-              </tr>
-            </thead>
-            <tbody>
-              {view.trace.map((t) => {
-                const last = t.checks[t.checks.length - 1];
-                return (
-                  <tr key={t.compId} className="border-b border-slate-100">
-                    <td className="px-3 py-2">{t.name}</td>
-                    <td className="px-3 py-2 text-center">
-                      {t.passed
-                        ? <span className="badge bg-emerald-50 text-emerald-700 border-emerald-200">match</span>
-                        : <span className="badge bg-slate-100 text-slate-500 border-slate-200">stopped at {t.failedAt}</span>}
-                    </td>
-                    <td className="px-3 py-2 text-xs text-slate-500">{last ? `${last.filter}: ${last.reason}` : DASH}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <details className="card">
+          <summary className="px-4 py-3 text-sm text-slate-600 cursor-pointer select-none">
+            {view.trace.filter((t) => !t.passed).length} comp{view.trace.filter((t) => !t.passed).length === 1 ? "" : "s"} didn&apos;t
+            pass the criteria — click to see which filter stopped each one
+          </summary>
+          <div className="overflow-x-auto border-t border-slate-100">
+            <table className="w-full text-sm">
+              <tbody>
+                {view.trace.filter((t) => !t.passed).map((t) => {
+                  const last = t.checks[t.checks.length - 1];
+                  return (
+                    <tr key={t.compId} className="border-b border-slate-100">
+                      <td className="px-4 py-1.5">{t.name}</td>
+                      <td className="px-3 py-1.5 text-center">
+                        <span className="badge bg-slate-100 text-slate-500 border-slate-200">stopped at {t.failedAt}</span>
+                      </td>
+                      <td className="px-3 py-1.5 text-xs text-slate-500">{last ? `${last.filter}: ${last.reason}` : DASH}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </details>
       </section>
     </div>
   );

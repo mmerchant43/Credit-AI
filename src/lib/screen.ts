@@ -1,15 +1,33 @@
-// The five-filter comp screen, as deterministic code — ported from the
-// team's original Python pipeline and updated to the two-category scheme.
-// Every candidate gets a trace row saying exactly where it passed or stopped.
-//
-// Location ladder: same 5-digit zip → same city+state fallback (stands in
-// for the original 3-mile radius until comps carry coordinates) → nothing.
-// The other four filters are never relaxed.
+// The five-filter comp screen, as deterministic code — now with ADJUSTABLE
+// criteria (Mason, 9/21/26): each filter can be tuned or switched off, and a
+// filter that isn't populated — either turned off, or missing its datum on
+// the subject — is simply not applied. A comp missing the datum for an
+// applied filter passes with an honest "not stated" note rather than being
+// knocked out. Every candidate still gets a full trace row.
 
-export const VINTAGE_TOLERANCE = 3; // subject year built ± 3
-export const OCCUPANCY_TOLERANCE = 0.10; // ± 10 points (fractions: 0.10)
+export const VINTAGE_TOLERANCE = 3; // default: subject year built ± 3
+export const OCCUPANCY_TOLERANCE_PTS = 10; // default: ± 10 percentage points
 
-export type LocationMode = "zip" | "city" | "radius" | "none";
+export type LocationMode = "zip" | "city" | "radius" | "off" | "none";
+
+/** The five criteria. null / false / "off" = filter not applied. */
+export interface Criteria {
+  location: "auto" | "radius" | "off"; // auto = same zip → same city ladder
+  radiusMiles: number | null; // used when location === "radius"
+  propertyType: boolean;
+  vintageYears: number | null; // ± years
+  occupancyPts: number | null; // ± percentage points
+  category: boolean;
+}
+
+export const DEFAULT_CRITERIA: Criteria = {
+  location: "auto",
+  radiusMiles: null,
+  propertyType: true,
+  vintageYears: VINTAGE_TOLERANCE,
+  occupancyPts: OCCUPANCY_TOLERANCE_PTS,
+  category: true,
+};
 
 export interface Screenable {
   id: string;
@@ -42,6 +60,7 @@ export interface TraceRow {
 
 const zip5 = (z: string | null | undefined) => (z ?? "").trim().slice(0, 5);
 const norm = (s: string | null | undefined) => (s ?? "").trim().toLowerCase();
+const na = (filter: string, reason: string): Check => ({ filter, passed: true, reason });
 
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 3958.7613;
@@ -51,94 +70,83 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
-function fLocationRadius(subject: Screenable, comp: Screenable, radiusMiles: number): Check {
-  if (subject.lat == null || subject.lon == null)
-    return { filter: "1. Location", passed: false, reason: "subject has no coordinates (zip unknown)" };
-  if (comp.lat == null || comp.lon == null)
-    return { filter: "1. Location", passed: false, reason: "no coordinates on record (zip missing or unknown)" };
-  const d = haversine(subject.lat, subject.lon, comp.lat, comp.lon);
-  return {
-    filter: "1. Location",
-    passed: d <= radiusMiles,
-    reason: `${d.toFixed(1)} mi from subject (zip centroids, limit ${radiusMiles} mi)`,
-  };
-}
+const F1 = "1. Location", F2 = "2. Property type", F3 = "3. Vintage", F4 = "4. Occupancy", F5 = "5. Category";
 
-function fLocation(subject: Screenable, comp: Screenable, mode: LocationMode): Check {
+function fLocation(subject: Screenable, comp: Screenable, mode: LocationMode, radiusMiles: number | null): Check {
+  if (mode === "off") return na(F1, "filter off");
+  if (mode === "radius") {
+    if (radiusMiles == null || radiusMiles <= 0) return na(F1, "no radius set — not applied");
+    if (subject.lat == null || subject.lon == null)
+      return na(F1, "subject has no coordinates (zip not stated) — not applied");
+    if (comp.lat == null || comp.lon == null)
+      return na(F1, "no coordinates on comp (zip not stated) — not applied");
+    const d = haversine(subject.lat, subject.lon, comp.lat, comp.lon);
+    return { filter: F1, passed: d <= radiusMiles, reason: `${d.toFixed(1)} mi from subject (zip centroids, limit ${radiusMiles} mi)` };
+  }
   if (mode === "zip") {
     const s = zip5(subject.zip), c = zip5(comp.zip);
-    if (!s || !c) return { filter: "1. Location", passed: false, reason: "no zip on record" };
-    return { filter: "1. Location", passed: s === c, reason: `zip ${c} vs subject ${s}` };
+    if (!s) return na(F1, "subject zip not stated — not applied");
+    if (!c) return na(F1, "zip not stated on comp — not applied");
+    return { filter: F1, passed: s === c, reason: `zip ${c} vs subject ${s}` };
   }
+  // city fallback
   const sc = norm(subject.city), cc = norm(comp.city);
-  const ss = norm(subject.state), cs = norm(comp.state);
-  if (!sc || !cc) return { filter: "1. Location", passed: false, reason: "no city on record" };
+  if (!sc) return na(F1, "subject city not stated — not applied");
+  if (!cc) return na(F1, "city not stated on comp — not applied");
   return {
-    filter: "1. Location",
-    passed: sc === cc && ss === cs,
+    filter: F1,
+    passed: sc === cc && norm(subject.state) === norm(comp.state),
     reason: `${comp.city}, ${comp.state} vs subject ${subject.city}, ${subject.state} (city fallback)`,
   };
 }
 
-function fPropertyType(subject: Screenable, comp: Screenable): Check {
-  return {
-    filter: "2. Property type",
-    passed: subject.propertyType === comp.propertyType,
-    reason: `${comp.propertyType} vs subject ${subject.propertyType}`,
-  };
+function fPropertyType(subject: Screenable, comp: Screenable, on: boolean): Check {
+  if (!on) return na(F2, "filter off");
+  return { filter: F2, passed: subject.propertyType === comp.propertyType, reason: `${comp.propertyType} vs subject ${subject.propertyType}` };
 }
 
-function fVintage(subject: Screenable, comp: Screenable): Check {
-  if (subject.yearBuilt == null || comp.yearBuilt == null)
-    return { filter: "3. Vintage", passed: false, reason: "no year built / delivery on record" };
+function fVintage(subject: Screenable, comp: Screenable, tol: number | null): Check {
+  if (tol == null) return na(F3, "filter off");
+  if (subject.yearBuilt == null) return na(F3, "subject year built not stated — not applied");
+  if (comp.yearBuilt == null) return na(F3, "year built not stated on comp — not applied");
   const delta = Math.abs(comp.yearBuilt - subject.yearBuilt);
-  return {
-    filter: "3. Vintage",
-    passed: delta <= VINTAGE_TOLERANCE,
-    reason: `${comp.yearBuilt} vs subject ${subject.yearBuilt} (Δ${delta}, limit ±${VINTAGE_TOLERANCE})`,
-  };
+  return { filter: F3, passed: delta <= tol, reason: `${comp.yearBuilt} vs subject ${subject.yearBuilt} (Δ${delta}, limit ±${tol})` };
 }
 
-function fOccupancy(subject: Screenable, comp: Screenable): Check {
-  // Not applicable when the subject is Construction — no in-place occupancy
-  // exists, and a stabilized assumption is never used.
-  if (subject.category === "CONSTRUCTION")
-    return { filter: "4. Occupancy", passed: true, reason: "n/a — subject is pre-delivery" };
-  if (subject.occupancyPct == null)
-    return { filter: "4. Occupancy", passed: true, reason: "n/a — subject occupancy not disclosed" };
-  if (comp.occupancyPct == null)
-    return { filter: "4. Occupancy", passed: false, reason: "no current occupancy on record" };
+function fOccupancy(subject: Screenable, comp: Screenable, tolPts: number | null): Check {
+  if (tolPts == null) return na(F4, "filter off");
+  if (subject.category === "CONSTRUCTION") return na(F4, "n/a — subject is pre-delivery");
+  if (subject.occupancyPct == null) return na(F4, "subject occupancy not stated — not applied");
+  if (comp.occupancyPct == null) return na(F4, "occupancy not stated on comp — not applied");
+  const tol = tolPts / 100;
   const delta = Math.abs(comp.occupancyPct - subject.occupancyPct);
   return {
-    filter: "4. Occupancy",
-    passed: delta <= OCCUPANCY_TOLERANCE + 1e-9,
-    reason: `${(comp.occupancyPct * 100).toFixed(1)}% vs subject ${(subject.occupancyPct * 100).toFixed(1)}% (Δ${(delta * 100).toFixed(1)}pt, limit ±10pt)`,
+    filter: F4,
+    passed: delta <= tol + 1e-9,
+    reason: `${(comp.occupancyPct * 100).toFixed(1)}% vs subject ${(subject.occupancyPct * 100).toFixed(1)}% (Δ${(delta * 100).toFixed(1)}pt, limit ±${tolPts}pt)`,
   };
 }
 
-function fCategory(subject: Screenable, comp: Screenable): Check {
-  if (!comp.category) return { filter: "5. Category", passed: false, reason: "unclassified" };
-  return {
-    filter: "5. Category",
-    passed: comp.category === subject.category,
-    reason: `${comp.category === "BRIDGE_REFI" ? "Bridge / Refi" : "Construction"} vs subject ${subject.category === "BRIDGE_REFI" ? "Bridge / Refi" : "Construction"}`,
-  };
+function fCategory(subject: Screenable, comp: Screenable, on: boolean): Check {
+  if (!on) return na(F5, "filter off");
+  if (!subject.category) return na(F5, "subject unclassified — not applied");
+  if (!comp.category) return na(F5, "comp unclassified — not applied");
+  const label = (c: string) => (c === "BRIDGE_REFI" ? "Bridge / Refi" : "Construction");
+  return { filter: F5, passed: comp.category === subject.category, reason: `${label(comp.category)} vs subject ${label(subject.category)}` };
 }
 
-function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode, radiusMiles?: number) {
+function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode, c: Criteria) {
   const matched: Screenable[] = [];
   const trace: TraceRow[] = [];
   for (const comp of comps) {
     const checks: Check[] = [];
     let failedAt: string | null = null;
     for (const fn of [
-      () => (mode === "radius" && radiusMiles != null
-        ? fLocationRadius(subject, comp, radiusMiles)
-        : fLocation(subject, comp, mode)),
-      () => fPropertyType(subject, comp),
-      () => fVintage(subject, comp),
-      () => fOccupancy(subject, comp),
-      () => fCategory(subject, comp),
+      () => fLocation(subject, comp, mode, c.radiusMiles),
+      () => fPropertyType(subject, comp, c.propertyType),
+      () => fVintage(subject, comp, c.vintageYears),
+      () => fOccupancy(subject, comp, c.occupancyPts),
+      () => fCategory(subject, comp, c.category),
     ]) {
       const check = fn();
       checks.push(check);
@@ -156,26 +164,36 @@ function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode
   return { matched, trace };
 }
 
-/** Default ladder: zip first; only if that yields nothing, widen to same
- *  city+state; if that is also empty, stop — no further fallback.
- *  With radiusMiles set (the analysis page's slider), the location filter is
- *  instead a hard distance cutoff on zip-centroid coordinates. */
-export function runScreen(subject: Screenable, comps: Screenable[], radiusMiles?: number) {
-  if (radiusMiles != null && radiusMiles > 0) {
-    const { matched, trace } = screenPass(subject, comps, "radius", radiusMiles);
-    return { matched, trace, locationMode: "radius" as LocationMode, candidatesScreened: comps.length };
+/** Screen with the given criteria (defaults = the original doctrine).
+ *  location "auto": zip first; only if that yields nothing, same city+state;
+ *  if that is also empty, stop. "radius": hard distance cutoff. "off": all
+ *  comps pass location. */
+export function runScreen(subject: Screenable, comps: Screenable[], criteria?: Partial<Criteria> | number) {
+  // Back-compat: a bare number is a radius (v5.0 call sites).
+  const c: Criteria =
+    typeof criteria === "number"
+      ? { ...DEFAULT_CRITERIA, location: "radius", radiusMiles: criteria }
+      : { ...DEFAULT_CRITERIA, ...(criteria ?? {}) };
+
+  if (c.location === "radius" || c.location === "off") {
+    // Radius mode without a committed radius value applies no location filter.
+    const mode: LocationMode =
+      c.location === "radius" && (c.radiusMiles ?? 0) > 0 ? "radius" : "off";
+    const { matched, trace } = screenPass(subject, comps, mode, c);
+    return { matched, trace, locationMode: mode, candidatesScreened: comps.length, criteria: c };
   }
-  let { matched, trace } = screenPass(subject, comps, "zip");
+  // auto ladder — skipped entirely when the subject has no zip AND no city
+  let { matched, trace } = screenPass(subject, comps, "zip", c);
   let mode: LocationMode = "zip";
   if (matched.length === 0) {
-    const widened = screenPass(subject, comps, "city");
+    const widened = screenPass(subject, comps, "city", c);
     if (widened.matched.length > 0) {
       matched = widened.matched; trace = widened.trace; mode = "city";
     } else {
       mode = "none";
     }
   }
-  return { matched, trace, locationMode: mode, candidatesScreened: comps.length };
+  return { matched, trace, locationMode: mode, candidatesScreened: comps.length, criteria: c };
 }
 
 // ── Cross-comp aggregates — the ONLY computed numbers in the system ──

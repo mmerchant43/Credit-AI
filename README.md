@@ -1,4 +1,4 @@
-# Credit Comp Platform — Version 5.0
+# Credit Comp Platform — Version 8.0
 
 Crow Holdings internal credit comp database. Past underwritten deals ("comps")
 compared against new opportunities. Sister site to the Industrial Comp
@@ -40,6 +40,8 @@ every deploy.
 
 356 imported comps · comps table with filters (category, stories, state,
 city, zip, LTV) · Add a Comp (OM upload or manual) · New Deal Analysis
-(OM upload or manual → five-filter screen → comparison, stats + range bars,
-screening trace; subject auto-added to the database) · radius slider on the
-analysis page (zip-centroid distance, live re-screen).
+(OM upload or manual → adjustable five-criteria screen via popup, live
+re-screen on every change, off/blank/missing criteria not applied → AI deal
+writeup in the header, comparison table with one-click ✕ remove + undo,
+"Subject vs. Comps" line charts, failed candidates tucked into a collapsible;
+subject auto-added to the database).

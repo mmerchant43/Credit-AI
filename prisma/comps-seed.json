@@ -1140,7 +1140,7 @@
   "address": "3355 W Orange Blossom Trail",
   "city": "Apopka",
   "state": "FL",
-  "zip": null,
+  "zip": "32712",
   "market": "Orlando, FL",
   "submarket": "Apopka, FL",
   "propertyType": "MULTIFAMILY",
@@ -1172,7 +1172,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Apopka - Floridian Town Center.pdf (OM date 2023-02)",
-  "notes": "Category evidence: The Sponsor closed on raw land in April 2022 through a newly formed entity and is now seeking a development/construction loan; Project Milestones list Construction Start July 2023, Construction Completion July 2025, and Stabilization October 2027, with all metrics presented as pro forma underwriting -- there is no rent roll or current occupancy.\nStories is given only as a range ('Stories: 2-3'), so left null. Loan Request Summary distinguishes a 60% 'Max Loan to Stabilized Value' covenant cap from the actual computed 'Stabilized LTV' of 46.84% on the $118MM/65% LTC request; ltvPct uses the actual 46.84% figure, with the 60% max cap noted here. 'Basis' ($181,000,000 / $301,667 per unit / $316 PSF) is the OM's own total-cost figure used for the LTC calculation and was mapped to totalProjectCost/tpcPerUnit. Exit Cap Rate of 4.50% (with a 150 bps 'Dev. Spread') is used to derive the $251,932,620 Stabilized Value and was mapped to stabilizedCapPct. Term is given as a composite '4 + 1 Years' and was not converted to a single termMonths figure; Amortization is 'Full-term Interest-Only' but likewise not quantified in months given the composite term. Interest Rate is listed only as 'Best Available Fixed/Floating Rate' (type not yet determined), so rateType/indexName/spreadBps/ratePct are all null. Prior acquisition/site-work loan of $23MM from First American Bank (closed April 2022) and ~$12.8MM of GP equity are noted as existing capital stack, separate from the $118MM construction loan being requested.\nExtraction confidence: high",
+  "notes": "Category evidence: The Sponsor closed on raw land in April 2022 through a newly formed entity and is now seeking a development/construction loan; Project Milestones list Construction Start July 2023, Construction Completion July 2025, and Stabilization October 2027, with all metrics presented as pro forma underwriting -- there is no rent roll or current occupancy.\nStories is given only as a range ('Stories: 2-3'), so left null. Loan Request Summary distinguishes a 60% 'Max Loan to Stabilized Value' covenant cap from the actual computed 'Stabilized LTV' of 46.84% on the $118MM/65% LTC request; ltvPct uses the actual 46.84% figure, with the 60% max cap noted here. 'Basis' ($181,000,000 / $301,667 per unit / $316 PSF) is the OM's own total-cost figure used for the LTC calculation and was mapped to totalProjectCost/tpcPerUnit. Exit Cap Rate of 4.50% (with a 150 bps 'Dev. Spread') is used to derive the $251,932,620 Stabilized Value and was mapped to stabilizedCapPct. Term is given as a composite '4 + 1 Years' and was not converted to a single termMonths figure; Amortization is 'Full-term Interest-Only' but likewise not quantified in months given the composite term. Interest Rate is listed only as 'Best Available Fixed/Floating Rate' (type not yet determined), so rateType/indexName/spreadBps/ratePct are all null. Prior acquisition/site-work loan of $23MM from First American Bank (closed April 2022) and ~$12.8MM of GP equity are noted as existing capital stack, separate from the $118MM construction loan being requested.\nAddress/zip verified against OM 9/21/26 (fields corrected: zip)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -1942,7 +1942,7 @@
  {
   "sourceKey": "18d2241846be",
   "propertyName": "The Archer",
-  "address": "9500 Grandtree Ave, Venice, FL 34292",
+  "address": "9500 Grandtree Ave",
   "city": "Venice",
   "state": "FL",
   "zip": "34292",
@@ -1977,7 +1977,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Venice - The Archer.pdf",
-  "notes": "Category evidence: Property was built and delivered in 2025 and is in active lease-up (34% occupied per comp table); borrower seeks to refinance the existing senior construction loan ahead of its December 2026 maturity, alongside paying down preferred equity.\nLoan Request table shows a 'Per SF' column value of $47,748 that is inconsistent with Residential NRA (214,876 SF implies ~$221/SF); likely OCR/table misalignment, so loanPerSf left null. Term stated as '3+1+1' (3-yr initial term + two 1-yr extensions); termMonths/ioMonths reflect the 3-yr initial full-term-IO (FTIO) period only. Cap rates: mapped 'Untrended Stabilized Cap Rate' (5.69%) to impliedCapPct and 'As-Stabilized Cap Rate' (5.46%) to stabilizedCapPct. Year 1 metrics taken from 'Untrended Stabilized' labels (DSCR 1.14x / Debt Yield 7.19%), Year 3 from 'Trended Stabilized' labels (DSCR 1.22x / Debt Yield 7.70%), per pairing on cover page and Loan Analysis page.\nExtraction confidence: medium",
+  "notes": "Category evidence: Property was built and delivered in 2025 and is in active lease-up (34% occupied per comp table); borrower seeks to refinance the existing senior construction loan ahead of its December 2026 maturity, alongside paying down preferred equity.\nLoan Request table shows a 'Per SF' column value of $47,748 that is inconsistent with Residential NRA (214,876 SF implies ~$221/SF); likely OCR/table misalignment, so loanPerSf left null. Term stated as '3+1+1' (3-yr initial term + two 1-yr extensions); termMonths/ioMonths reflect the 3-yr initial full-term-IO (FTIO) period only. Cap rates: mapped 'Untrended Stabilized Cap Rate' (5.69%) to impliedCapPct and 'As-Stabilized Cap Rate' (5.46%) to stabilizedCapPct. Year 1 metrics taken from 'Untrended Stabilized' labels (DSCR 1.14x / Debt Yield 7.19%), Year 3 from 'Trended Stabilized' labels (DSCR 1.22x / Debt Yield 7.70%), per pairing on cover page and Loan Analysis page.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -1994,7 +1994,7 @@
  {
   "sourceKey": "1a0676629f3b",
   "propertyName": "Lyra on McKinney",
-  "address": "4209 McKinney Avenue, Dallas, TX 75205",
+  "address": "4209 McKinney Avenue",
   "city": "Dallas",
   "state": "TX",
   "zip": "75205",
@@ -2029,7 +2029,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Dallas - Lyra on McKinney.pdf (OM date 2026-07)",
-  "notes": "Category evidence: Property was built in 2017 and is operating with a full rent roll, T12 financials, and 96.7% T12 occupancy; the request is acquisition/bridge financing (not construction) to fund purchase and a value-add renovation capex program.\nNo DSCR or cap rate figures are stated anywhere in this OM (debt service coverage / cap rate not mentioned), so those fields are null. Loan is interest-only floating rate inferred from the purchase of an interest rate cap (3.0% strike for 2 yrs, 4% strike Year 3); no explicit index, spread, or all-in rate is stated. Submarket is stated as 'Oak Lawn/Park Cities' in the dedicated Market Overview section, though the executive summary intro separately calls it the 'Knox-Henderson submarket' -- both terms appear in the OM. Construction type table lists 'Concrete Slab - 3 Stories' and 'Wood Frame - 5 Stories' for different building components, so a single stories value is not stated. omDate approximated from 'Unit Mix as of 7/21/2026' notation; no explicit OM date/cover date found. Occupancy taken as the stated '96.7% T12 occupancy' figure (OM separately cites '95.5% occupancy since 2022' as a longer-run average).\nExtraction confidence: medium",
+  "notes": "Category evidence: Property was built in 2017 and is operating with a full rent roll, T12 financials, and 96.7% T12 occupancy; the request is acquisition/bridge financing (not construction) to fund purchase and a value-add renovation capex program.\nNo DSCR or cap rate figures are stated anywhere in this OM (debt service coverage / cap rate not mentioned), so those fields are null. Loan is interest-only floating rate inferred from the purchase of an interest rate cap (3.0% strike for 2 yrs, 4% strike Year 3); no explicit index, spread, or all-in rate is stated. Submarket is stated as 'Oak Lawn/Park Cities' in the dedicated Market Overview section, though the executive summary intro separately calls it the 'Knox-Henderson submarket' -- both terms appear in the OM. Construction type table lists 'Concrete Slab - 3 Stories' and 'Wood Frame - 5 Stories' for different building components, so a single stories value is not stated. omDate approximated from 'Unit Mix as of 7/21/2026' notation; no explicit OM date/cover date found. Occupancy taken as the stated '96.7% T12 occupancy' figure (OM separately cites '95.5% occupancy since 2022' as a longer-run average).\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "In-Place",
@@ -2066,7 +2066,7 @@
  {
   "sourceKey": "1a6cc594becc",
   "propertyName": "Encanto Estates",
-  "address": "79th and Encanto Blvd, Phoenix, AZ 78750",
+  "address": "79th and Encanto Blvd",
   "city": "Phoenix",
   "state": "AZ",
   "zip": "78750",
@@ -2101,13 +2101,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: AZ, Phoenix - Encanto Estates.pdf",
-  "notes": "Category evidence: Ground-up development with a construction start date (Apr-2023), construction end date, full cost budget (land, hard costs, soft costs, developer fee, lease-up expense), and projected lease-up velocity/duration; no rent roll or in-place occupancy is presented, confirming the property is not yet built.\nPrimary ask in this OM is a $19MM preferred-equity placement, not a loan; loanAmount/ltcPct instead reflect the senior 'Debt' line in the Sources of Funds table ($55,876,687 / 60% of Total Sources), stated directly. No DSCR, debt yield, interest rate, spread, or stories are stated for the property. Rate type/index inferred only from the footnote 'Interest reserve and model contemplate the forward SOFR curve' -- no spread or all-in rate given. Document has internal inconsistencies: Date of Opening is given as both 'October 2024' (Property Overview) and 'Jan-25' (Project Timing); the equity-request percentage is described both as '50% of total equity required' and, elsewhere, 'up to 80% of total project cost' (the latter appears to be a template/text error, since $19M is ~20% of the $93.1M total cost). Zip code '78750' as printed does not match actual Phoenix, AZ zip ranges (85xxx) -- recorded verbatim per source. Uses of Funds table's second dollar column is Per SF (not Per Unit), e.g. Construction Hard Costs $194/SF, confirmed by cross-check against Residential NRSF of 344,839 SF. Terminal Cap Rate of 5.50% is an exit/reversion assumption, not a going-in or stabilized valuation cap rate, so it was not mapped to impliedCapPct/stabilizedCapPct.\nExtraction confidence: medium",
+  "notes": "Category evidence: Ground-up development with a construction start date (Apr-2023), construction end date, full cost budget (land, hard costs, soft costs, developer fee, lease-up expense), and projected lease-up velocity/duration; no rent roll or in-place occupancy is presented, confirming the property is not yet built.\nPrimary ask in this OM is a $19MM preferred-equity placement, not a loan; loanAmount/ltcPct instead reflect the senior 'Debt' line in the Sources of Funds table ($55,876,687 / 60% of Total Sources), stated directly. No DSCR, debt yield, interest rate, spread, or stories are stated for the property. Rate type/index inferred only from the footnote 'Interest reserve and model contemplate the forward SOFR curve' -- no spread or all-in rate given. Document has internal inconsistencies: Date of Opening is given as both 'October 2024' (Property Overview) and 'Jan-25' (Project Timing); the equity-request percentage is described both as '50% of total equity required' and, elsewhere, 'up to 80% of total project cost' (the latter appears to be a template/text error, since $19M is ~20% of the $93.1M total cost). Zip code '78750' as printed does not match actual Phoenix, AZ zip ranges (85xxx) -- recorded verbatim per source. Uses of Funds table's second dollar column is Per SF (not Per Unit), e.g. Construction Hard Costs $194/SF, confirmed by cross-check against Residential NRSF of 344,839 SF. Terminal Cap Rate of 5.50% is an exit/reversion assumption, not a going-in or stabilized valuation cap rate, so it was not mapped to impliedCapPct/stabilizedCapPct.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
   "sourceKey": "1ad50f786ba2",
   "propertyName": "The Heights",
-  "address": "1180 W 18th Street, Houston, TX",
+  "address": "1180 W 18th Street",
   "city": "Houston",
   "state": "TX",
   "zip": null,
@@ -2142,7 +2142,7 @@
   "outcome": "SCREENED",
   "outcomeNote": "In Process folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: The Heights - Financing Memorandum.pdf",
-  "notes": "Category evidence: Ground-up 36-story high-rise development; groundbreaking anticipated November 2026 with delivery scheduled for Q1 2029 (later stated as February 2029), full construction cost budget (land & closing, hard costs, soft costs, financing costs) is presented, and no rent roll or in-place occupancy exists -- property is not yet built.\nNo DSCR or cap rate figures are stated anywhere in this OM. No index name or spread is stated for the floating rate -- only 'Loan Type: Floating Rate' is given. Loan term given as '5 Years (inclusive of extension options)'; termMonths/ioMonths reflect that 5-year figure and full-term interest-only amortization. NOI & Debt Yield Summary is labeled 'Untrended / Year 3 / Year 4 / Year 5' (no Year 1/Year 2 shown, consistent with construction/lease-up beginning after delivery); Year 3's low 3.1% debt yield (vs 8.6%/8.8% in Years 4/5) likely reflects a partial lease-up year following the Feb-2029 delivery, not a data error. sizeSf left null because the OM states only 'Gross Area' (311,389 SF, which likely includes garage/common areas plus 6,000 SF of retail) rather than a labeled residential NRA figure. No zip code is stated for the property address (1180 W 18th Street, Houston, TX).\nExtraction confidence: high",
+  "notes": "Category evidence: Ground-up 36-story high-rise development; groundbreaking anticipated November 2026 with delivery scheduled for Q1 2029 (later stated as February 2029), full construction cost budget (land & closing, hard costs, soft costs, financing costs) is presented, and no rent roll or in-place occupancy exists -- property is not yet built.\nNo DSCR or cap rate figures are stated anywhere in this OM. No index name or spread is stated for the floating rate -- only 'Loan Type: Floating Rate' is given. Loan term given as '5 Years (inclusive of extension options)'; termMonths/ioMonths reflect that 5-year figure and full-term interest-only amortization. NOI & Debt Yield Summary is labeled 'Untrended / Year 3 / Year 4 / Year 5' (no Year 1/Year 2 shown, consistent with construction/lease-up beginning after delivery); Year 3's low 3.1% debt yield (vs 8.6%/8.8% in Years 4/5) likely reflects a partial lease-up year following the Feb-2029 delivery, not a data error. sizeSf left null because the OM states only 'Gross Area' (311,389 SF, which likely includes garage/common areas plus 6,000 SF of retail) rather than a labeled residential NRA figure. No zip code is stated for the property address (1180 W 18th Street, Houston, TX).\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Untrended",
@@ -2169,7 +2169,7 @@
  {
   "sourceKey": "1bbaff73febf",
   "propertyName": "CoOp @ EaDo",
-  "address": "3122 Leeland St, Houston, TX",
+  "address": "3122 Leeland St",
   "city": "Houston",
   "state": "TX",
   "zip": null,
@@ -2204,7 +2204,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Houston - CoOp @ EaDo.pdf",
-  "notes": "Category evidence: Proposed 284-unit project explicitly described as 'to-be-built' under a PFC structure with the Houston Housing Authority; OM presents an all-in construction cost basis ($205k/unit), an assumed 18-month lease-up period, and stabilization projected at month 60 -- no rent roll or in-place occupancy exists, confirming the property is not yet built.\nNo cap rate is stated anywhere in this OM. Interest Rate of 7.25% is given as a flat assumption (both Untrended and Trended columns) without specifying fixed vs. floating or any index/spread, so rateType/indexName/spreadBps are null even though the loan is described as a 'construction loan.' Yield Summary table labels its two scenario columns 'Untrended' and 'Trended' (not Year 1/Year 2/etc.); dscr values used above are the 'DSCR (IO)' row (1.55x Untrended / 1.78x Trended) since the loan is interest-only -- the OM separately shows 'DSCR (30 YR AM)' of 1.37x Untrended / 1.58x Trended for a hypothetical post-conversion amortizing scenario. totalProjectCost left null because no lump-sum total cost figure is stated (only per-unit/per-SF basis of $205k/unit, $296/sf); computing a total from that would require derivation, which is disallowed. No stories count or delivery year/date is stated for the property (only 'stabilization in month 60' post-construction). Document footer copyright is dated 2023, which may indicate an older OM vintage, but no explicit 'as of' or offering date is given.\nExtraction confidence: medium",
+  "notes": "Category evidence: Proposed 284-unit project explicitly described as 'to-be-built' under a PFC structure with the Houston Housing Authority; OM presents an all-in construction cost basis ($205k/unit), an assumed 18-month lease-up period, and stabilization projected at month 60 -- no rent roll or in-place occupancy exists, confirming the property is not yet built.\nNo cap rate is stated anywhere in this OM. Interest Rate of 7.25% is given as a flat assumption (both Untrended and Trended columns) without specifying fixed vs. floating or any index/spread, so rateType/indexName/spreadBps are null even though the loan is described as a 'construction loan.' Yield Summary table labels its two scenario columns 'Untrended' and 'Trended' (not Year 1/Year 2/etc.); dscr values used above are the 'DSCR (IO)' row (1.55x Untrended / 1.78x Trended) since the loan is interest-only -- the OM separately shows 'DSCR (30 YR AM)' of 1.37x Untrended / 1.58x Trended for a hypothetical post-conversion amortizing scenario. totalProjectCost left null because no lump-sum total cost figure is stated (only per-unit/per-SF basis of $205k/unit, $296/sf); computing a total from that would require derivation, which is disallowed. No stories count or delivery year/date is stated for the property (only 'stabilization in month 60' post-construction). Document footer copyright is dated 2023, which may indicate an older OM vintage, but no explicit 'as of' or offering date is given.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Untrended",
@@ -2221,7 +2221,7 @@
  {
   "sourceKey": "1eac553e88ce",
   "propertyName": "The Links on PGA Parkway",
-  "address": "Corner of Dallas North Tollway and PGA Parkway, Frisco, TX",
+  "address": "Corner of Dallas North Tollway and PGA Parkway",
   "city": "Frisco",
   "state": "TX",
   "zip": null,
@@ -2256,7 +2256,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Frisco - Links on PGA Pkwy.pdf",
-  "notes": "Category evidence: Financing request covers Phases 3 and 4, a to-be-built construction project. Project Timeline lists Closing/Start Construction (Sep 2024), Leasing Center/First Units (Apr 2026), Project Completion (Oct 2026) and Stabilized Occupancy (Apr 2027), along with a full cost budget (land, hard costs, soft costs, financing costs, interest reserve) and no rent roll -- confirming the property is not yet built. (Adjacent Phases 1 and 2 are already complete and near stabilization, but this OM's financing ask is only for Phases 3/4.)\nOM presents two alternate capital structures: (1) 'Stretch Senior' -- Senior Loan $98,433,374 + Mezzanine Loan $52,467,809 = $150,901,182 total debt at 82% LTC (used here as loanAmount/ltcPct, matching the cover page's primary framing and the Financial Summary box); and (2) an alternate 'Mezz Fully Accruing' structure with Construction Loan $98,433,374 + reduced Mezzanine $42,306,760 + more equity, Total Sources $174,840,133. loanPerUnit is left null because no per-unit figure is stated for the combined $150.9M stretch-senior total -- only the Senior Loan alone ($158,764/unit) and Mezzanine alone ($84,625/unit) have stated per-unit figures in that scenario, and combining them would require derivation. No DSCR, interest rate, index/spread, loan term, stories, or zip code are stated anywhere in this OM. Single unlabeled Debt Yield of 7.26% mapped to 'Year 1' per spec default.\nExtraction confidence: medium",
+  "notes": "Category evidence: Financing request covers Phases 3 and 4, a to-be-built construction project. Project Timeline lists Closing/Start Construction (Sep 2024), Leasing Center/First Units (Apr 2026), Project Completion (Oct 2026) and Stabilized Occupancy (Apr 2027), along with a full cost budget (land, hard costs, soft costs, financing costs, interest reserve) and no rent roll -- confirming the property is not yet built. (Adjacent Phases 1 and 2 are already complete and near stabilization, but this OM's financing ask is only for Phases 3/4.)\nOM presents two alternate capital structures: (1) 'Stretch Senior' -- Senior Loan $98,433,374 + Mezzanine Loan $52,467,809 = $150,901,182 total debt at 82% LTC (used here as loanAmount/ltcPct, matching the cover page's primary framing and the Financial Summary box); and (2) an alternate 'Mezz Fully Accruing' structure with Construction Loan $98,433,374 + reduced Mezzanine $42,306,760 + more equity, Total Sources $174,840,133. loanPerUnit is left null because no per-unit figure is stated for the combined $150.9M stretch-senior total -- only the Senior Loan alone ($158,764/unit) and Mezzanine alone ($84,625/unit) have stated per-unit figures in that scenario, and combining them would require derivation. No DSCR, interest rate, index/spread, loan term, stories, or zip code are stated anywhere in this OM. Single unlabeled Debt Yield of 7.26% mapped to 'Year 1' per spec default.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -2268,7 +2268,7 @@
  {
   "sourceKey": "1f5935ac3abe",
   "propertyName": "Prose Fircrest",
-  "address": "2119 Mildred St, Fircrest, WA 98466",
+  "address": "2119 Mildred St",
   "city": "Fircrest",
   "state": "WA",
   "zip": "98466",
@@ -2303,13 +2303,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: WA, Tacoma - Prose at Fircrest.pdf",
-  "notes": "Category evidence: Alliance Residential is 'under contract to purchase' 9.49 acres of land and plans to develop 391 units; the OM presents a development budget (land, hard construction costs, GC fees, contingency, financing fees, interest reserve) and pro forma income projections rather than an actual rent roll or T12 -- confirming the property is not yet built.\nNo DSCR, debt yield, interest rate, index/spread, or loan term is stated anywhere in this OM; the Construction Loan appears only as a Development Budget 'Source' (60% of total, $79,236,252), not as an actively-marketed loan term sheet, so this reads more like an internal sponsor development budget than a broker-shopped financing package. Mapped the stated 'Yield on Cost' figures (Current 6.23% / Trended 7.01%) to impliedCapPct/stabilizedCapPct respectively, since no other going-in or stabilized cap rate is given -- this is a judgment call, as yield-on-cost is not a market cap rate. Building height given only as a range ('four 4-5 story buildings'), so stories is left null. No Residential NRA/rentable SF figure is stated (only average unit size 801-802 SF and total units), so sizeSf is null. Cover page lists three named contacts (Jeremiah Jolicoeur, David Lodwick, David Armesy) at a Seattle, WA address, but it is unclear whether they are an external placement/brokerage team or Alliance Residential's internal capital-markets staff, so brokerage is left null. Cover page address is styled '2119 Mildred Ave, Fircrest WA 98466' while the Community Description table elsewhere calls it '2119 Mildred St.' -- used 'St' per the more detailed property table, with zip taken from the cover page.\nExtraction confidence: medium",
+  "notes": "Category evidence: Alliance Residential is 'under contract to purchase' 9.49 acres of land and plans to develop 391 units; the OM presents a development budget (land, hard construction costs, GC fees, contingency, financing fees, interest reserve) and pro forma income projections rather than an actual rent roll or T12 -- confirming the property is not yet built.\nNo DSCR, debt yield, interest rate, index/spread, or loan term is stated anywhere in this OM; the Construction Loan appears only as a Development Budget 'Source' (60% of total, $79,236,252), not as an actively-marketed loan term sheet, so this reads more like an internal sponsor development budget than a broker-shopped financing package. Mapped the stated 'Yield on Cost' figures (Current 6.23% / Trended 7.01%) to impliedCapPct/stabilizedCapPct respectively, since no other going-in or stabilized cap rate is given -- this is a judgment call, as yield-on-cost is not a market cap rate. Building height given only as a range ('four 4-5 story buildings'), so stories is left null. No Residential NRA/rentable SF figure is stated (only average unit size 801-802 SF and total units), so sizeSf is null. Cover page lists three named contacts (Jeremiah Jolicoeur, David Lodwick, David Armesy) at a Seattle, WA address, but it is unclear whether they are an external placement/brokerage team or Alliance Residential's internal capital-markets staff, so brokerage is left null. Cover page address is styled '2119 Mildred Ave, Fircrest WA 98466' while the Community Description table elsewhere calls it '2119 Mildred St.' -- used 'St' per the more detailed property table, with zip taken from the cover page.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
   "sourceKey": "1fdba066c379",
   "propertyName": "Umbria Place",
-  "address": "4889 Umbria St, Manayunk, PA",
+  "address": "4889 Umbria St",
   "city": "Manayunk",
   "state": "PA",
   "zip": null,
@@ -2344,7 +2344,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: PA, Manayunk - Umbria Place.pdf",
-  "notes": "Category evidence: Proposed six-story ground-up development described throughout as a 'proposed' apartment community; Development Timeline shows Land Closing (Jun'26), Construction Completion (Jul'28) and Stabilization (Sep/Oct'29), with a full development cost budget (land, hard costs, soft costs, development fee, interest reserve) and no rent roll or in-place occupancy -- confirms not yet built.\nOM presents two loan sizing scenarios: base case 'Loan Amount' of $75,146,082 at 65% LTC / 50% LTV (used here), and 'Loan Proceeds Up to $80,400,000' reflecting the Sponsor's willingness to consider proceeds up to 70% LTC -- loanAmount/ltcPct/ltvPct use the 65% LTC base case since that is the figure the lender metrics (DY, per-unit basis, etc.) are explicitly tied to. Loan Term given as '3 + 1 + 1 or 4 + 1' (years, two alternative structures), so termMonths/ioMonths are left null rather than picking one arbitrarily (loan is confirmed full-term Interest Only per 'Amortization: Interest Only'). loanPerSf ($150.93) is the Debt $/GSF figure from the Sources & Uses table (Gross SF basis), not residential NRA/rentable SF -- no standalone total GSF or residential NRA number is stated elsewhere, so sizeSf is null. No DSCR is stated anywhere in this OM. Debt yield is presented as paired 'Unabated' (10.1%) and 'Abated' (10.9%) stabilized figures (reflecting the property's 10-year real estate tax abatement), both captured under 'Stabilized' labels. Cap Rate of 5.25% (used to derive the $149.8M Untrended Value) mapped to impliedCapPct; a separately stated 'Unabated YOC of 6.9%' was not mapped to either cap-rate field since it is yield-on-cost, not a market cap rate. No zip code is stated for the property address.\nExtraction confidence: high",
+  "notes": "Category evidence: Proposed six-story ground-up development described throughout as a 'proposed' apartment community; Development Timeline shows Land Closing (Jun'26), Construction Completion (Jul'28) and Stabilization (Sep/Oct'29), with a full development cost budget (land, hard costs, soft costs, development fee, interest reserve) and no rent roll or in-place occupancy -- confirms not yet built.\nOM presents two loan sizing scenarios: base case 'Loan Amount' of $75,146,082 at 65% LTC / 50% LTV (used here), and 'Loan Proceeds Up to $80,400,000' reflecting the Sponsor's willingness to consider proceeds up to 70% LTC -- loanAmount/ltcPct/ltvPct use the 65% LTC base case since that is the figure the lender metrics (DY, per-unit basis, etc.) are explicitly tied to. Loan Term given as '3 + 1 + 1 or 4 + 1' (years, two alternative structures), so termMonths/ioMonths are left null rather than picking one arbitrarily (loan is confirmed full-term Interest Only per 'Amortization: Interest Only'). loanPerSf ($150.93) is the Debt $/GSF figure from the Sources & Uses table (Gross SF basis), not residential NRA/rentable SF -- no standalone total GSF or residential NRA number is stated elsewhere, so sizeSf is null. No DSCR is stated anywhere in this OM. Debt yield is presented as paired 'Unabated' (10.1%) and 'Abated' (10.9%) stabilized figures (reflecting the property's 10-year real estate tax abatement), both captured under 'Stabilized' labels. Cap Rate of 5.25% (used to derive the $149.8M Untrended Value) mapped to impliedCapPct; a separately stated 'Unabated YOC of 6.9%' was not mapped to either cap-rate field since it is yield-on-cost, not a market cap rate. No zip code is stated for the property address.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized (Unabated)",
@@ -2762,7 +2762,7 @@
  {
   "sourceKey": "266ebd24bf30",
   "propertyName": "The Charles at Denver West",
-  "address": "1767 Denver West Marriott Blvd, Golden, CO 80401",
+  "address": "1767 Denver West Marriott Blvd",
   "city": "Golden",
   "state": "CO",
   "zip": "80401",
@@ -2797,13 +2797,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CO, Denver - The Charles at Denver West.pdf",
-  "notes": "Category evidence: Property is a completed 2023-built, 230-unit asset with 92% in-place occupancy, rent roll, and sale/rent comps; transaction is a refinance of the sponsor's existing construction loan (construction takeout).\nOnly loan figure stated is the current balance of the existing construction loan being refinanced ($81,558,000); no new loan amount, rate, term, LTV/LTC, DSCR, or debt yield disclosed. Subject sale comp row shows YOC 2022 and a purchase price of $94,300,000 ($410,000/unit), inconsistent with the stated 2023 year of construction; not used as loan terms.\nExtraction confidence: medium",
+  "notes": "Category evidence: Property is a completed 2023-built, 230-unit asset with 92% in-place occupancy, rent roll, and sale/rent comps; transaction is a refinance of the sponsor's existing construction loan (construction takeout).\nOnly loan figure stated is the current balance of the existing construction loan being refinanced ($81,558,000); no new loan amount, rate, term, LTV/LTC, DSCR, or debt yield disclosed. Subject sale comp row shows YOC 2022 and a purchase price of $94,300,000 ($410,000/unit), inconsistent with the stated 2023 year of construction; not used as loan terms.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
   "sourceKey": "2709461c8f06",
   "propertyName": "Wilcox Multifamily Development",
-  "address": "1915-1921 Wilcox Ave, Los Angeles, CA 90068",
+  "address": "1915-1921 Wilcox Ave",
   "city": "Los Angeles",
   "state": "CA",
   "zip": "90068",
@@ -2838,7 +2838,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CA, Hollywood - Wilcox Multifamily Development.pdf",
-  "notes": "Category evidence: Project is not yet built: it is 'fully entitled' with sponsor 'working through building and safety requirements' to obtain permits, Year Delivered is listed as 2026, and the OM presents a construction cost budget/Sources & Uses and yield-on-cost metrics rather than a rent roll or in-place occupancy.\nInterest rate stated as a formula 'S + 5.50%' (SOFR + 5.50%) with a 3.50% SOFR floor; no absolute rate, term, or I/O period disclosed. Untrended Stabilized LTV (67.6%) used for ltvPct since no separate 'LTV' label exists. Underwritten Cap Rate of 5.00% is applied to Untrended Stabilized NOI to derive stabilized value, so recorded as stabilizedCapPct. Loan/Unit and Total Project Cost figures shown with minor rounding differences across pages ($364,727 vs. headline '$365K/Unit'; $32,096,000 vs. $32,095,000/$32,095,449 total levered costs); most precise table figures used. Origination fee 1.00% and broker fee 1.00% also disclosed but have no dedicated field. No explicit OM date; 2024 CoStar data and copyright 2023 appear in the document.\nExtraction confidence: high",
+  "notes": "Category evidence: Project is not yet built: it is 'fully entitled' with sponsor 'working through building and safety requirements' to obtain permits, Year Delivered is listed as 2026, and the OM presents a construction cost budget/Sources & Uses and yield-on-cost metrics rather than a rent roll or in-place occupancy.\nInterest rate stated as a formula 'S + 5.50%' (SOFR + 5.50%) with a 3.50% SOFR floor; no absolute rate, term, or I/O period disclosed. Untrended Stabilized LTV (67.6%) used for ltvPct since no separate 'LTV' label exists. Underwritten Cap Rate of 5.00% is applied to Untrended Stabilized NOI to derive stabilized value, so recorded as stabilizedCapPct. Loan/Unit and Total Project Cost figures shown with minor rounding differences across pages ($364,727 vs. headline '$365K/Unit'; $32,096,000 vs. $32,095,000/$32,095,449 total levered costs); most precise table figures used. Origination fee 1.00% and broker fee 1.00% also disclosed but have no dedicated field. No explicit OM date; 2024 CoStar data and copyright 2023 appear in the document.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -2855,7 +2855,7 @@
  {
   "sourceKey": "27187bded905",
   "propertyName": "Arya Apartments",
-  "address": "10700 Tabor St, Los Angeles, CA 90232",
+  "address": "10700 Tabor St",
   "city": "Los Angeles",
   "state": "CA",
   "zip": "90232",
@@ -2890,7 +2890,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CA, Los Angeles - Arya Apartments.pdf",
-  "notes": "Category evidence: Property is a completed, delivered (June 2024) asset that is approximately 90% occupied with an in-place NOI and T-3 financials; the request is explicitly a 'construction takeout financing' / refinance to pay off the existing construction loan, lease up remaining units, and fund TI for a signed retail tenant.\nRate Type is stated inconsistently: exec summary lists 'Floating Preferred' while the Underwritten Loan Terms table lists 'Rate Type: Fixed or Floating' -- left null due to conflict. Rate itself given only as 'Best Available' (no numeric rate/index/spread). Loan Term stated as a range ('3-5 Years'), so termMonths left null. Amortization is 'Maximum Interest Only' but no specific I/O month count given. ltcPct uses the table's 'Fully-Funded LTC' of 88.0% (In-Place LTC is 87.9%). ltvPct uses 'Untrended Stabilized LTV' of 59.4% (rounded to 59% on the cover page). Financials shown as T-3 Annualized as of Apr-2025; document copyright is 2025; no explicit OM issuance date stated.\nExtraction confidence: high",
+  "notes": "Category evidence: Property is a completed, delivered (June 2024) asset that is approximately 90% occupied with an in-place NOI and T-3 financials; the request is explicitly a 'construction takeout financing' / refinance to pay off the existing construction loan, lease up remaining units, and fund TI for a signed retail tenant.\nRate Type is stated inconsistently: exec summary lists 'Floating Preferred' while the Underwritten Loan Terms table lists 'Rate Type: Fixed or Floating' -- left null due to conflict. Rate itself given only as 'Best Available' (no numeric rate/index/spread). Loan Term stated as a range ('3-5 Years'), so termMonths left null. Amortization is 'Maximum Interest Only' but no specific I/O month count given. ltcPct uses the table's 'Fully-Funded LTC' of 88.0% (In-Place LTC is 87.9%). ltvPct uses 'Untrended Stabilized LTV' of 59.4% (rounded to 59% on the cover page). Financials shown as T-3 Annualized as of Apr-2025; document copyright is 2025; no explicit OM issuance date stated.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -2907,7 +2907,7 @@
  {
   "sourceKey": "2720f782a0a8",
   "propertyName": "Vida on The Lake",
-  "address": "2800 Radiance Trail, Midlothian, VA 23112",
+  "address": "2800 Radiance Trail",
   "city": "Midlothian",
   "state": "VA",
   "zip": "23112",
@@ -2942,13 +2942,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: VA, Midlothian - Vida on the Lake.pdf",
-  "notes": "Category evidence: Project is a to-be-built development: site is 'fully entitled' with final permits expected Nov/Dec 2025, closing/construction start slated for 2026, no rent roll or in-place occupancy is presented, and the OM shows a construction cost budget (Sources & Uses) plus untrended/trended return-on-cost metrics rather than in-place financials.\nThis OM is a joint-venture EQUITY memorandum (not a debt request); the 'Senior Loan' figures are an assumed construction loan embedded in the JV Sources & Uses, captured here as loanAmount/loanPerUnit/ltcPct/rate terms per footnote [1] ('Assumes a 65% LTC construction loan at SOFR + 3.25%'). No DSCR or Debt Yield is disclosed anywhere in the captured pages -- only IRR (29.03% levered), equity multiple (3.15x), and Return on Cost (untrended 6.74% / trended 8.04%), which have no dedicated field, so metricYears is empty. stabilizedCapPct (5.25%) is the OM's 'Terminal Cap Rate' used for the Year-5 exit/terminal value, not a stabilized-at-delivery cap rate. Delivery timing is inconsistent in the source: one page says 'delivery in 2027' while the project timeline shows Construction Start Apr-2026, Construction End Mar-2028, Lease-Up Begin Jul-2027, and Stabilization Dec-2028 -- yearBuilt left null. Stories are mixed: 4 four-story garden buildings plus two-story carriage-house buildings; 4 used as the primary building type. Digest only includes Project Overview pages (through page 16 of the deck); Market Overview, Financial Analysis, and Sponsorship Overview sections referenced in the table of contents were not present in the provided text.\nExtraction confidence: medium",
+  "notes": "Category evidence: Project is a to-be-built development: site is 'fully entitled' with final permits expected Nov/Dec 2025, closing/construction start slated for 2026, no rent roll or in-place occupancy is presented, and the OM shows a construction cost budget (Sources & Uses) plus untrended/trended return-on-cost metrics rather than in-place financials.\nThis OM is a joint-venture EQUITY memorandum (not a debt request); the 'Senior Loan' figures are an assumed construction loan embedded in the JV Sources & Uses, captured here as loanAmount/loanPerUnit/ltcPct/rate terms per footnote [1] ('Assumes a 65% LTC construction loan at SOFR + 3.25%'). No DSCR or Debt Yield is disclosed anywhere in the captured pages -- only IRR (29.03% levered), equity multiple (3.15x), and Return on Cost (untrended 6.74% / trended 8.04%), which have no dedicated field, so metricYears is empty. stabilizedCapPct (5.25%) is the OM's 'Terminal Cap Rate' used for the Year-5 exit/terminal value, not a stabilized-at-delivery cap rate. Delivery timing is inconsistent in the source: one page says 'delivery in 2027' while the project timeline shows Construction Start Apr-2026, Construction End Mar-2028, Lease-Up Begin Jul-2027, and Stabilization Dec-2028 -- yearBuilt left null. Stories are mixed: 4 four-story garden buildings plus two-story carriage-house buildings; 4 used as the primary building type. Digest only includes Project Overview pages (through page 16 of the deck); Market Overview, Financial Analysis, and Sponsorship Overview sections referenced in the table of contents were not present in the provided text.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
   "sourceKey": "28345ba2242b",
   "propertyName": "Rise 510",
-  "address": "510 Sunset Vista Dr, Georgetown, TX 78628",
+  "address": "510 Sunset Vista Dr",
   "city": "Georgetown",
   "state": "TX",
   "zip": "78628",
@@ -2983,7 +2983,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Georgetown - Rise 510.pdf",
-  "notes": "Category evidence: Property delivered May 2024, is currently 65.4% occupied (mid lease-up), and financing is sought to pay off the existing construction loan maturing October 2025 -- a lease-up/construction-takeout refinance of a completed, operating asset.\nTerm stated as a range ('2 to 3 Years with Extension Options'), so termMonths left null. Interest Only stated as 'Max Available' with no specific month count. No SOFR/index or numeric spread/rate disclosed in the captured text, so rateType is floating but indexName/spreadBps/ratePct are null. No stories/floor count stated. 'Total Cost Basis' ($71,700,000 / $238,206 per unit) used for totalProjectCost/tpcPerUnit; 'Estimated Value' is $77,000,000 ($245,847/unit) at a 5.25% Stabilized Cap Rate (captured as stabilizedCapPct). No explicit OM date found in the provided pages.\nExtraction confidence: high",
+  "notes": "Category evidence: Property delivered May 2024, is currently 65.4% occupied (mid lease-up), and financing is sought to pay off the existing construction loan maturing October 2025 -- a lease-up/construction-takeout refinance of a completed, operating asset.\nTerm stated as a range ('2 to 3 Years with Extension Options'), so termMonths left null. Interest Only stated as 'Max Available' with no specific month count. No SOFR/index or numeric spread/rate disclosed in the captured text, so rateType is floating but indexName/spreadBps/ratePct are null. No stories/floor count stated. 'Total Cost Basis' ($71,700,000 / $238,206 per unit) used for totalProjectCost/tpcPerUnit; 'Estimated Value' is $77,000,000 ($245,847/unit) at a 5.25% Stabilized Cap Rate (captured as stabilizedCapPct). No explicit OM date found in the provided pages.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -2995,7 +2995,7 @@
  {
   "sourceKey": "2877488b0979",
   "propertyName": "The View at Sapphire Bay",
-  "address": "600 Winners Circle, Rowlett, TX 75088",
+  "address": "600 Winners Circle",
   "city": "Rowlett",
   "state": "TX",
   "zip": "75088",
@@ -3030,7 +3030,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Rowlett - The View at Sapphire Bay.pdf",
-  "notes": "Category evidence: Property is built and delivered (partial Nov-2024, full Dec-2025 after fire reconstruction), is in active lease-up with a documented monthly leasing/occupancy schedule and a May-2026 rent roll, and the requested loan proceeds explicitly refinance the existing construction debt ('Existing Loan Repayment') -- a construction-takeout bridge refinance of a built asset.\nLoan Term is a structured extension schedule stated two ways ('2+1+1+1 or 3+1+1 years' in the exec-summary box, '3+1+1' in the Loan Metrics table), not a plain single term, so termMonths left null. Interest Only Period is 'Full Term' with no month count. Index Rate as of 5/20/26 is 3.60% + Base Spread 2.50% = Total Interest Rate 6.10% (used as ratePct); rate is otherwise described as 'competitively priced' / 'Best Available'. 'Sponsor Cost Basis' ($83,214,000 / $211,203 per unit) used for totalProjectCost/tpcPerUnit. Estimated Value is $99,500,000 ($252,538/unit) at a 5.00% Capitalization Rate applied to JLL Year 3 As-Stabilized NCF (captured as stabilizedCapPct); no separate 'implied' cap rate stated. As-Is Debt Yield (2.64%) mapped to 'Year 1'; 'Stabilized Debt Yield (JLL Year 3 NCF)' (8.68%) mapped to 'Year 3 Stabilized', matching the OM's own labels. No stories/floor count or named submarket stated in the provided text; no explicit OM issuance date found (most recent data points reference May 2026).\nExtraction confidence: high",
+  "notes": "Category evidence: Property is built and delivered (partial Nov-2024, full Dec-2025 after fire reconstruction), is in active lease-up with a documented monthly leasing/occupancy schedule and a May-2026 rent roll, and the requested loan proceeds explicitly refinance the existing construction debt ('Existing Loan Repayment') -- a construction-takeout bridge refinance of a built asset.\nLoan Term is a structured extension schedule stated two ways ('2+1+1+1 or 3+1+1 years' in the exec-summary box, '3+1+1' in the Loan Metrics table), not a plain single term, so termMonths left null. Interest Only Period is 'Full Term' with no month count. Index Rate as of 5/20/26 is 3.60% + Base Spread 2.50% = Total Interest Rate 6.10% (used as ratePct); rate is otherwise described as 'competitively priced' / 'Best Available'. 'Sponsor Cost Basis' ($83,214,000 / $211,203 per unit) used for totalProjectCost/tpcPerUnit. Estimated Value is $99,500,000 ($252,538/unit) at a 5.00% Capitalization Rate applied to JLL Year 3 As-Stabilized NCF (captured as stabilizedCapPct); no separate 'implied' cap rate stated. As-Is Debt Yield (2.64%) mapped to 'Year 1'; 'Stabilized Debt Yield (JLL Year 3 NCF)' (8.68%) mapped to 'Year 3 Stabilized', matching the OM's own labels. No stories/floor count or named submarket stated in the provided text; no explicit OM issuance date found (most recent data points reference May 2026).\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -3047,7 +3047,7 @@
  {
   "sourceKey": "288e67d31692",
   "propertyName": "Catalyst Houston",
-  "address": "1475 Texas Ave, Houston, TX 77002",
+  "address": "1475 Texas Ave",
   "city": "Houston",
   "state": "TX",
   "zip": "77002",
@@ -3082,7 +3082,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Houston - Catalyst Houston.pdf",
-  "notes": "Category evidence: Property is a fully built, stabilized 2018-vintage, 28-story high-rise with 95.6% in-place occupancy and an in-place rent roll/NOI; the request explicitly refinances the current mortgage to pay off the existing loan -- a bridge refinance of a built, stabilized asset.\nLoan Term given as a structured '3+1+1 Years' (initial term plus two 1-year extensions), not a plain term, so termMonths left null; Interest Only Term is 'Full Term IO' / 'Best Available' with 30-year amortization after the IO period, but no specific I/O month count given, so ioMonths left null. Rate fields taken from the page-48 'Financial Overview' loan-sizing table: Index 5.30%, SOFR Cap (strike) 4.25%, Spread 3.00%, Interest Rate (For Sizing) 7.25% (used as ratePct; SOFR Cap + Spread = Interest Rate For Sizing). The page-8 summary instead calls the rate 'Best Available' with no numeric quote. Year-3 metrics differ slightly between the page-8 loan analysis (Year 3 NOI $6,589,000, Stabilized Yield 5.94%, DSCR IO 1.36x / Amortizing 1.21x, Debt Yield 9.87%) and the page-48 Financial Overview table used here (Year 3 NOI $6,679,000, Stabilized Yield 6.02%, DSCR IO 1.38x / Amortizing 1.22x, Debt Yield 10.01%); the page-48 figures were used since the exec summary directs readers to the 'Financial Summary beginning on page 48' for loan-request detail. Year 3 DSCR of 1.22x (amortizing) also disclosed alongside the 1.38x interest-only DSCR recorded here. Capitalization Rate (4.46%, applied to In-Place NOI) captured as impliedCapPct; Stabilized Yield (6.02%, Year 3 NOI/Estimated Value) captured as stabilizedCapPct. No explicit OM issuance date found; rent roll referenced is dated 1/1/2024.\nExtraction confidence: high",
+  "notes": "Category evidence: Property is a fully built, stabilized 2018-vintage, 28-story high-rise with 95.6% in-place occupancy and an in-place rent roll/NOI; the request explicitly refinances the current mortgage to pay off the existing loan -- a bridge refinance of a built, stabilized asset.\nLoan Term given as a structured '3+1+1 Years' (initial term plus two 1-year extensions), not a plain term, so termMonths left null; Interest Only Term is 'Full Term IO' / 'Best Available' with 30-year amortization after the IO period, but no specific I/O month count given, so ioMonths left null. Rate fields taken from the page-48 'Financial Overview' loan-sizing table: Index 5.30%, SOFR Cap (strike) 4.25%, Spread 3.00%, Interest Rate (For Sizing) 7.25% (used as ratePct; SOFR Cap + Spread = Interest Rate For Sizing). The page-8 summary instead calls the rate 'Best Available' with no numeric quote. Year-3 metrics differ slightly between the page-8 loan analysis (Year 3 NOI $6,589,000, Stabilized Yield 5.94%, DSCR IO 1.36x / Amortizing 1.21x, Debt Yield 9.87%) and the page-48 Financial Overview table used here (Year 3 NOI $6,679,000, Stabilized Yield 6.02%, DSCR IO 1.38x / Amortizing 1.22x, Debt Yield 10.01%); the page-48 figures were used since the exec summary directs readers to the 'Financial Summary beginning on page 48' for loan-request detail. Year 3 DSCR of 1.22x (amortizing) also disclosed alongside the 1.38x interest-only DSCR recorded here. Capitalization Rate (4.46%, applied to In-Place NOI) captured as impliedCapPct; Stabilized Yield (6.02%, Year 3 NOI/Estimated Value) captured as stabilizedCapPct. No explicit OM issuance date found; rent roll referenced is dated 1/1/2024.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -3099,7 +3099,7 @@
  {
   "sourceKey": "2899206b5103",
   "propertyName": "The ONE @ Signal Butte",
-  "address": "10635 E Hampton Ave, Mesa, AZ 85209",
+  "address": "10635 E Hampton Ave",
   "city": "Mesa",
   "state": "AZ",
   "zip": "85209",
@@ -3134,7 +3134,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: The ONE @ Signal Butte - Senior Loan Request.pdf",
-  "notes": "Category evidence: Property is a newly constructed, existing multifamily asset currently in lease-up (10% occupied, 16% leased) with a unit-level in-place rent roll; the loan explicitly 'takes out the current construction debt/preferred equity' -- a construction-takeout / lease-up bridge refinance of a built asset.\nLoan term given as a structured '3+1+1' (interest-only), not a plain term, so termMonths left null; ioMonths also null since the loan is full-term IO with no month count given. Year 3 debt yield is stated as 'approximately 7.0%' (approximate, not exact). No rate type/index/spread, LTV, or LTC percentage disclosed. Sponsor's total cost basis is given two ways: ~$94,325,000 ($273,000/unit) excluding accrued preferred equity (used for totalProjectCost/tpcPerUnit), or ~$101,938,000 ($296,000/unit) including accrued preferred equity; $21,000,000 of sponsor equity is also noted as invested. Current construction loan (Principal Life) balance ~$48,000,000 and current preferred equity (Mount Auburn incl. accruals) ~$33,577,000 mature Dec 2027 -- these are the debt being taken out, not the new loan terms. No total NRA, stories, or year-built stated; leasing data implies lease-up began ~March 2026 with stabilization expected August 2027. No explicit OM issuance date found; brokerage is NorthMarq Capital, not JLL as in the other files in this batch.\nExtraction confidence: medium",
+  "notes": "Category evidence: Property is a newly constructed, existing multifamily asset currently in lease-up (10% occupied, 16% leased) with a unit-level in-place rent roll; the loan explicitly 'takes out the current construction debt/preferred equity' -- a construction-takeout / lease-up bridge refinance of a built asset.\nLoan term given as a structured '3+1+1' (interest-only), not a plain term, so termMonths left null; ioMonths also null since the loan is full-term IO with no month count given. Year 3 debt yield is stated as 'approximately 7.0%' (approximate, not exact). No rate type/index/spread, LTV, or LTC percentage disclosed. Sponsor's total cost basis is given two ways: ~$94,325,000 ($273,000/unit) excluding accrued preferred equity (used for totalProjectCost/tpcPerUnit), or ~$101,938,000 ($296,000/unit) including accrued preferred equity; $21,000,000 of sponsor equity is also noted as invested. Current construction loan (Principal Life) balance ~$48,000,000 and current preferred equity (Mount Auburn incl. accruals) ~$33,577,000 mature Dec 2027 -- these are the debt being taken out, not the new loan terms. No total NRA, stories, or year-built stated; leasing data implies lease-up began ~March 2026 with stabilization expected August 2027. No explicit OM issuance date found; brokerage is NorthMarq Capital, not JLL as in the other files in this batch.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Year 3",
@@ -3659,10 +3659,10 @@
  {
   "sourceKey": "3255131e70f8",
   "propertyName": "The Vic at Sunterra",
-  "address": "NWC of Bartlett and Clay Road",
+  "address": "245 Bartlett Road",
   "city": "Katy",
   "state": "TX",
-  "zip": null,
+  "zip": "77493",
   "market": "Houston, TX",
   "submarket": "Katy",
   "propertyType": "MULTIFAMILY",
@@ -3694,7 +3694,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Houston - Vic at Sunterra.pdf (OM date 2026-02)",
-  "notes": "Category evidence: 279-unit ground-up Class A development within the Sunterra master-planned community; Sources & Uses shows hard/soft/land costs and a construction interest reserve, a 26-month interest-only construction period, closing date of Jan-26, and no rent roll or in-place occupancy -- the property does not yet exist.\nCover page is dated February 2026; disclosures state underlying data is compiled/calculated as of September 30, 2025. Interest rate of 6.05% is described as 'Including MIP' (mortgage insurance premium), suggesting an FHA/HUD-insured construction loan structure with 40-year amortization, though the OM never uses the words HUD, FHA, or 221(d)(4), so rateType/indexName are left null rather than inferred. Loan term is not explicitly labeled; a 'Payoff Month: Month 60' / 'Sale Month: Month 60 (Jan-31)' figure exists but reflects the sponsor's assumed hold/exit, not a stated loan maturity, so termMonths is left null. Pro Forma Exit Cap Rate is 5.25% at the Month 60 sale (not mapped to stabilizedCapPct since it is a disposition assumption, not a stated stabilized valuation cap). This is an LLC equity offering document; no third-party mortgage broker/lender is named.\nExtraction confidence: high",
+  "notes": "Category evidence: 279-unit ground-up Class A development within the Sunterra master-planned community; Sources & Uses shows hard/soft/land costs and a construction interest reserve, a 26-month interest-only construction period, closing date of Jan-26, and no rent roll or in-place occupancy -- the property does not yet exist.\nCover page is dated February 2026; disclosures state underlying data is compiled/calculated as of September 30, 2025. Interest rate of 6.05% is described as 'Including MIP' (mortgage insurance premium), suggesting an FHA/HUD-insured construction loan structure with 40-year amortization, though the OM never uses the words HUD, FHA, or 221(d)(4), so rateType/indexName are left null rather than inferred. Loan term is not explicitly labeled; a 'Payoff Month: Month 60' / 'Sale Month: Month 60 (Jan-31)' figure exists but reflects the sponsor's assumed hold/exit, not a stated loan maturity, so termMonths is left null. Pro Forma Exit Cap Rate is 5.25% at the Month 60 sale (not mapped to stabilizedCapPct since it is a disposition assumption, not a stated stabilized valuation cap). This is an LLC equity offering document; no third-party mortgage broker/lender is named.\nAddress/zip verified against OM 9/21/26 (fields corrected: address, zip)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -3820,7 +3820,7 @@
  {
   "sourceKey": "3378306e1c51",
   "propertyName": "Citrus & Summit",
-  "address": null,
+  "address": "Citrus & Summit Ave.",
   "city": "Fontana",
   "state": "CA",
   "zip": null,
@@ -3855,7 +3855,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Citrus & Summit - JLL Financing Memorandum.pdf",
-  "notes": "Category evidence: Ground-up construction financing request for Phase I (200 units) of a to-be-built 370-unit rental townhome project; ~30-month construction timeline (6-month horizontal + 22-month vertical work), land parcel assembly and development cost budget, loan sized to 'build and stabilize' -- no rent roll, T-12, or in-place occupancy.\nLoan Term is stated as a range, '3-5 Years (Including Extensions),' so termMonths is left null per the range rule. Amortization is 'Full-Term Interest Only' but since the term itself is a range, no specific ioMonths figure is stated. Loan carries a SOFR reference (a 'SOFR Cap Cost' line item assumes a 4.00% strike rate for what appears to be 3 years per a truncated footnote) but no spread/margin or all-in rate is disclosed, so spreadBps/ratePct are null. LTV is the 'Untrended Stabilized LTV' of 59.67%; a 'Year 3 Trended Stabilized LTV' of 54.53% is also given but not used here. Debt yield figures used are the more precise underwritten-loan-terms table values (8.38% untrended stabilized / 9.17% Year 3 trended stabilized), superseding the rounded 8.4%/9.2% figures in the executive summary. No DSCR is stated anywhere in the OM. No stories/building height figure given (attached townhome product). Cover disclaimer reads '2025 Jones Lang LaSalle IP, Inc.' (year only, no month) while body text references a land close in 'March 2026' and target loan closing 'Q2 2026' -- no single explicit OM date or delivery/completion calendar date is stated, so omDate and yearBuilt are left null.\nExtraction confidence: high",
+  "notes": "Category evidence: Ground-up construction financing request for Phase I (200 units) of a to-be-built 370-unit rental townhome project; ~30-month construction timeline (6-month horizontal + 22-month vertical work), land parcel assembly and development cost budget, loan sized to 'build and stabilize' -- no rent roll, T-12, or in-place occupancy.\nLoan Term is stated as a range, '3-5 Years (Including Extensions),' so termMonths is left null per the range rule. Amortization is 'Full-Term Interest Only' but since the term itself is a range, no specific ioMonths figure is stated. Loan carries a SOFR reference (a 'SOFR Cap Cost' line item assumes a 4.00% strike rate for what appears to be 3 years per a truncated footnote) but no spread/margin or all-in rate is disclosed, so spreadBps/ratePct are null. LTV is the 'Untrended Stabilized LTV' of 59.67%; a 'Year 3 Trended Stabilized LTV' of 54.53% is also given but not used here. Debt yield figures used are the more precise underwritten-loan-terms table values (8.38% untrended stabilized / 9.17% Year 3 trended stabilized), superseding the rounded 8.4%/9.2% figures in the executive summary. No DSCR is stated anywhere in the OM. No stories/building height figure given (attached townhome product). Cover disclaimer reads '2025 Jones Lang LaSalle IP, Inc.' (year only, no month) while body text references a land close in 'March 2026' and target loan closing 'Q2 2026' -- no single explicit OM date or delivery/completion calendar date is stated, so omDate and yearBuilt are left null.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized (Untrended)",
@@ -3919,7 +3919,7 @@
  {
   "sourceKey": "34e88e529a99",
   "propertyName": "Ballston One",
-  "address": null,
+  "address": "Intersection of Fairfax Drive and North Wakefield Street",
   "city": "Arlington",
   "state": "VA",
   "zip": null,
@@ -3954,13 +3954,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: VA, Arlington - Ballston One.pdf",
-  "notes": "Category evidence: To-be-built 328-unit multifamily development on the site of an existing Class B office building slated for demolition; full site plan approval obtained, construction drawings 100% complete, planned construction start Q4 2026 and target completion Q2 2029 -- no rent roll or in-place multifamily occupancy (the existing improvement is a non-residential office building being torn down).\nThe Sponsor's overall ask is a range -- $91.5MM-$108.9MM ($279K-$332K/unit), 60%-70% of total project cost, with an initial term of '3 or 4 years plus extension options' (stated separately in the Loan Request Summary as '4+1 or 3+1+1', full-term IO) -- so termMonths/ioMonths are left null per the range rule. The detailed Sources & Uses table, however, is explicitly for a single specific 65% LTC / $100,100,000 scenario (footnote: 'Reflected sources and uses is for a 65% LTC request'), which is used here for loanAmount/loanPerUnit/loanPerSf/ltcPct/totalProjectCost/tpcPerUnit since those are concrete stated figures rather than a range. Untrended Debt Yield (8.8%-10.5%), Stabilized Debt Yield (10.4%-12.4%), and Stabilized LTV (40.2%-47.9%) are all given only as ranges tied to the broader loan-sizing range (not a single value matching the $100.1M S&U scenario), so metricYears is empty and ltvPct is null rather than guessed. Rate is floating: capitalized interest is calculated 'assuming a 2.75% spread over the SOFR forward curve' (indexName=SOFR, spreadBps=275); no all-in rate is stated. Stabilized Cap Rate is 5.00% on a Stabilized Market Value of $227,440,000. Building size is stated as 'approximately 310,000 SF' in the narrative, though the Sources & Uses table's implied PSF basis (Total Sources $154,000,000 / $608 PSF \u2248 253,289 SF) does not match -- not reconciled. No exact street address given (site is described as at the intersection of Fairfax Drive and North Wakefield Street in the Ballston neighborhood). No DSCR stated anywhere. Cover reads '\u00a92026. Jones Lang LaSalle IP, Inc.' (year only, no month).\nExtraction confidence: medium",
+  "notes": "Category evidence: To-be-built 328-unit multifamily development on the site of an existing Class B office building slated for demolition; full site plan approval obtained, construction drawings 100% complete, planned construction start Q4 2026 and target completion Q2 2029 -- no rent roll or in-place multifamily occupancy (the existing improvement is a non-residential office building being torn down).\nThe Sponsor's overall ask is a range -- $91.5MM-$108.9MM ($279K-$332K/unit), 60%-70% of total project cost, with an initial term of '3 or 4 years plus extension options' (stated separately in the Loan Request Summary as '4+1 or 3+1+1', full-term IO) -- so termMonths/ioMonths are left null per the range rule. The detailed Sources & Uses table, however, is explicitly for a single specific 65% LTC / $100,100,000 scenario (footnote: 'Reflected sources and uses is for a 65% LTC request'), which is used here for loanAmount/loanPerUnit/loanPerSf/ltcPct/totalProjectCost/tpcPerUnit since those are concrete stated figures rather than a range. Untrended Debt Yield (8.8%-10.5%), Stabilized Debt Yield (10.4%-12.4%), and Stabilized LTV (40.2%-47.9%) are all given only as ranges tied to the broader loan-sizing range (not a single value matching the $100.1M S&U scenario), so metricYears is empty and ltvPct is null rather than guessed. Rate is floating: capitalized interest is calculated 'assuming a 2.75% spread over the SOFR forward curve' (indexName=SOFR, spreadBps=275); no all-in rate is stated. Stabilized Cap Rate is 5.00% on a Stabilized Market Value of $227,440,000. Building size is stated as 'approximately 310,000 SF' in the narrative, though the Sources & Uses table's implied PSF basis (Total Sources $154,000,000 / $608 PSF \u2248 253,289 SF) does not match -- not reconciled. No exact street address given (site is described as at the intersection of Fairfax Drive and North Wakefield Street in the Ballston neighborhood). No DSCR stated anywhere. Cover reads '\u00a92026. Jones Lang LaSalle IP, Inc.' (year only, no month).\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
   "sourceKey": "3521570f9e17",
   "propertyName": "Waterdam Galley Apartments",
-  "address": "259 Galley Road, McMurray, PA 15317",
+  "address": "259 Galley Road",
   "city": "McMurray",
   "state": "PA",
   "zip": "15317",
@@ -3995,7 +3995,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: PA, Pittsburgh - Waterdam Gallery.pdf (OM date 2023-05)",
-  "notes": "Category evidence: Proposed 180-unit development on a site the Sponsor is under contract to purchase; fully entitled but not yet built, with construction scheduled to begin Oct/Nov 2023 and delivery Feb-May 2025. Financials are pro forma cash flow projections (no rent roll/T-12/in-place occupancy).\nInterest Rate on the construction loan itself is listed as 'Best Available' (not a number); the 5.50% shown is only an assumption used for permanent-debt sizing purposes. Loan Request table states $168,000/unit while the Sources & Uses table computes $168,333/unit for the same $30,300,000 loan - used the directly-labeled figure. Loan term is '3 Years (Initial Period) + 2 Years (Permanent Period)'; termMonths captures only the 36-month initial construction period. LTV shown as 56% (untrended) / 52% (stabilized) at midpoint valuation; used stabilized. A single 5.75% midpoint cap rate is applied to both untrended and stabilized NOI to derive value. DSCR also reported on an amortizing basis: 1.52x (untrended) / 1.62x (stabilized), in addition to the I/O DSCR figures captured above.\nExtraction confidence: high",
+  "notes": "Category evidence: Proposed 180-unit development on a site the Sponsor is under contract to purchase; fully entitled but not yet built, with construction scheduled to begin Oct/Nov 2023 and delivery Feb-May 2025. Financials are pro forma cash flow projections (no rent roll/T-12/in-place occupancy).\nInterest Rate on the construction loan itself is listed as 'Best Available' (not a number); the 5.50% shown is only an assumption used for permanent-debt sizing purposes. Loan Request table states $168,000/unit while the Sources & Uses table computes $168,333/unit for the same $30,300,000 loan - used the directly-labeled figure. Loan term is '3 Years (Initial Period) + 2 Years (Permanent Period)'; termMonths captures only the 36-month initial construction period. LTV shown as 56% (untrended) / 52% (stabilized) at midpoint valuation; used stabilized. A single 5.75% midpoint cap rate is applied to both untrended and stabilized NOI to derive value. DSCR also reported on an amortizing basis: 1.52x (untrended) / 1.62x (stabilized), in addition to the I/O DSCR figures captured above.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 3 (Untrended)",
@@ -4012,7 +4012,7 @@
  {
   "sourceKey": "356ebda73619",
   "propertyName": "Verge at Frisco",
-  "address": "Intersection of Legacy Dr and Stonebrook Pkwy, Frisco, TX 75034",
+  "address": "Intersection of Legacy Dr and Stonebrook Pkwy",
   "city": "Frisco",
   "state": "TX",
   "zip": "75034",
@@ -4047,7 +4047,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Frisco - Verge at Frisco.pdf",
-  "notes": "Category evidence: Described as a 'to-be-built' 152-unit age-restricted project with an estimated construction start of Q3 2026, first unit delivery Q4 2027, and completion Q1 2028; underwriting is a pro forma/untrended proforma with a development cost budget (land/hard/soft/financing costs), not a rent roll or T-12.\nConstruction loan rate itself is not given as a fixed number; a footnote states the interest reserve is computed off the 'SOFR forward curve + 4%', which is captured as index/spread. The 5.25% rate shown under 'Permanent Loan Takeout Analysis' is explicitly labeled 'Estimate used for lender's sizing purposes only,' not the construction loan's actual rate; it was used here only as the stabilized cap rate/valuation input, not as ratePct. Stabilized DSCR also given on a P&I basis (1.39x) in addition to the I/O figure (1.75x) captured above. Total Project Cost shown as $41,968,000 in the exec summary/S&U tables and $41,968,013 in the detailed development budget (rounding). No explicit OM date found; sponsor's senior-living consultant engagements are dated through May 6, 2025, and construction start is projected for Q3 2026, suggesting the OM is from 2025.\nExtraction confidence: high",
+  "notes": "Category evidence: Described as a 'to-be-built' 152-unit age-restricted project with an estimated construction start of Q3 2026, first unit delivery Q4 2027, and completion Q1 2028; underwriting is a pro forma/untrended proforma with a development cost budget (land/hard/soft/financing costs), not a rent roll or T-12.\nConstruction loan rate itself is not given as a fixed number; a footnote states the interest reserve is computed off the 'SOFR forward curve + 4%', which is captured as index/spread. The 5.25% rate shown under 'Permanent Loan Takeout Analysis' is explicitly labeled 'Estimate used for lender's sizing purposes only,' not the construction loan's actual rate; it was used here only as the stabilized cap rate/valuation input, not as ratePct. Stabilized DSCR also given on a P&I basis (1.39x) in addition to the I/O figure (1.75x) captured above. Total Project Cost shown as $41,968,000 in the exec summary/S&U tables and $41,968,013 in the detailed development budget (rounding). No explicit OM date found; sponsor's senior-living consultant engagements are dated through May 6, 2025, and construction start is projected for Q3 2026, suggesting the OM is from 2025.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -4059,7 +4059,7 @@
  {
   "sourceKey": "36d52b38969f",
   "propertyName": "Caroline Ralston Creek",
-  "address": "9895 W 58th Avenue, Arvada, CO 80002",
+  "address": "9895 W 58th Avenue",
   "city": "Arvada",
   "state": "CO",
   "zip": "80002",
@@ -4094,7 +4094,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CO, Arvada - Caroline Ralston Creek.pdf (OM date 2026-03)",
-  "notes": "Category evidence: 328-unit property delivered/completed in 2024, currently occupied (94.5%) with in-place rent roll and NOI; the request is to refinance an existing construction loan (existing UPB payoff of $81.6MM) that matures at year-end, using in-place and Year 1/Year 3 DSCR and debt yield metrics rather than a development budget.\nLoan Term stated as '2 to 3 Years with Extension Options' (not a single number) and Interest Only Term as 'Full Term IO'; Interest Rate itself listed only as 'Best Available' with Interest Rate Type = Floating (no index/spread stated). Occupancy is given inconsistently across sections: 94.51% in the Financial Overview property summary (used here), vs. 95% rounded in the exec-summary stat callout and 95.7%/96% 'leased' figures elsewhere in the narrative/timeline (leased may include signed-not-yet-moved-in units). Cap rate of 4.70% is applied to Year 1 As-Stabilized NOI to derive the $112.5MM estimated value; captured as stabilizedCapPct. No explicit OM date stated; a demographics source is cited as 'ESRI as of February 2026' and the leasing-velocity chart runs through Mar '26, suggesting the OM is from early-to-mid 2026 (approximate).\nExtraction confidence: high",
+  "notes": "Category evidence: 328-unit property delivered/completed in 2024, currently occupied (94.5%) with in-place rent roll and NOI; the request is to refinance an existing construction loan (existing UPB payoff of $81.6MM) that matures at year-end, using in-place and Year 1/Year 3 DSCR and debt yield metrics rather than a development budget.\nLoan Term stated as '2 to 3 Years with Extension Options' (not a single number) and Interest Only Term as 'Full Term IO'; Interest Rate itself listed only as 'Best Available' with Interest Rate Type = Floating (no index/spread stated). Occupancy is given inconsistently across sections: 94.51% in the Financial Overview property summary (used here), vs. 95% rounded in the exec-summary stat callout and 95.7%/96% 'leased' figures elsewhere in the narrative/timeline (leased may include signed-not-yet-moved-in units). Cap rate of 4.70% is applied to Year 1 As-Stabilized NOI to derive the $112.5MM estimated value; captured as stabilizedCapPct. No explicit OM date stated; a demographics source is cited as 'ESRI as of February 2026' and the leasing-velocity chart runs through Mar '26, suggesting the OM is from early-to-mid 2026 (approximate).\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "In-Place",
@@ -4168,7 +4168,7 @@
  {
   "sourceKey": "38ea45ad8fba",
   "propertyName": "The Clareo at Avondale",
-  "address": "12375 West Van Buren Street, Avondale, Arizona 85323",
+  "address": "12375 West Van Buren Street",
   "city": "Avondale",
   "state": "AZ",
   "zip": "85323",
@@ -4203,7 +4203,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: AZ - The Clareo at Avondale.pdf (OM date 2023-05)",
-  "notes": "Category evidence: Ground-up development currently in for permits with construction start expected July 2023 and overall completion by May 2025; no rent roll/T-12, only a line-item construction budget and sponsor pro forma; stabilization (95% occupancy) is a future projection, not achieved yet.\nSenior loan structure also includes $12,283,000 (15%) preferred equity and $20,472,000 (25%) common equity alongside the 60% senior loan; only the senior loan is captured as loanAmount/ltcPct. 'Interest Only (years): 3' is captured as ioMonths=36; no separate total loan term is stated. No LTV given anywhere, only 60% LTC. Cap Rate at Re-Finance is given as a range (5.00%-5.25%), so left null per the range rule. A separate Amort. DSCR at Re-Finance of 1.54x is explicitly caveated as 'cash-neutral at 5.50% rate and 30yr amort.' - an assumption for a future permanent refinance, not the construction loan itself. Building Size (SF) of 296,888 likely includes clubhouse/common area, not just residential NRA. Submarket beyond the city of Avondale is not named. omDate is an estimate based on the pro forma model start date (5/1/2023) and 2023 copyright; not an explicit 'as of' date.\nExtraction confidence: high",
+  "notes": "Category evidence: Ground-up development currently in for permits with construction start expected July 2023 and overall completion by May 2025; no rent roll/T-12, only a line-item construction budget and sponsor pro forma; stabilization (95% occupancy) is a future projection, not achieved yet.\nSenior loan structure also includes $12,283,000 (15%) preferred equity and $20,472,000 (25%) common equity alongside the 60% senior loan; only the senior loan is captured as loanAmount/ltcPct. 'Interest Only (years): 3' is captured as ioMonths=36; no separate total loan term is stated. No LTV given anywhere, only 60% LTC. Cap Rate at Re-Finance is given as a range (5.00%-5.25%), so left null per the range rule. A separate Amort. DSCR at Re-Finance of 1.54x is explicitly caveated as 'cash-neutral at 5.50% rate and 30yr amort.' - an assumption for a future permanent refinance, not the construction loan itself. Building Size (SF) of 296,888 likely includes clubhouse/common area, not just residential NRA. Submarket beyond the city of Avondale is not named. omDate is an estimate based on the pro forma model start date (5/1/2023) and 2023 copyright; not an explicit 'as of' date.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Untrended",
@@ -4344,7 +4344,7 @@
  {
   "sourceKey": "3ad9a59a8a78",
   "propertyName": "2400 E. Atlantic Boulevard",
-  "address": "2400 E. Atlantic Blvd, Pompano Beach, FL 33062",
+  "address": "2400 E. Atlantic Blvd",
   "city": "Pompano Beach",
   "state": "FL",
   "zip": "33062",
@@ -4379,7 +4379,7 @@
   "outcome": "SCREENED",
   "outcomeNote": "In Process folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: 2400 E Atlantic Debt OM v1.pdf (OM date 2026-06)",
-  "notes": "Category evidence: Site is currently occupied by an existing 3-story office building (built 1960) to be demolished/redeveloped; site plan approval for the proposed 8-story, 356-unit multifamily project was only received in August 2025, vertical construction has not started (planned for Q4 2026 / fall 2026), and the Sponsor is still under contract to purchase the parcel (projected closing Sept 2026). Underwriting is a development cost budget with a projected November 2029 stabilization date, not a rent roll or T-12.\nLoan 'Structure' is explicitly listed as 'Fixed or Floating Rate' (undecided/either), so rateType is left null; no index, spread, or numeric rate is stated for the actual construction loan. A footnote on the summary page states figures assume '5.50% interest rate and a 30 year amortization schedule' but does not clearly attach this to a displayed DSCR, so it was not captured as ratePct. Term shown as '3+1+1' (3-year initial term + two 1-year extensions); termMonths/ioMonths capture only the 36-month initial full-term-IO period. Only a stabilized untrended debt yield (11.1%) is given; no DSCR anywhere, no LTV (only 60% LTC), and no explicit numeric going-in or stabilized cap rate (only a qualitative note that the 11.1% DY represents a '610 bps' spread 'to in-place cap rates,' which would imply roughly a 5.0% cap rate but that is not directly stated, so left null per the no-derivation rule). No explicit delivery/yearBuilt date is given - only site plan approval (Aug 2025), planned construction start (Q4 2026/fall 2026), and projected stabilization (Nov 2029). omDate is an estimate based on a reference to 'a June update' with the property manager and the deal's 2026 timeline; not an explicit OM date in the text.\nExtraction confidence: medium",
+  "notes": "Category evidence: Site is currently occupied by an existing 3-story office building (built 1960) to be demolished/redeveloped; site plan approval for the proposed 8-story, 356-unit multifamily project was only received in August 2025, vertical construction has not started (planned for Q4 2026 / fall 2026), and the Sponsor is still under contract to purchase the parcel (projected closing Sept 2026). Underwriting is a development cost budget with a projected November 2029 stabilization date, not a rent roll or T-12.\nLoan 'Structure' is explicitly listed as 'Fixed or Floating Rate' (undecided/either), so rateType is left null; no index, spread, or numeric rate is stated for the actual construction loan. A footnote on the summary page states figures assume '5.50% interest rate and a 30 year amortization schedule' but does not clearly attach this to a displayed DSCR, so it was not captured as ratePct. Term shown as '3+1+1' (3-year initial term + two 1-year extensions); termMonths/ioMonths capture only the 36-month initial full-term-IO period. Only a stabilized untrended debt yield (11.1%) is given; no DSCR anywhere, no LTV (only 60% LTC), and no explicit numeric going-in or stabilized cap rate (only a qualitative note that the 11.1% DY represents a '610 bps' spread 'to in-place cap rates,' which would imply roughly a 5.0% cap rate but that is not directly stated, so left null per the no-derivation rule). No explicit delivery/yearBuilt date is given - only site plan approval (Aug 2025), planned construction start (Q4 2026/fall 2026), and projected stabilization (Nov 2029). omDate is an estimate based on a reference to 'a June update' with the property manager and the deal's 2026 timeline; not an explicit OM date in the text.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Stabilized (Untrended)",
@@ -5312,22 +5312,27 @@
   "metricYears": [
    {
     "yearLabel": "Year 1",
+    "dscr": null,
     "debtYieldPct": 0.061
    },
    {
     "yearLabel": "Year 2",
+    "dscr": null,
     "debtYieldPct": 0.072
    },
    {
     "yearLabel": "Year 3",
+    "dscr": null,
     "debtYieldPct": 0.085
    },
    {
     "yearLabel": "Year 4",
+    "dscr": null,
     "debtYieldPct": 0.088
    },
    {
     "yearLabel": "Year 5",
+    "dscr": null,
     "debtYieldPct": 0.09
    }
   ]
@@ -5958,7 +5963,7 @@
  {
   "sourceKey": "4f9b09c85a38",
   "propertyName": "Atlas Mesa",
-  "address": "5818 E Baseline Rd, Mesa, AZ 85206",
+  "address": "5818 E Baseline Rd",
   "city": "Mesa",
   "state": "AZ",
   "zip": "85206",
@@ -5993,7 +5998,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: AZ, Mesa - Atlas Mesa.pdf (OM date 2026-07)",
-  "notes": "Category evidence: Property delivered in 2025 and is currently in lease-up (59% physical occupancy, 69% leased as of 7/8/2026) with rent roll and unit mix provided; loan proceeds pay off the existing construction loan, i.e. a construction takeout/lease-up refinance.\nInterest rate listed only as 'Best Available' and IO as 'Max Available' - no numeric rate/IO stated. Loan term given as a range (3-5 years), so termMonths left null per range rule. 'Cost Basis' ($137,235,450 total / $348,313 per unit) used as totalProjectCost. Implied cap rate (4.75%) taken from sales comparables table entry for the subject (Atlas Mesa) row. omDate inferred from the leasing-as-of date (7/8/2026) stated in the proforma footnote; no explicit OM date given.\nExtraction confidence: high",
+  "notes": "Category evidence: Property delivered in 2025 and is currently in lease-up (59% physical occupancy, 69% leased as of 7/8/2026) with rent roll and unit mix provided; loan proceeds pay off the existing construction loan, i.e. a construction takeout/lease-up refinance.\nInterest rate listed only as 'Best Available' and IO as 'Max Available' - no numeric rate/IO stated. Loan term given as a range (3-5 years), so termMonths left null per range rule. 'Cost Basis' ($137,235,450 total / $348,313 per unit) used as totalProjectCost. Implied cap rate (4.75%) taken from sales comparables table entry for the subject (Atlas Mesa) row. omDate inferred from the leasing-as-of date (7/8/2026) stated in the proforma footnote; no explicit OM date given.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "In-Place",
@@ -6015,7 +6020,7 @@
  {
   "sourceKey": "5065f1ab5f15",
   "propertyName": "Vermeer",
-  "address": "113 Potomac Ave SW, Washington, DC 20024",
+  "address": "113 Potomac Ave SW",
   "city": "Washington",
   "state": "DC",
   "zip": "20024",
@@ -6050,7 +6055,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: DC, Washington - Vermeer.pdf (OM date 2026-02)",
-  "notes": "Category evidence: Property delivered/opened in 2025 and is currently in lease-up (59% leased as of mid-February) with a stated unit mix and rent roll; loan proceeds pay off the existing construction loan (Sources & Uses line item 'Construction Loan Payoff' of $162,285,557), i.e. a construction takeout/lease-up refinance.\nRate Type stated as 'Fixed or Floating' (undecided), so left null. Loan term given as a range (3-5 years), so termMonths left null. No LTC or cap rate figures stated; 'Stabilized Value' $306,700,000 and 'Stabilized NOI' $15,335,239 given but no cap rate % stated verbatim so not used. Residential is 59% leased as of mid-February (year inferred ~2026 from context: Gold's Gym retail anchor opened Dec 2025, anticipated closing Q2 2026); the '55% LEASED' stat on the exec summary refers to retail space, not residential. sizeSf uses Net Residential SF (407,430); Gross Residential SF including parking garage is 676,534. Digest appears to omit the Financial Overview (p.62) and Sponsorship (p.58) sections referenced in the table of contents.\nExtraction confidence: high",
+  "notes": "Category evidence: Property delivered/opened in 2025 and is currently in lease-up (59% leased as of mid-February) with a stated unit mix and rent roll; loan proceeds pay off the existing construction loan (Sources & Uses line item 'Construction Loan Payoff' of $162,285,557), i.e. a construction takeout/lease-up refinance.\nRate Type stated as 'Fixed or Floating' (undecided), so left null. Loan term given as a range (3-5 years), so termMonths left null. No LTC or cap rate figures stated; 'Stabilized Value' $306,700,000 and 'Stabilized NOI' $15,335,239 given but no cap rate % stated verbatim so not used. Residential is 59% leased as of mid-February (year inferred ~2026 from context: Gold's Gym retail anchor opened Dec 2025, anticipated closing Q2 2026); the '55% LEASED' stat on the exec summary refers to retail space, not residential. sizeSf uses Net Residential SF (407,430); Gross Residential SF including parking garage is 676,534. Digest appears to omit the Financial Overview (p.62) and Sponsorship (p.58) sections referenced in the table of contents.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -6062,7 +6067,7 @@
  {
   "sourceKey": "50a417651329",
   "propertyName": "Bishop Momo",
-  "address": "4341 S Congress Ave, Austin, TX 78745",
+  "address": "4341 S Congress Ave",
   "city": "Austin",
   "state": "TX",
   "zip": "78745",
@@ -6097,7 +6102,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Austin - Bishop Momo.pdf (OM date 2025-11)",
-  "notes": "Category evidence: Delivered in 2024 and actively leasing with a current occupancy of 88.7% per rent roll dated 11/21/25; Sponsor is refinancing/repaying the existing construction loan ($56,000,000 in Uses table) - a construction takeout/lease-up refinance.\nSources & Uses table states an explicit Loan Amount of $53,000,000 ($193,431/unit); the separate 'Loan Request Summary' quotes a requested range of $50,000,000-$56,000,000 and LTC range of 63%-71% (left as null per range rule). Stabilized LTV of 65% is given explicitly in the 'Attractive Financing Metrics' box and used for ltvPct. No DSCR or cap rate figures appear anywhere in the digest; only debt yield metrics are provided for Years 1-5 plus a separately quoted 'stabilized' debt yield of 7.5% (based on Year 3 NOI, rounded from the 7.44% Year 3 figure). Rate quoted only as 'Best Available' with no type/index/spread stated. Occupancy 88.7% is the current/in-place figure per rent roll dated 11/21/25 (exec summary rounds this to 89%).\nExtraction confidence: high",
+  "notes": "Category evidence: Delivered in 2024 and actively leasing with a current occupancy of 88.7% per rent roll dated 11/21/25; Sponsor is refinancing/repaying the existing construction loan ($56,000,000 in Uses table) - a construction takeout/lease-up refinance.\nSources & Uses table states an explicit Loan Amount of $53,000,000 ($193,431/unit); the separate 'Loan Request Summary' quotes a requested range of $50,000,000-$56,000,000 and LTC range of 63%-71% (left as null per range rule). Stabilized LTV of 65% is given explicitly in the 'Attractive Financing Metrics' box and used for ltvPct. No DSCR or cap rate figures appear anywhere in the digest; only debt yield metrics are provided for Years 1-5 plus a separately quoted 'stabilized' debt yield of 7.5% (based on Year 3 NOI, rounded from the 7.44% Year 3 figure). Rate quoted only as 'Best Available' with no type/index/spread stated. Occupancy 88.7% is the current/in-place figure per rent roll dated 11/21/25 (exec summary rounds this to 89%).\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -6134,7 +6139,7 @@
  {
   "sourceKey": "51b30dce61fd",
   "propertyName": "North Park Living (Phase I)",
-  "address": "4145 Scott Robinson Boulevard, North Las Vegas, NV 89032",
+  "address": "4145 Scott Robinson Boulevard",
   "city": "North Las Vegas",
   "state": "NV",
   "zip": "89032",
@@ -6169,7 +6174,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: NV, Las Vegas - North Park Living.pdf",
-  "notes": "Category evidence: Recently completed development; Certificates of Occupancy for all units expected by April 2024; currently 13% leased (23 of 172 units) with an actual rent roll and proforma; loan proceeds are used 'to take out the existing construction loan in place.'\nLoan term shown as '3+1+1' (3-year initial term plus two 1-year extension options); termMonths set to the 36-month initial term only. Amortization is stated as 'Interest Only' with no specific IO period in months given, so ioMonths left null. Interest Rate 8.57% = Index Rate 5.32% + Spread 325 bps, but the index is not named (not stated as SOFR or otherwise), so indexName left null. A second Sources & Uses table (page 13, unit-mix page) shows slightly different debt/equity split ($38,060,000 debt / $18,168,910 equity, 68%/32%) versus the primary Loan Request table ($37,670,000 debt / $18,558,910 equity, 67%/33%); both share the same $56,228,910 total. Used the primary Loan Request figures ($37,670,000 / $219,012 per unit) as the headline loan amount. No DSCR figure appears anywhere in the digest. No explicit OM date stated; only year 2024 is evident from the C of O timeline and a CBRE copyright notice.\nExtraction confidence: medium",
+  "notes": "Category evidence: Recently completed development; Certificates of Occupancy for all units expected by April 2024; currently 13% leased (23 of 172 units) with an actual rent roll and proforma; loan proceeds are used 'to take out the existing construction loan in place.'\nLoan term shown as '3+1+1' (3-year initial term plus two 1-year extension options); termMonths set to the 36-month initial term only. Amortization is stated as 'Interest Only' with no specific IO period in months given, so ioMonths left null. Interest Rate 8.57% = Index Rate 5.32% + Spread 325 bps, but the index is not named (not stated as SOFR or otherwise), so indexName left null. A second Sources & Uses table (page 13, unit-mix page) shows slightly different debt/equity split ($38,060,000 debt / $18,168,910 equity, 68%/32%) versus the primary Loan Request table ($37,670,000 debt / $18,558,910 equity, 67%/33%); both share the same $56,228,910 total. Used the primary Loan Request figures ($37,670,000 / $219,012 per unit) as the headline loan amount. No DSCR figure appears anywhere in the digest. No explicit OM date stated; only year 2024 is evident from the C of O timeline and a CBRE copyright notice.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -6181,7 +6186,7 @@
  {
   "sourceKey": "524cee768788",
   "propertyName": "Prosper 89",
-  "address": "10750 El Camino Road, Las Vegas, NV 89141",
+  "address": "10750 El Camino Road",
   "city": "Las Vegas",
   "state": "NV",
   "zip": "89141",
@@ -6216,7 +6221,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: NV, Las Vegas - Prosper 89.pdf",
-  "notes": "Category evidence: Built in 2023; Certificates of Occupancy for all units received as of November 2023; currently 15 of 89 units leased (16.9%) with actual rent roll and proforma; loan proceeds pay off the existing construction loan balance from Sundance Bay (~$19,500,000) - a construction takeout/bridge refinance.\nBuilding stories are mixed (1-story clubhouse plus six 2-3 story residential buildings), so a single 'stories' value was not recorded. Rate/term fields (Index 5.32%, Spread 350bps, Rate 8.82%, term '3+1+1', Interest-Only) are taken from the CBRE Loan Analysis 'Year 1' column, i.e. the initial bridge-loan pricing; a separate 'As Stabilized' column shows different eventual take-out assumptions (Index 4.45%, Spread 146bps, Rate 5.91%, 30-yr amortization, 7-yr term) not used here. DSCR (1.02x) and Debt Yield (7.25%) are the stabilized figures per the OM (no Year 1 DSCR/Debt Yield given). No Sources & Uses / total project cost table appears in this digest, so totalProjectCost is null. No explicit OM date; only year 2023 is evident from the CBRE copyright notice and the November 2023 C of O timeline.\nExtraction confidence: high",
+  "notes": "Category evidence: Built in 2023; Certificates of Occupancy for all units received as of November 2023; currently 15 of 89 units leased (16.9%) with actual rent roll and proforma; loan proceeds pay off the existing construction loan balance from Sundance Bay (~$19,500,000) - a construction takeout/bridge refinance.\nBuilding stories are mixed (1-story clubhouse plus six 2-3 story residential buildings), so a single 'stories' value was not recorded. Rate/term fields (Index 5.32%, Spread 350bps, Rate 8.82%, term '3+1+1', Interest-Only) are taken from the CBRE Loan Analysis 'Year 1' column, i.e. the initial bridge-loan pricing; a separate 'As Stabilized' column shows different eventual take-out assumptions (Index 4.45%, Spread 146bps, Rate 5.91%, 30-yr amortization, 7-yr term) not used here. DSCR (1.02x) and Debt Yield (7.25%) are the stabilized figures per the OM (no Year 1 DSCR/Debt Yield given). No Sources & Uses / total project cost table appears in this digest, so totalProjectCost is null. No explicit OM date; only year 2023 is evident from the CBRE copyright notice and the November 2023 C of O timeline.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -8850,7 +8855,7 @@
  {
   "sourceKey": "7d09d8df9528",
   "propertyName": "Residences at The Finery",
-  "address": "622 Merritt Ave, Nashville, TN 37203",
+  "address": "622 Merritt Ave",
   "city": "Nashville",
   "state": "TN",
   "zip": "37203",
@@ -8885,13 +8890,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TN, Nashville - Residences at the Finery.pdf",
-  "notes": "Category evidence: Property delivered April 2024, currently in lease-up at 69.2% occupied / 75.5% leased with an in-place rent roll; Sponsor seeks a bridge loan to pay off existing construction debt, not a construction/development loan.\nBridge loan term stated as a 3-5 year range (not a single value, so termMonths left null). Initial advance $113,509,000 plus future funding of $4,846,000 for commercial TI/LC (sums to total loan, but loanAmount is the stated total, not computed). No DSCR/debt yield or rate terms stated in digest. Occupancy 69.2% / leased 75.5% as of April 7, 2025.\nExtraction confidence: high",
+  "notes": "Category evidence: Property delivered April 2024, currently in lease-up at 69.2% occupied / 75.5% leased with an in-place rent roll; Sponsor seeks a bridge loan to pay off existing construction debt, not a construction/development loan.\nBridge loan term stated as a 3-5 year range (not a single value, so termMonths left null). Initial advance $113,509,000 plus future funding of $4,846,000 for commercial TI/LC (sums to total loan, but loanAmount is the stated total, not computed). No DSCR/debt yield or rate terms stated in digest. Occupancy 69.2% / leased 75.5% as of April 7, 2025.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
   "metricYears": []
  },
  {
   "sourceKey": "7d37cb6eb499",
   "propertyName": "Railyard Modern Living",
-  "address": "650 E Sycamore St, Denton, TX 76201",
+  "address": "650 E Sycamore St",
   "city": "Denton",
   "state": "TX",
   "zip": "76201",
@@ -8926,7 +8931,7 @@
   "outcome": "SCREENED",
   "outcomeNote": "In Process folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: JLL Financing Memorandum - Railyard Modern Living.pdf",
-  "notes": "Category evidence: Property was developed and delivered in mid-2025 (July 2025), is currently in lease-up at 48.5% occupied with in-place rents, and the Sponsor seeks senior bridge financing to refinance the existing construction loan through stabilization.\n5-year loan term is inclusive of extension options; amortization is full-term interest only, so ioMonths set equal to termMonths. Stabilized cap rate (5.00%) taken from the sale-comps table's 'Railyard Modern Living - Year 3 Stabilized Value' line. No index/spread/coupon disclosed despite floating-rate designation. Occupancy and Zillow data referenced 'as of' July 2026, suggesting OM is from mid-2026, but no explicit OM date is stated.\nExtraction confidence: high",
+  "notes": "Category evidence: Property was developed and delivered in mid-2025 (July 2025), is currently in lease-up at 48.5% occupied with in-place rents, and the Sponsor seeks senior bridge financing to refinance the existing construction loan through stabilization.\n5-year loan term is inclusive of extension options; amortization is full-term interest only, so ioMonths set equal to termMonths. Stabilized cap rate (5.00%) taken from the sale-comps table's 'Railyard Modern Living - Year 3 Stabilized Value' line. No index/spread/coupon disclosed despite floating-rate designation. Occupancy and Zillow data referenced 'as of' July 2026, suggesting OM is from mid-2026, but no explicit OM date is stated.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 3",
@@ -8985,7 +8990,7 @@
  {
   "sourceKey": "7ec8629c2a93",
   "propertyName": "Tacara at O'Connor",
-  "address": "6215 Britney Circle, San Antonio, TX",
+  "address": "6215 Britney Circle",
   "city": "San Antonio",
   "state": "TX",
   "zip": null,
@@ -9020,13 +9025,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, San Antonio - Tacara at O'Connor.pdf",
-  "notes": "Category evidence: Northmarq is seeking preferred equity for the ground-up development of Tacara at O'Connor; Construction Start Date Jul-25, Construction End Date Apr-27, Date of Opening Nov-26. The package is a full development cost budget (hard/soft costs, land, developer fee) with pro forma projections and yield-on-cost metrics, not a rent roll or in-place T-12 \u2014 the property is unbuilt.\nPrimary financing ask is preferred equity ($8.9M); underlying construction loan terms (rate, index, DSCR, debt yield) are not disclosed in the digest \u2014 only Loan Request $38,547,234, Loan/Unit $142,768, and Loan-to-Cost 65%. Hold Period of 42 months is an investment/equity hold period, not a stated loan term, so termMonths left null. No zip code or OM date stated.\nExtraction confidence: medium",
+  "notes": "Category evidence: Northmarq is seeking preferred equity for the ground-up development of Tacara at O'Connor; Construction Start Date Jul-25, Construction End Date Apr-27, Date of Opening Nov-26. The package is a full development cost budget (hard/soft costs, land, developer fee) with pro forma projections and yield-on-cost metrics, not a rent roll or in-place T-12 \u2014 the property is unbuilt.\nPrimary financing ask is preferred equity ($8.9M); underlying construction loan terms (rate, index, DSCR, debt yield) are not disclosed in the digest \u2014 only Loan Request $38,547,234, Loan/Unit $142,768, and Loan-to-Cost 65%. Hold Period of 42 months is an investment/equity hold period, not a stated loan term, so termMonths left null. No zip code or OM date stated.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
   "sourceKey": "7fd7b88b7856",
   "propertyName": "Oakville Triangle - Raeburn & Ives",
-  "address": "450 & 451 Swann Avenue, Alexandria, VA 22301",
+  "address": "450 & 451 Swann Avenue",
   "city": "Alexandria",
   "state": "VA",
   "zip": "22301",
@@ -9061,7 +9066,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: VA, Alexandria - Oakville Triangle.pdf",
-  "notes": "Category evidence: Property delivered in late 2024 and is operating with an in-place rent roll \u2014 residential units currently 92% occupied / 95% leased and retail 44% occupied / 66% leased. Financing purpose is to retire the existing construction loan and repatriate equity, not to fund new construction.\nRequested loan Type is explicitly 'Fixed or Floating' (lender's choice) with Rate listed only as 'Best Available Rate,' so rateType/ratePct left null. Term is structured '3+1+1' (3-yr initial + two 1-yr extensions); termMonths/ioMonths set to the 36-month initial term (Full Term I/O) \u2014 extensions could extend actual IO/term further. Loan-to-Cost also reported at 83.7% for Year 3 (vs. 82.8% in-place used here); Loan-to-Replacement-Cost of 68.5% (in-place)/69.2% (Year 3) also disclosed but not a defined field. Total Actual Cost of $239.0MM is based on 2021 construction pricing per OM footnote. No explicit OM date found; document copyright is 2026.\nExtraction confidence: high",
+  "notes": "Category evidence: Property delivered in late 2024 and is operating with an in-place rent roll \u2014 residential units currently 92% occupied / 95% leased and retail 44% occupied / 66% leased. Financing purpose is to retire the existing construction loan and repatriate equity, not to fund new construction.\nRequested loan Type is explicitly 'Fixed or Floating' (lender's choice) with Rate listed only as 'Best Available Rate,' so rateType/ratePct left null. Term is structured '3+1+1' (3-yr initial + two 1-yr extensions); termMonths/ioMonths set to the 36-month initial term (Full Term I/O) \u2014 extensions could extend actual IO/term further. Loan-to-Cost also reported at 83.7% for Year 3 (vs. 82.8% in-place used here); Loan-to-Replacement-Cost of 68.5% (in-place)/69.2% (Year 3) also disclosed but not a defined field. Total Actual Cost of $239.0MM is based on 2021 construction pricing per OM footnote. No explicit OM date found; document copyright is 2026.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "In-Place",
@@ -9078,7 +9083,7 @@
  {
   "sourceKey": "80369053b030",
   "propertyName": "The Beacon at Navy Yard",
-  "address": "3600 Rivers Avenue, North Charleston, SC 29405",
+  "address": "3600 Rivers Avenue",
   "city": "North Charleston",
   "state": "SC",
   "zip": "29405",
@@ -9113,7 +9118,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: SC, Charleston - The Beacon at Navy Yards.pdf (OM date 2024-01)",
-  "notes": "Category evidence: Property is explicitly described as 'a to-be-constructed' 292-unit community; OM shows Construction Start Q1 2024, First Move-Ins Q1 2026, and Projected Stabilization Q2 2027, with a full development Sources & Uses budget (acquisition/pre-dev, hard costs, soft costs) rather than a rent roll or in-place T-12.\nLoan amount and LTC are stated as ranges ($85MM-$90MM; 60-65% LTC) per iron rules, so left null; the Sources & Uses table separately models a $90,000,000 loan ($308,219/unit) against $144,000,000 Total Uses/Sources ($493,151/unit) with $54MM equity (incl. $20MM Jamestown equity, $34MM tax credits). Debt Yield is disclosed as two parallel series depending on loan size: values above use the '$90MM' row; the '$85MM' row shows Stabilized Untrended 6.9%/Trended 8.3%, Year1 2.1%, Year2 2.8%, Year3 8.1%, Year4 8.6%, Year5 8.9%. No DSCR figures given. Term Sheets were due Feb 1, 2024, used to approximate omDate; not an explicit OM date. Property/submarket branded 'Charleston' in title though street address is North Charleston, SC.\nExtraction confidence: medium",
+  "notes": "Category evidence: Property is explicitly described as 'a to-be-constructed' 292-unit community; OM shows Construction Start Q1 2024, First Move-Ins Q1 2026, and Projected Stabilization Q2 2027, with a full development Sources & Uses budget (acquisition/pre-dev, hard costs, soft costs) rather than a rent roll or in-place T-12.\nLoan amount and LTC are stated as ranges ($85MM-$90MM; 60-65% LTC) per iron rules, so left null; the Sources & Uses table separately models a $90,000,000 loan ($308,219/unit) against $144,000,000 Total Uses/Sources ($493,151/unit) with $54MM equity (incl. $20MM Jamestown equity, $34MM tax credits). Debt Yield is disclosed as two parallel series depending on loan size: values above use the '$90MM' row; the '$85MM' row shows Stabilized Untrended 6.9%/Trended 8.3%, Year1 2.1%, Year2 2.8%, Year3 8.1%, Year4 8.6%, Year5 8.9%. No DSCR figures given. Term Sheets were due Feb 1, 2024, used to approximate omDate; not an explicit OM date. Property/submarket branded 'Charleston' in title though street address is North Charleston, SC.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Stabilized (Untrended)",
@@ -9207,7 +9212,7 @@
  {
   "sourceKey": "80e23238fce9",
   "propertyName": "Van Buren Residences",
-  "address": "5309 East Van Buren St, Phoenix, AZ 85008",
+  "address": "5309 East Van Buren St",
   "city": "Phoenix",
   "state": "AZ",
   "zip": "85008",
@@ -9242,7 +9247,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: JLL OM_Van Buren Residences.pdf",
-  "notes": "Category evidence: Described as a 'shovel-ready' development; site is an active assemblage of an operating Motel 6 (vacating Feb 2025), a vacant used car lot, and a vacant undeveloped lot, fully entitled/permit-ready with construction start scheduled May 2025, first delivery Feb 2027, and stabilization Jan 2028. Underwriting is presented via Total Project Costs and Return-on-Cost, not a rent roll or in-place T-12.\nPrimary ask is JV/preferred equity ($31.5MM, a 90% JV scenario) with a construction loan sized at 55% LTC ($42,721,177, $189,032/unit); OM footnote states estimated leverage 'between 50-60% LTC considered,' so the 55% figure is the underwriting case, not necessarily final. No loan rate/index/spread, DSCR, debt yield, or cap rate figures are disclosed in the digest \u2014 only Untrended Return on Cost (6.53%), Trended Return on Cost (7.09%), and Levered Equity Multiple (1.80x)/LIRR (24.41%), which are not the defined JSON fields. No specific submarket name given (site described only as at the Scottsdale/Phoenix/Tempe intersection). Document copyright is 2025; no explicit OM date found.\nExtraction confidence: medium",
+  "notes": "Category evidence: Described as a 'shovel-ready' development; site is an active assemblage of an operating Motel 6 (vacating Feb 2025), a vacant used car lot, and a vacant undeveloped lot, fully entitled/permit-ready with construction start scheduled May 2025, first delivery Feb 2027, and stabilization Jan 2028. Underwriting is presented via Total Project Costs and Return-on-Cost, not a rent roll or in-place T-12.\nPrimary ask is JV/preferred equity ($31.5MM, a 90% JV scenario) with a construction loan sized at 55% LTC ($42,721,177, $189,032/unit); OM footnote states estimated leverage 'between 50-60% LTC considered,' so the 55% figure is the underwriting case, not necessarily final. No loan rate/index/spread, DSCR, debt yield, or cap rate figures are disclosed in the digest \u2014 only Untrended Return on Cost (6.53%), Trended Return on Cost (7.09%), and Levered Equity Multiple (1.80x)/LIRR (24.41%), which are not the defined JSON fields. No specific submarket name given (site described only as at the Scottsdale/Phoenix/Tempe intersection). Document copyright is 2025; no explicit OM date found.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
@@ -9487,10 +9492,10 @@
  {
   "sourceKey": "853ff0a5f58f",
   "propertyName": "La Sierra",
-  "address": "5069 La Sierra Ave, Riverside, CA",
+  "address": "5069 La Sierra Ave",
   "city": "Riverside",
   "state": "CA",
-  "zip": null,
+  "zip": "92505",
   "market": "Riverside, CA",
   "submarket": null,
   "propertyType": "MULTIFAMILY",
@@ -9522,7 +9527,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CA, Riverside - La Sierra.pdf",
-  "notes": "Category evidence: Ground-up construction financing for a not-yet-built 232-unit rental townhome community; land acquisition is still pending (anticipated close September 2025), vertical construction is scheduled to start May 2026, and first units are not delivered until January 2027. There is no rent roll or in-place occupancy -- financials are a 10-year construction/lease-up pro forma built on a project cost budget.\nLoan Term stated as a range ('3-5 Years, Including Extensions') so termMonths is null; Amortization is 'Full-Term Interest Only' but exact months not stated given the term range. Index/spread (30-Day Term SOFR + 3.50%, with a 3.00% floor / 4.50% cap) is disclosed only in the context of sizing the Interest Reserve, not explicitly as the loan's own coupon -- captured here as the best available rate indicator; ratePct left null since no all-in rate is stated. ltvPct uses the headline 'Untrended Stabilized LTV' of 47.99% (Year 3 Trended Stabilized LTV was 44.44%). Full 10-year pro forma shows Debt Yield growing from 3.21% (Year 2, still in lease-up) to 13.95% (Year 10); Year 1 has no stated debt yield (construction period). No DSCR figure is reported anywhere in the OM. Total project cost shown as both $118,405,000 (Sources & Uses) and $118,405,292 (Project Budget subtotal).\nExtraction confidence: high",
+  "notes": "Category evidence: Ground-up construction financing for a not-yet-built 232-unit rental townhome community; land acquisition is still pending (anticipated close September 2025), vertical construction is scheduled to start May 2026, and first units are not delivered until January 2027. There is no rent roll or in-place occupancy -- financials are a 10-year construction/lease-up pro forma built on a project cost budget.\nLoan Term stated as a range ('3-5 Years, Including Extensions') so termMonths is null; Amortization is 'Full-Term Interest Only' but exact months not stated given the term range. Index/spread (30-Day Term SOFR + 3.50%, with a 3.00% floor / 4.50% cap) is disclosed only in the context of sizing the Interest Reserve, not explicitly as the loan's own coupon -- captured here as the best available rate indicator; ratePct left null since no all-in rate is stated. ltvPct uses the headline 'Untrended Stabilized LTV' of 47.99% (Year 3 Trended Stabilized LTV was 44.44%). Full 10-year pro forma shows Debt Yield growing from 3.21% (Year 2, still in lease-up) to 13.95% (Year 10); Year 1 has no stated debt yield (construction period). No DSCR figure is reported anywhere in the OM. Total project cost shown as both $118,405,000 (Sources & Uses) and $118,405,292 (Project Budget subtotal).\nAddress/zip verified against OM 9/21/26 (fields corrected: zip)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -9606,7 +9611,7 @@
  {
   "sourceKey": "8717ba59bfd6",
   "propertyName": "The Riv",
-  "address": "3720 N Downing St, Denver, CO 80205",
+  "address": "3720 N Downing St",
   "city": "Denver",
   "state": "CO",
   "zip": "80205",
@@ -9641,7 +9646,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CO, Denver - The Riv.pdf (OM date 2026-02)",
-  "notes": "Category evidence: Delivered in December 2024 and currently 89% occupied / 94% leased as of February 2026, with in-place NOI and rent roll disclosed; the Sponsor is refinancing an existing construction loan (Outstanding Loan Balance $57,619,953), not seeking funds to build.\nLoan Term stated as a range ('3-5 Years') so termMonths is null; loan 'Type' is explicitly listed as 'Fixed or Floating' (undecided) so rateType/ratePct are left null. Stabilized DSCR/Debt Yield are footnoted as 'sized off of take-out interest rate of 5.15% (5-Year UST + 150 bps)' -- an exit-rate assumption, not the bridge loan's own terms. Two DSCR conventions are given; the I/O DSCR is used here (In-Place 0.93x / Stabilized 1.36x) -- the 30-Yr amortizing DSCR was 0.76x (In-Place) / 1.07x (Stabilized). No LTV percentage is disclosed anywhere in the OM (only Loan-to-Cost of 59%); no stabilized cap rate is disclosed. Occupancy/leasing figures are 'as of 2/25/2026', used as the omDate approximation.\nExtraction confidence: high",
+  "notes": "Category evidence: Delivered in December 2024 and currently 89% occupied / 94% leased as of February 2026, with in-place NOI and rent roll disclosed; the Sponsor is refinancing an existing construction loan (Outstanding Loan Balance $57,619,953), not seeking funds to build.\nLoan Term stated as a range ('3-5 Years') so termMonths is null; loan 'Type' is explicitly listed as 'Fixed or Floating' (undecided) so rateType/ratePct are left null. Stabilized DSCR/Debt Yield are footnoted as 'sized off of take-out interest rate of 5.15% (5-Year UST + 150 bps)' -- an exit-rate assumption, not the bridge loan's own terms. Two DSCR conventions are given; the I/O DSCR is used here (In-Place 0.93x / Stabilized 1.36x) -- the 30-Yr amortizing DSCR was 0.76x (In-Place) / 1.07x (Stabilized). No LTV percentage is disclosed anywhere in the OM (only Loan-to-Cost of 59%); no stabilized cap rate is disclosed. Occupancy/leasing figures are 'as of 2/25/2026', used as the omDate approximation.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -12419,7 +12424,7 @@
  {
   "sourceKey": "bd9a47ec61f1",
   "propertyName": "Avendale at The Colony",
-  "address": "798 Sam Houston Dr, Bastrop, TX 78602",
+  "address": "798 Sam Houston Dr",
   "city": "Bastrop",
   "state": "TX",
   "zip": "78602",
@@ -12454,7 +12459,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Various - Avanta Portfolio - Avendale at the Colony.pdf",
-  "notes": "Category evidence: Newly constructed property received final certificate of occupancy in Aug 2023 and has an active rent roll plus T-12/T-6/T-3/T-1 trailing financials; loan request retires maturing existing debt (UPB $30,680,000, matures 12/16/2026).\nTerm stated as '3+1+1' (years, not specified in months) so termMonths left null. 'Total project cost' populated from Sponsor's stated cost basis ($53,543,000 / $248,000 per unit), not a separate construction budget. Year built shown as 2023 per stated C of O date in executive summary, but rent-comp table on p.36 lists year built as 2022 for the same property -- discrepancy noted, not reconciled. Only one debt yield figure (Year 3) is stated in the OM; no DSCR figures found.\nExtraction confidence: high",
+  "notes": "Category evidence: Newly constructed property received final certificate of occupancy in Aug 2023 and has an active rent roll plus T-12/T-6/T-3/T-1 trailing financials; loan request retires maturing existing debt (UPB $30,680,000, matures 12/16/2026).\nTerm stated as '3+1+1' (years, not specified in months) so termMonths left null. 'Total project cost' populated from Sponsor's stated cost basis ($53,543,000 / $248,000 per unit), not a separate construction budget. Year built shown as 2023 per stated C of O date in executive summary, but rent-comp table on p.36 lists year built as 2022 for the same property -- discrepancy noted, not reconciled. Only one debt yield figure (Year 3) is stated in the OM; no DSCR figures found.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Year 3",
@@ -12523,7 +12528,7 @@
  {
   "sourceKey": "bf0df8faef96",
   "propertyName": "The Villas at Tuttle Royale",
-  "address": "11200 Nicole Dr, Royal Palm Beach, FL 33414",
+  "address": "11200 Nicole Dr",
   "city": "Royal Palm Beach",
   "state": "FL",
   "zip": "33414",
@@ -12558,7 +12563,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Palm Beach - Villas at Tuttle Royale.pdf",
-  "notes": "Category evidence: Property is approximately 92% complete and on track to deliver by Feb 2025, with an active rent roll showing 20% leased as of 11/18/2024 (79 in-place leases at avg $2,853/mo); loan proceeds pay off the existing $126,000,000 construction loan -- a lease-up bridge/takeout refinance on a substantially built asset.\nLTV shown as a rounded 61% in the executive-summary box but as 'Stabilized LTV 61.40%' in the Financing Request table -- the more precise 61.40% figure was used. Loan amount rounded to $130.1MM on the cover but stated precisely as $130,145,266 in the Financing Request/Sources & Uses tables -- precise figure used. Property title/cover references 'Palm Beach, FL' while the stated address city is Royal Palm Beach, FL 33414 -- both noted, address-based city used. Stabilized cap rate populated from the 5.00% 'Exit Cap Rate' applied to Terminal NOI in the Sale/Refinance Exit Assumptions; no going-in/implied cap rate is separately stated. Sale-comps table also shows a separate 'Implied LTV: 69%' (loan basis vs. avg comp sale price/unit), not used for the ltvPct field since it is a different comparison, not the subject's own LTV.\nExtraction confidence: high",
+  "notes": "Category evidence: Property is approximately 92% complete and on track to deliver by Feb 2025, with an active rent roll showing 20% leased as of 11/18/2024 (79 in-place leases at avg $2,853/mo); loan proceeds pay off the existing $126,000,000 construction loan -- a lease-up bridge/takeout refinance on a substantially built asset.\nLTV shown as a rounded 61% in the executive-summary box but as 'Stabilized LTV 61.40%' in the Financing Request table -- the more precise 61.40% figure was used. Loan amount rounded to $130.1MM on the cover but stated precisely as $130,145,266 in the Financing Request/Sources & Uses tables -- precise figure used. Property title/cover references 'Palm Beach, FL' while the stated address city is Royal Palm Beach, FL 33414 -- both noted, address-based city used. Stabilized cap rate populated from the 5.00% 'Exit Cap Rate' applied to Terminal NOI in the Sale/Refinance Exit Assumptions; no going-in/implied cap rate is separately stated. Sale-comps table also shows a separate 'Implied LTV: 69%' (loan basis vs. avg comp sale price/unit), not used for the ltvPct field since it is a different comparison, not the subject's own LTV.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Untrended",
@@ -12590,7 +12595,7 @@
  {
   "sourceKey": "bf30a7cb5f40",
   "propertyName": "Regatta",
-  "address": "2190 S Jenkins Rd, Fort Pierce, Florida 34947",
+  "address": "2190 S Jenkins Rd",
   "city": "Fort Pierce",
   "state": "FL",
   "zip": "34947",
@@ -12625,7 +12630,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Port St. Lucie - Regatta.pdf",
-  "notes": "Category evidence: OM is a construction financing request for a to-be-built 312-unit project with a phased development budget (land/hard/soft costs, GC fee to Sponsor's own in-house GC), a full project timeline from land acquisition (Apr-25) through construction completion (Mar-27) and stabilization (Apr-28), and untrended return-on-cost/debt-yield metrics -- no rent roll or in-place occupancy exists.\nLoan per-unit shown as $159,239 in the executive-summary box vs $159,240 in the Sources of Funds table (immaterial rounding); $159,240 used. Year built shown as 2027 in the Comparable Sales table (matching the stated Mar-27 Construction Completion date), but the Competitive Set table separately lists the subject's 'Year Built' as 2026 -- 2027 used as the better match to the project timeline. Rate is described only as 'Best Available Floating'; a footnote states development-budget interest reserve 'assumes a 4.75% interest rate spread over the SOFR curve' (used here as spreadBps=475/indexName=SOFR), but this is stated as a budgeting assumption, not a confirmed executed rate, so ratePct itself is left null. Only an 'Untrended Return on Cost' (7.0%) and 'Untrended Debt Yield' (10.0%) are given; no stabilized cap rate or stabilized debt yield/DSCR figures appear anywhere in the OM. Amortization is stated as 'Full-Term Interest-Only', so ioMonths was set equal to the 36-month term.\nExtraction confidence: high",
+  "notes": "Category evidence: OM is a construction financing request for a to-be-built 312-unit project with a phased development budget (land/hard/soft costs, GC fee to Sponsor's own in-house GC), a full project timeline from land acquisition (Apr-25) through construction completion (Mar-27) and stabilization (Apr-28), and untrended return-on-cost/debt-yield metrics -- no rent roll or in-place occupancy exists.\nLoan per-unit shown as $159,239 in the executive-summary box vs $159,240 in the Sources of Funds table (immaterial rounding); $159,240 used. Year built shown as 2027 in the Comparable Sales table (matching the stated Mar-27 Construction Completion date), but the Competitive Set table separately lists the subject's 'Year Built' as 2026 -- 2027 used as the better match to the project timeline. Rate is described only as 'Best Available Floating'; a footnote states development-budget interest reserve 'assumes a 4.75% interest rate spread over the SOFR curve' (used here as spreadBps=475/indexName=SOFR), but this is stated as a budgeting assumption, not a confirmed executed rate, so ratePct itself is left null. Only an 'Untrended Return on Cost' (7.0%) and 'Untrended Debt Yield' (10.0%) are given; no stabilized cap rate or stabilized debt yield/DSCR figures appear anywhere in the OM. Amortization is stated as 'Full-Term Interest-Only', so ioMonths was set equal to the 36-month term.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Untrended",
@@ -12694,7 +12699,7 @@
  {
   "sourceKey": "bf4c5beb727d",
   "propertyName": "Newbergh ATL",
-  "address": "761 Morosgo Dr NE, Atlanta, GA 30324",
+  "address": "761 Morosgo Dr NE",
   "city": "Atlanta",
   "state": "GA",
   "zip": "30324",
@@ -12729,7 +12734,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: GA, Atlanta - Newbergh ATL.pdf (OM date 2026-03)",
-  "notes": "Category evidence: Built, existing 258-unit property acquired by Greystar in 2022 with existing Northwestern Mutual debt ($34,750,000) maturing April 2026; OM presents a rent roll dated 2/19/2026, current leased % (90.6%), and full T-12/in-place financial statements to support a straight refinance request.\nFront-page stat box labels current occupancy as 'CURRENT LEASED % 90.6%', used for occupancyPct; the rent-comp table separately shows a lower '% Occupied 88.4%' for the subject (physical occupancy vs. leased %) -- not used but noted. Term stated only as '3+1+1 (OR COMPARABLE)' in years, not months, so termMonths left null. No interest rate is stated anywhere for the proposed refinance loan. 'totalProjectCost'/'tpcPerUnit' populated from the stated acquisition 'Cost Basis' ($71,597,810 / $277,511 per unit), not a construction budget, since this is a refinance, not new development. Cap Rate and Debt Yield are given across four explicitly labeled periods (January T12 Tax Adjusted, CBRE In-Place, CBRE Stabilized, CBRE Year 3 Forecast) per a footnoted table; impliedCapPct uses the 'CBRE In-Place' cap rate (3.99%) and stabilizedCapPct uses the 'CBRE Stabilized' cap rate (5.00%), both sized off the stated Market Value of $51,710,000 per the OM's own footnote. The front-page box's single 'DEBT YIELD 7.69%' matches the CBRE Stabilized column, which the front page separately labels 'CBRE YEAR 1 NOI' -- reflected here as 'CBRE Stabilized (Year 1)'.\nExtraction confidence: high",
+  "notes": "Category evidence: Built, existing 258-unit property acquired by Greystar in 2022 with existing Northwestern Mutual debt ($34,750,000) maturing April 2026; OM presents a rent roll dated 2/19/2026, current leased % (90.6%), and full T-12/in-place financial statements to support a straight refinance request.\nFront-page stat box labels current occupancy as 'CURRENT LEASED % 90.6%', used for occupancyPct; the rent-comp table separately shows a lower '% Occupied 88.4%' for the subject (physical occupancy vs. leased %) -- not used but noted. Term stated only as '3+1+1 (OR COMPARABLE)' in years, not months, so termMonths left null. No interest rate is stated anywhere for the proposed refinance loan. 'totalProjectCost'/'tpcPerUnit' populated from the stated acquisition 'Cost Basis' ($71,597,810 / $277,511 per unit), not a construction budget, since this is a refinance, not new development. Cap Rate and Debt Yield are given across four explicitly labeled periods (January T12 Tax Adjusted, CBRE In-Place, CBRE Stabilized, CBRE Year 3 Forecast) per a footnoted table; impliedCapPct uses the 'CBRE In-Place' cap rate (3.99%) and stabilizedCapPct uses the 'CBRE Stabilized' cap rate (5.00%), both sized off the stated Market Value of $51,710,000 per the OM's own footnote. The front-page box's single 'DEBT YIELD 7.69%' matches the CBRE Stabilized column, which the front page separately labels 'CBRE YEAR 1 NOI' -- reflected here as 'CBRE Stabilized (Year 1)'.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "January T12 Tax Adjusted",
@@ -12756,7 +12761,7 @@
  {
   "sourceKey": "bfbe861fe0e4",
   "propertyName": "Uptown at Centre Pointe",
-  "address": "5070 International Boulevard, North Charleston, South Carolina, 29418",
+  "address": "5070 International Boulevard",
   "city": "North Charleston",
   "state": "SC",
   "zip": "29418",
@@ -12791,7 +12796,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: SC, North Charleston Uptown at Centre Point.pdf",
-  "notes": "Category evidence: Property is described throughout as 'being developed' and as 'Multifamily Residential (in a Master Development)' with no rent roll, no in-place occupancy, and no operating financial statements; the surrounding master-planned site elements (Topgolf, parking decks, hotel) are described in a mix of completed/future terms, consistent with a still-in-development project rather than a built, stabilized asset.\nThis document is a general RealtyLink 'Investment Package' / marketing overview, not a typical debt offering memorandum -- it contains no loan amount, rate, term, LTV/LTC, cost budget, or DSCR/debt-yield figures of any kind, so nearly all financing-related fields are null and metricYears is empty. RealtyLink is listed as the developer/preparer of the package and its own staff are the listed contacts, so it functions as both developer and marketer here rather than a clearly independent third-party brokerage; used as brokerage with this caveat. Cover page and filename spell the property 'Centre Point' while the body/project-summary table spell it 'Centre Pointe' -- 'Centre Pointe' used since it recurs more often in the body text. sizeSf uses the stated Rentable SF (269,611); a separate Gross SF of 340,864 is also given but not used for this field. No year-built or delivery date is stated anywhere. Document copyright reads '\u00a9 2023 RealtyLink, LLC' but no month is given, so omDate (which requires YYYY-MM) was left null rather than using year-only.\nExtraction confidence: low",
+  "notes": "Category evidence: Property is described throughout as 'being developed' and as 'Multifamily Residential (in a Master Development)' with no rent roll, no in-place occupancy, and no operating financial statements; the surrounding master-planned site elements (Topgolf, parking decks, hotel) are described in a mix of completed/future terms, consistent with a still-in-development project rather than a built, stabilized asset.\nThis document is a general RealtyLink 'Investment Package' / marketing overview, not a typical debt offering memorandum -- it contains no loan amount, rate, term, LTV/LTC, cost budget, or DSCR/debt-yield figures of any kind, so nearly all financing-related fields are null and metricYears is empty. RealtyLink is listed as the developer/preparer of the package and its own staff are the listed contacts, so it functions as both developer and marketer here rather than a clearly independent third-party brokerage; used as brokerage with this caveat. Cover page and filename spell the property 'Centre Point' while the body/project-summary table spell it 'Centre Pointe' -- 'Centre Pointe' used since it recurs more often in the body text. sizeSf uses the stated Rentable SF (269,611); a separate Gross SF of 340,864 is also given but not used for this field. No year-built or delivery date is stated anywhere. Document copyright reads '\u00a9 2023 RealtyLink, LLC' but no month is given, so omDate (which requires YYYY-MM) was left null rather than using year-only.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: low",
   "metricYears": []
  },
  {
@@ -12839,7 +12844,7 @@
   "sourceKey": "c07dbbe39866",
   "propertyName": "Newfield Residences",
   "address": null,
-  "city": "Port St. Lucie",
+  "city": "Martin County",
   "state": "FL",
   "zip": null,
   "market": "Port St. Lucie, FL",
@@ -12873,7 +12878,7 @@
   "outcome": "SCREENED",
   "outcomeNote": "In Process folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Investment Memo_Newfield.pdf",
-  "notes": "Category evidence: Mast Capital is under contract to purchase a 45-acre raw site (phased closing Dec-2026/Dec-2028) to develop from the ground up; OM discusses development cost PSF/per-unit, GC/design/consultant team, yield on cost, and shows a 2029 delivery year in rent comps with no in-place rent roll or occupancy.\nSite purchase price stated as $19.3M / $43,000 per unit (land, not loan amount). Development basis given as $263 PSF ($374,408/unit); no total project cost figure stated so tpcPerUnit only. '6.9% untrended yield on cost' is stated but not labeled a cap rate, so left out of impliedCapPct/stabilizedCapPct per verbatim rule. No specific city named for the site (only 'Martin County, FL' and the Newfield master-planned community); market inferred from OM's own description of the Port St. Lucie MSA. Units = 449 total across Phase I (275) + Phase II (174); yearBuilt=2029 reflects Phase I delivery per rent-comp table. No rate, term, loan amount, DSCR, or debt yield figures given.\nExtraction confidence: medium",
+  "notes": "Category evidence: Mast Capital is under contract to purchase a 45-acre raw site (phased closing Dec-2026/Dec-2028) to develop from the ground up; OM discusses development cost PSF/per-unit, GC/design/consultant team, yield on cost, and shows a 2029 delivery year in rent comps with no in-place rent roll or occupancy.\nSite purchase price stated as $19.3M / $43,000 per unit (land, not loan amount). Development basis given as $263 PSF ($374,408/unit); no total project cost figure stated so tpcPerUnit only. '6.9% untrended yield on cost' is stated but not labeled a cap rate, so left out of impliedCapPct/stabilizedCapPct per verbatim rule. No specific city named for the site (only 'Martin County, FL' and the Newfield master-planned community); market inferred from OM's own description of the Port St. Lucie MSA. Units = 449 total across Phase I (275) + Phase II (174); yearBuilt=2029 reflects Phase I delivery per rent-comp table. No rate, term, loan amount, DSCR, or debt yield figures given.\nAddress/zip verified against OM 9/21/26 (fields corrected: city)\nExtraction confidence: medium",
   "metricYears": []
  },
  {
@@ -14251,7 +14256,7 @@
   "address": "15275 N Main Street",
   "city": "Jacksonville",
   "state": "FL",
-  "zip": null,
+  "zip": "32218",
   "market": "Jacksonville, FL",
   "submarket": "Northside",
   "propertyType": "MULTIFAMILY",
@@ -14283,7 +14288,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Jacksonville - Royal Palms Main Street.pdf",
-  "notes": "Category evidence: 227-unit build-to-rent community not yet built; construction start May-25, construction end Feb-27, stabilization Sep-27; OM presents a full construction sources & uses (land, hard costs, soft costs, interest reserve) and no rent roll or in-place occupancy.\nInterest rate stated only as 'best available floating or fixed interest rate options' with no numeric rate/index/spread given. Amortization stated as 'maximum available interest only' (assumed to span the initial term). Loan term is a 3-year initial term with two 1-year extension options (3+1+1); termMonths/ioMonths reflect the 3-yr initial term only. Trended Debt Yield of 9.3% (vs. 8.8% untrended used here) and Trended ROC 6.9% (vs 6.6% untrended) also stated. Only LTC given, no LTV percentage stated. No zip code given for the property address. Expected loan closing Q2 2025; no explicit OM publication date stated.\nExtraction confidence: high",
+  "notes": "Category evidence: 227-unit build-to-rent community not yet built; construction start May-25, construction end Feb-27, stabilization Sep-27; OM presents a full construction sources & uses (land, hard costs, soft costs, interest reserve) and no rent roll or in-place occupancy.\nInterest rate stated only as 'best available floating or fixed interest rate options' with no numeric rate/index/spread given. Amortization stated as 'maximum available interest only' (assumed to span the initial term). Loan term is a 3-year initial term with two 1-year extension options (3+1+1); termMonths/ioMonths reflect the 3-yr initial term only. Trended Debt Yield of 9.3% (vs. 8.8% untrended used here) and Trended ROC 6.9% (vs 6.6% untrended) also stated. Only LTC given, no LTV percentage stated. No zip code given for the property address. Expected loan closing Q2 2025; no explicit OM publication date stated.\nAddress/zip verified against OM 9/21/26 (fields corrected: zip)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Stabilized",
@@ -16945,7 +16950,7 @@
  {
   "sourceKey": "f5b72abca2cd",
   "propertyName": "The Vic on Park Row",
-  "address": "18210 Park Row, Houston, TX 77084",
+  "address": "18210 Park Row",
   "city": "Houston",
   "state": "TX",
   "zip": "77084",
@@ -16980,13 +16985,13 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Houston - The Vic at Interpose.pdf",
-  "notes": "Category evidence: Property received final Certificate of Occupancy Dec 6, 2024, leasing began Nov 2023, and it is reported '80% leased in 1st 8 months' with an in-place unit rent roll and stabilized proforma; no construction budget, GC/contract, or completion timeline for future work is presented, indicating the asset is built and operating.\nDigest contains no loan amount, rate, term, LTV/LTC, DSCR, or debt yield figures anywhere in the text -- it reads as a property/investment marketing package (site plan, rent comps, cash flow, market overview, developer bio) rather than a financing request, so all deal-term fields are null. Occupancy (0.80) is taken from the bullet '80% leased in 1st 8 months' (an achieved leasing milestone), not from a dated rent-roll snapshot, so treat as approximate/current-as-of-package. The FILE header says 'The Vic at Interpose.pdf' but all body content (site plan, unit mix, comps, cash flow, demographics) describes 'The Vic on Park Row' at 18210 Park Row, Houston -- 'The Vic at Interpose' appears only as a separate prior project in the sponsor's portfolio slide (page 15); propertyName was set from body content, not the filename. Hunington Properties is described as both the developer and a 'development & brokerage firm', so it is listed as both borrower/sponsor and brokerage; no distinct third-party brokerage is named.\nExtraction confidence: low",
+  "notes": "Category evidence: Property received final Certificate of Occupancy Dec 6, 2024, leasing began Nov 2023, and it is reported '80% leased in 1st 8 months' with an in-place unit rent roll and stabilized proforma; no construction budget, GC/contract, or completion timeline for future work is presented, indicating the asset is built and operating.\nDigest contains no loan amount, rate, term, LTV/LTC, DSCR, or debt yield figures anywhere in the text -- it reads as a property/investment marketing package (site plan, rent comps, cash flow, market overview, developer bio) rather than a financing request, so all deal-term fields are null. Occupancy (0.80) is taken from the bullet '80% leased in 1st 8 months' (an achieved leasing milestone), not from a dated rent-roll snapshot, so treat as approximate/current-as-of-package. The FILE header says 'The Vic at Interpose.pdf' but all body content (site plan, unit mix, comps, cash flow, demographics) describes 'The Vic on Park Row' at 18210 Park Row, Houston -- 'The Vic at Interpose' appears only as a separate prior project in the sponsor's portfolio slide (page 15); propertyName was set from body content, not the filename. Hunington Properties is described as both the developer and a 'development & brokerage firm', so it is listed as both borrower/sponsor and brokerage; no distinct third-party brokerage is named.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: low",
   "metricYears": []
  },
  {
   "sourceKey": "f79f2dfe03c9",
   "propertyName": "Oxford Englewood",
-  "address": "1314 W Oxford Ave, Englewood, CO 80110",
+  "address": "1314 W Oxford Ave",
   "city": "Englewood",
   "state": "CO",
   "zip": "80110",
@@ -17021,7 +17026,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CO, Denver - Oxford Englewood.pdf (OM date 2023-09)",
-  "notes": "Category evidence: OM is a 'confidential loan submission' explicitly requesting 'construction financing for the development of Oxford Englewood'; project has a land closing under contract, a GMAX construction contract being finalized, a cost budget (Total Development Costs), and a construction/delivery timeline (construction start Nov 2023, first units delivered Jan 2026) -- no rent roll, T-12, or in-place occupancy is presented.\nLoan Term stated as '5-Years + Extensions' / 'Requested Loan Term: 5 Years or Longer' -> used 60 months; Sponsor would also consider a 4-year initial term with limited 1st-extension covenants, per text. Amortization is listed as 'Maximum Interest-Only' with no specific IO period in months stated, so ioMonths left null. Interest rate (8.00%) is an underwriting assumption with no index/spread or fixed-vs-floating label stated. Loan-to-Value is given as two scenario values (54% untrended / 47% trended) rather than one figure, so ltvPct left null; both values noted here instead of guessing which is 'the' LTV. DSCR/Debt Yield table gives both 'Untrended' and 'Trended' scenario columns rather than year labels; mapped to a 'Stabilized (Untrended/Trended)' pair since the loan is sized off stabilized (post-construction) cash flow -- a summary box on page 4 shows a slightly different trended DSCR of 1.35x (vs. 1.34x in the detailed table on page 16); 1.34x used from the detailed table. impliedCapPct/stabilizedCapPct populated from the OM's untrended (6.10%) and trended (7.08%) 'return on cost' (yield-on-cost) figures, the closest analog stated in the text to a going-in/stabilized cap rate for a ground-up construction deal; a separate 5.50% exit cap rate is used only to value the completed asset ($162.6MM untrended / $188.7MM trended) and is not captured in a dedicated field. Units (395) = 361-unit wrap + 34 townhome units per text; 4 stories applies to the wrap building only (townhomes are separate low-rise buildings), stories for townhome component not stated.\nExtraction confidence: medium",
+  "notes": "Category evidence: OM is a 'confidential loan submission' explicitly requesting 'construction financing for the development of Oxford Englewood'; project has a land closing under contract, a GMAX construction contract being finalized, a cost budget (Total Development Costs), and a construction/delivery timeline (construction start Nov 2023, first units delivered Jan 2026) -- no rent roll, T-12, or in-place occupancy is presented.\nLoan Term stated as '5-Years + Extensions' / 'Requested Loan Term: 5 Years or Longer' -> used 60 months; Sponsor would also consider a 4-year initial term with limited 1st-extension covenants, per text. Amortization is listed as 'Maximum Interest-Only' with no specific IO period in months stated, so ioMonths left null. Interest rate (8.00%) is an underwriting assumption with no index/spread or fixed-vs-floating label stated. Loan-to-Value is given as two scenario values (54% untrended / 47% trended) rather than one figure, so ltvPct left null; both values noted here instead of guessing which is 'the' LTV. DSCR/Debt Yield table gives both 'Untrended' and 'Trended' scenario columns rather than year labels; mapped to a 'Stabilized (Untrended/Trended)' pair since the loan is sized off stabilized (post-construction) cash flow -- a summary box on page 4 shows a slightly different trended DSCR of 1.35x (vs. 1.34x in the detailed table on page 16); 1.34x used from the detailed table. impliedCapPct/stabilizedCapPct populated from the OM's untrended (6.10%) and trended (7.08%) 'return on cost' (yield-on-cost) figures, the closest analog stated in the text to a going-in/stabilized cap rate for a ground-up construction deal; a separate 5.50% exit cap rate is used only to value the completed asset ($162.6MM untrended / $188.7MM trended) and is not captured in a dedicated field. Units (395) = 361-unit wrap + 34 townhome units per text; 4 stories applies to the wrap building only (townhomes are separate low-rise buildings), stories for townhome component not stated.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Stabilized (Untrended)",
@@ -17038,7 +17043,7 @@
  {
   "sourceKey": "f7cb063686c9",
   "propertyName": "2545 Brockton",
-  "address": "2545 Brockton Dr, Austin, TX 78758",
+  "address": "2545 Brockton Dr",
   "city": "Austin",
   "state": "TX",
   "zip": "78758",
@@ -17073,7 +17078,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Austin - 2545 Brockton.pdf (OM date 2025-03)",
-  "notes": "Category evidence: OM arranges 'construction financing' for a 429-unit development that is 'fully entitled and permitted, shovel-ready, and poised to break ground mid-2025 with delivery slated for Q4 2027'; includes a development budget/cost budget and Side Development Plan permit status, not a rent roll or in-place occupancy -- confirming pre-construction status.\n'Financing Request' totals $141,200,000 = $105,900,000 senior mortgage (up to 60% LTC, $247,000/unit, SOFR+2.50%, 60-month term, 1.75% fees per S&U footnote) + $35,300,000 preferred equity (up to 25% LTC); loanAmount/ltcPct fields use the combined total Request (80% LTC) rather than the senior tranche alone. Debt yield table (NOI & DY Summary) gives two debt-yield series by column (Untrended / Stabilized Year 4 / Year 5): 'Senior Loan Debt Yield (60% LTC)' = 9.4% / 10.5% / 12.4% and 'Last Dollar Debt Yield (80% LTC)' = 7.0% / 7.9% / 9.3%; metricYears captures the Last-Dollar series (matches the executive-summary headline '7.0% untrended stabilized debt yield' and the combined loanAmount used above). No DSCR is presented anywhere in the OM (construction/interest-only loan). Amortization listed simply as 'Interest-Only' for the full 5-year term, so ioMonths set equal to termMonths (60). Rate type is explicitly labeled 'Floating Rate' with SOFR+2.50% index/spread; no single all-in fixed rate is stated. Stories not stated numerically -- 'Construction Type' is given as '5/2 Podium Wrapped', which is a construction-type descriptor, not an explicit story count. Submarket referred to throughout as 'The Domain' / 'Domain' (CoStar: 'Domain - Austin Multifamily Submarket').\nExtraction confidence: high",
+  "notes": "Category evidence: OM arranges 'construction financing' for a 429-unit development that is 'fully entitled and permitted, shovel-ready, and poised to break ground mid-2025 with delivery slated for Q4 2027'; includes a development budget/cost budget and Side Development Plan permit status, not a rent roll or in-place occupancy -- confirming pre-construction status.\n'Financing Request' totals $141,200,000 = $105,900,000 senior mortgage (up to 60% LTC, $247,000/unit, SOFR+2.50%, 60-month term, 1.75% fees per S&U footnote) + $35,300,000 preferred equity (up to 25% LTC); loanAmount/ltcPct fields use the combined total Request (80% LTC) rather than the senior tranche alone. Debt yield table (NOI & DY Summary) gives two debt-yield series by column (Untrended / Stabilized Year 4 / Year 5): 'Senior Loan Debt Yield (60% LTC)' = 9.4% / 10.5% / 12.4% and 'Last Dollar Debt Yield (80% LTC)' = 7.0% / 7.9% / 9.3%; metricYears captures the Last-Dollar series (matches the executive-summary headline '7.0% untrended stabilized debt yield' and the combined loanAmount used above). No DSCR is presented anywhere in the OM (construction/interest-only loan). Amortization listed simply as 'Interest-Only' for the full 5-year term, so ioMonths set equal to termMonths (60). Rate type is explicitly labeled 'Floating Rate' with SOFR+2.50% index/spread; no single all-in fixed rate is stated. Stories not stated numerically -- 'Construction Type' is given as '5/2 Podium Wrapped', which is a construction-type descriptor, not an explicit story count. Submarket referred to throughout as 'The Domain' / 'Domain' (CoStar: 'Domain - Austin Multifamily Submarket').\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: high",
   "metricYears": [
    {
     "yearLabel": "Untrended",
@@ -17095,7 +17100,7 @@
  {
   "sourceKey": "f89ac61b48cc",
   "propertyName": "The VIC - Phase I",
-  "address": "18110 SE 34th Street, Vancouver, WA 98683",
+  "address": "18110 SE 34th Street",
   "city": "Vancouver",
   "state": "WA",
   "zip": "98683",
@@ -17130,7 +17135,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: WA, Vancouver - VIC Phase I.pdf",
-  "notes": "Category evidence: Cover page frames this as a 'CONSTRUCTION FINANCING OPPORTUNITY' for a 'proposed $73.6M multi-housing development'; delivery timeline shows engineering drawings, grading, building permits, and GMP finalization still pending as of the OM, with vertical construction start Dec 2025 and TCO/lease-up not until May 2027 -- no rent roll or in-place occupancy is presented.\nLoan Term stated only as '3+1+1' (a 3-year initial term plus two 1-year extension options, max ~5 years total) -- termMonths set to 36 (initial term); extensions not separately captured. No interest rate, index, spread, or rate-type (fixed/floating) is stated anywhere in the digest. Underwritten Debt Yield (9.03%) is a single unlabeled figure -> mapped to 'Year 1' per spec; no DSCR is presented anywhere (construction/interest-only loan, no amortizing schedule shown). This is Phase I only (202 of a planned 1,800-unit masterplan); site/unit figures are for Phase I (Phase 1A & 1B) as flagged in the source. Delivery dates vary by section: 'First units delivered' Jul 2027, 'Last unit delivered' Dec 2027, 'TCO and lease-up commencement' May 2027 (elsewhere); yearBuilt set to 2027. Market/submarket: OM describes the site as being in 'East Vancouver' within 'the Vancouver submarket', itself part of the 'Portland MSA' -- market set to Portland, OR and submarket to Vancouver. No explicit 'as of'/dated OM date found; cover page copyright is (c)2025 and a 'Marketing' schedule line shows a 4-month kickoff in Oct 2025, but neither is a stated document date, so omDate left null.\nExtraction confidence: medium",
+  "notes": "Category evidence: Cover page frames this as a 'CONSTRUCTION FINANCING OPPORTUNITY' for a 'proposed $73.6M multi-housing development'; delivery timeline shows engineering drawings, grading, building permits, and GMP finalization still pending as of the OM, with vertical construction start Dec 2025 and TCO/lease-up not until May 2027 -- no rent roll or in-place occupancy is presented.\nLoan Term stated only as '3+1+1' (a 3-year initial term plus two 1-year extension options, max ~5 years total) -- termMonths set to 36 (initial term); extensions not separately captured. No interest rate, index, spread, or rate-type (fixed/floating) is stated anywhere in the digest. Underwritten Debt Yield (9.03%) is a single unlabeled figure -> mapped to 'Year 1' per spec; no DSCR is presented anywhere (construction/interest-only loan, no amortizing schedule shown). This is Phase I only (202 of a planned 1,800-unit masterplan); site/unit figures are for Phase I (Phase 1A & 1B) as flagged in the source. Delivery dates vary by section: 'First units delivered' Jul 2027, 'Last unit delivered' Dec 2027, 'TCO and lease-up commencement' May 2027 (elsewhere); yearBuilt set to 2027. Market/submarket: OM describes the site as being in 'East Vancouver' within 'the Vancouver submarket', itself part of the 'Portland MSA' -- market set to Portland, OR and submarket to Vancouver. No explicit 'as of'/dated OM date found; cover page copyright is (c)2025 and a 'Marketing' schedule line shows a 4-month kickoff in Oct 2025, but neither is a stated document date, so omDate left null.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -17142,10 +17147,10 @@
  {
   "sourceKey": "f92587a061b8",
   "propertyName": "Meeting House Lofts",
-  "address": "1505 Dickerson Pike, Nashville, TN 37207",
+  "address": "1505 Dickerson Pike",
   "city": "Nashville",
   "state": "TN",
-  "zip": "37207",
+  "zip": null,
   "market": "Nashville, TN",
   "submarket": "East Nashville",
   "propertyType": "MULTIFAMILY",
@@ -17177,7 +17182,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TN, Nashville - Meeting House Lofts.pdf",
-  "notes": "Category evidence: CBRE presents 'construction financing for Phase 1 of Meeting House Lofts'; Loan Type is explicitly listed as 'Construction' with 'Full Term Interest Only', and the project timeline shows Loan/Equity Closing Dec 2025, Construction Start Jan 2026, First Unit Delivered Mar 2028, and Lease-Up Completion Mar 2029 -- no rent roll, T-12, or in-place occupancy is presented, only a projected stabilized proforma.\nLoan Term stated only as '3+1+1' (a 3-year initial term plus two 1-year extension options) -- termMonths set to 36 (initial term). 'Interest Only: Full Term Interest Only' but no explicit month count for the full term, and no fully separate stated term length beyond '3+1+1', so ioMonths left null rather than assumed equal to termMonths. No interest rate, index, or spread is stated; a 'Rate Cap Fee' ($390,000) line item in the construction budget suggests the loan is likely floating-rate (rate caps are typically purchased for floating-rate debt), but since the OM never explicitly labels the rate as fixed or floating, rateType/indexName/spreadBps/ratePct are left null per the verbatim rule. 'Untrended Debt Yield' (9.02%) is a single unlabeled figure -> mapped to 'Year 1'; no DSCR is presented anywhere in the digest (construction/full-term-IO loan). Stories given as a mixed '4 & 5 Story Wrap' with no single value, so left null. Total Project Costs ($92,280,574) and per-unit ($343,050) come from the Sources & Uses / Detailed Construction Budget tables. No explicit OM 'as of' or dated cover page found; closest dated reference is the 'Loan and Equity Closing - December 2025' milestone, which is a target closing date, not a document date, so omDate left null.\nExtraction confidence: medium",
+  "notes": "Category evidence: CBRE presents 'construction financing for Phase 1 of Meeting House Lofts'; Loan Type is explicitly listed as 'Construction' with 'Full Term Interest Only', and the project timeline shows Loan/Equity Closing Dec 2025, Construction Start Jan 2026, First Unit Delivered Mar 2028, and Lease-Up Completion Mar 2029 -- no rent roll, T-12, or in-place occupancy is presented, only a projected stabilized proforma.\nLoan Term stated only as '3+1+1' (a 3-year initial term plus two 1-year extension options) -- termMonths set to 36 (initial term). 'Interest Only: Full Term Interest Only' but no explicit month count for the full term, and no fully separate stated term length beyond '3+1+1', so ioMonths left null rather than assumed equal to termMonths. No interest rate, index, or spread is stated; a 'Rate Cap Fee' ($390,000) line item in the construction budget suggests the loan is likely floating-rate (rate caps are typically purchased for floating-rate debt), but since the OM never explicitly labels the rate as fixed or floating, rateType/indexName/spreadBps/ratePct are left null per the verbatim rule. 'Untrended Debt Yield' (9.02%) is a single unlabeled figure -> mapped to 'Year 1'; no DSCR is presented anywhere in the digest (construction/full-term-IO loan). Stories given as a mixed '4 & 5 Story Wrap' with no single value, so left null. Total Project Costs ($92,280,574) and per-unit ($343,050) come from the Sources & Uses / Detailed Construction Budget tables. No explicit OM 'as of' or dated cover page found; closest dated reference is the 'Loan and Equity Closing - December 2025' milestone, which is a target closing date, not a document date, so omDate left null.\nAddress/zip verified against OM 9/21/26 (fields corrected: zip)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Year 1",
@@ -17189,7 +17194,7 @@
  {
   "sourceKey": "f941d1137111",
   "propertyName": "3520 Center Street",
-  "address": "3520 Center Street, Houston, TX 77007",
+  "address": "3520 Center Street",
   "city": "Houston",
   "state": "TX",
   "zip": "77007",
@@ -17224,7 +17229,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Houston - 3520 Center Street.pdf",
-  "notes": "Category evidence: OM seeks 'senior loan financing' / a 'requested construction loan' for a 277-unit development on a site Portman acquired in 2022 and holds 'zoned as-of-right'; timeline shows Construction Start, First Unit Delivery (Jan 2028) and Final C/O (Jul 2028) all in the future relative to an anticipated May 2026 loan closing, with only a projected/underwritten proforma -- no rent roll, T-12, or in-place occupancy.\nTotal RSF stated only as an approximate '235k SF' (avg unit size 848 SF) -- sizeSf recorded as 235000. Loan-per-unit (280000) taken verbatim from the text 'lender basis at $280K / unit', which numerically matches Senior Loan / units. Interest rate is explicitly labeled 'Floating' with 'S + 4.50%' (SOFR + 450 bps) and a footnoted 3% SOFR floor (no dedicated field for the floor). ratePct (8.04%) is the footnoted 'initial all-in rate' (Untrended); a separate footnote gives a 'Stabilized' average all-in rate of 7.81%, and yet another footnote on the Sources & Uses page says stabilized debt metrics are 'calculated ... using a 6.75% rate and 30-year amortization' -- three different rate figures appear for different purposes across the deck; only the initial 8.04% is captured in ratePct. DSCR/Debt Yield: Executive Summary box gives 'Untrended Debt Metrics 7.8% DY / 1.0x (IO)' and 'Stabilized Debt Metrics 8.4% DY / 1.1x (IO)', used for metricYears. A separate, more granular 'Senior Loan Debt Service Coverage' table (page 11) shows Year 2-5 figures (Year 2 blank; Year 3: 6.10% DY / 0.78x DSCR; Year 4: 8.59% DY / 1.06x DSCR; Year 5: 8.89% DY / 1.08x DSCR) and a 'Stabilized Debt Profile' box showing Stabilized DY 8.4% / DSCR(IO) 1.3x / DSCR(P&I) 1.1x and Stabilized ROC 5.8% -- these differ slightly from the Exec Summary headline figures (e.g. Stabilized ROC 6.3% on p.5 vs 5.8% on p.11), likely reflecting different draft versions; not all of this granularity is captured in metricYears. impliedCapPct/stabilizedCapPct populated from the OM's 'Untrended NOI/ROC 5.9%' and 'Stabilized NOI/ROC 6.3%' (return-on-cost / yield-on-cost figures), the closest stated analog to a cap rate for a ground-up deal. Construction Start date shown as 'MAY 2025' in one timeline graphic vs. narrative text stating an 'Anticipated Closing' of May 2026 with construction 'commencing immediately thereafter' -- likely a stale/inconsistent date across deck revisions; yearBuilt (2028) taken from 'Final C/O' (Jul 2028).\nExtraction confidence: medium",
+  "notes": "Category evidence: OM seeks 'senior loan financing' / a 'requested construction loan' for a 277-unit development on a site Portman acquired in 2022 and holds 'zoned as-of-right'; timeline shows Construction Start, First Unit Delivery (Jan 2028) and Final C/O (Jul 2028) all in the future relative to an anticipated May 2026 loan closing, with only a projected/underwritten proforma -- no rent roll, T-12, or in-place occupancy.\nTotal RSF stated only as an approximate '235k SF' (avg unit size 848 SF) -- sizeSf recorded as 235000. Loan-per-unit (280000) taken verbatim from the text 'lender basis at $280K / unit', which numerically matches Senior Loan / units. Interest rate is explicitly labeled 'Floating' with 'S + 4.50%' (SOFR + 450 bps) and a footnoted 3% SOFR floor (no dedicated field for the floor). ratePct (8.04%) is the footnoted 'initial all-in rate' (Untrended); a separate footnote gives a 'Stabilized' average all-in rate of 7.81%, and yet another footnote on the Sources & Uses page says stabilized debt metrics are 'calculated ... using a 6.75% rate and 30-year amortization' -- three different rate figures appear for different purposes across the deck; only the initial 8.04% is captured in ratePct. DSCR/Debt Yield: Executive Summary box gives 'Untrended Debt Metrics 7.8% DY / 1.0x (IO)' and 'Stabilized Debt Metrics 8.4% DY / 1.1x (IO)', used for metricYears. A separate, more granular 'Senior Loan Debt Service Coverage' table (page 11) shows Year 2-5 figures (Year 2 blank; Year 3: 6.10% DY / 0.78x DSCR; Year 4: 8.59% DY / 1.06x DSCR; Year 5: 8.89% DY / 1.08x DSCR) and a 'Stabilized Debt Profile' box showing Stabilized DY 8.4% / DSCR(IO) 1.3x / DSCR(P&I) 1.1x and Stabilized ROC 5.8% -- these differ slightly from the Exec Summary headline figures (e.g. Stabilized ROC 6.3% on p.5 vs 5.8% on p.11), likely reflecting different draft versions; not all of this granularity is captured in metricYears. impliedCapPct/stabilizedCapPct populated from the OM's 'Untrended NOI/ROC 5.9%' and 'Stabilized NOI/ROC 6.3%' (return-on-cost / yield-on-cost figures), the closest stated analog to a cap rate for a ground-up deal. Construction Start date shown as 'MAY 2025' in one timeline graphic vs. narrative text stating an 'Anticipated Closing' of May 2026 with construction 'commencing immediately thereafter' -- likely a stale/inconsistent date across deck revisions; yearBuilt (2028) taken from 'Final C/O' (Jul 2028).\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: medium",
   "metricYears": [
    {
     "yearLabel": "Year 1 (Untrended)",
