@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Crow house design system — matches the Industrial Comp Database. */
+
+body {
+  @apply bg-paper text-ink antialiased;
+}
+
+.font-display {
+  font-family: "EB Garamond", Georgia, serif;
+}
+
+/* ── Form primitives ── */
+.label {
+  @apply block text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1;
+}
+.field {
+  @apply w-full border border-slate-300 rounded-sm bg-white px-2.5 py-1.5 text-sm outline-none;
+}
+.field:focus {
+  @apply border-accent ring-1 ring-accent/40;
+}
+
+/* ── Buttons ── */
+.btn {
+  @apply inline-flex items-center gap-1.5 border border-slate-300 bg-white rounded-sm px-3 py-1.5 text-sm text-ink transition-colors;
+}
+.btn:hover {
+  @apply bg-slate-50;
+}
+.btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+.btn-primary {
+  @apply bg-accent border-accent text-white;
+}
+.btn-primary:hover {
+  background-color: #8f7743;
+}
+.btn-danger {
+  @apply bg-white border-red-300 text-red-700;
+}
+.btn-danger:hover {
+  @apply bg-red-50;
+}
+
+/* ── Surfaces ── */
+.card {
+  @apply bg-white border border-slate-200 rounded-sm shadow-sm;
+}
+.badge {
+  @apply inline-block text-[10px] font-medium uppercase tracking-wide border rounded-sm px-1.5 py-0.5 whitespace-nowrap;
+}
+.human {
+  background: #f8f1e2; /* human-touched: warm gold tint */
+}
+.machine {
+  background: #eef1f5; /* machine-derived: cool slate tint */
+}
+
+/* ── Section headings — serif title with a gold rule ── */
+.section-head {
+  @apply flex items-center gap-4 mb-3;
+}
+.section-head h2 {
+  @apply font-display text-2xl text-ink whitespace-nowrap;
+}
+.section-head .rule {
+  @apply flex-1 border-t border-accent/40;
+}
+
+/* ── Homepage tiles — the CrowConnect intranet style ── */
+.tile {
+  @apply relative flex flex-col items-center justify-center gap-3 bg-navy text-white rounded-sm px-6 py-10 transition-transform;
+  background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.035) 0,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.035) 0,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px,
+      transparent 14px
+    );
+}
+.tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(27, 42, 74, 0.35);
+}
+.tile svg {
+  width: 2.75rem;
+  height: 2.75rem;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.25;
+}
+.tile-label {
+  @apply font-display text-lg tracking-wide;
+}

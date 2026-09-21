@@ -1,0 +1,158 @@
+// Credit Comp Platform — V1 shell schema
+// The comp language mirrors the team's existing comp-analysis doctrine
+// (see "Comp Analysis Instructions.md" in the project folder):
+//   · Every metric is VERBATIM from its source — nothing derived or backed
+//     into. A source that doesn't state a value leaves the field null, and
+//     the UI renders an em dash.
+//   · Occupancy is always current / in-place — never stabilized or projected.
+//   · Category A/B match only themselves; C, D and GE are mutually
+//     comparable (all ground-up, underwritten on LTC and yield-on-cost).
+//   · Crow's position in the stack comes from the internal record, never
+//     inferred from an OM.
+// Doctrines carried over from the Industrial platform: nothing hard-deleted,
+// every record attributed to a real person.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+// ─────────────────────────────── ENUMS ───────────────────────────────
+
+enum Role {
+  ANALYST
+  ADMIN
+}
+
+// INDUSTRIAL deliberately absent — industrial comps live in the sister
+// Industrial platform and are never used on the Credit site (Mason, 9/21/26).
+enum PropertyType {
+  MULTIFAMILY
+  OFFICE
+  RETAIL
+  HOTEL
+  SELF_STORAGE
+  SENIOR_HOUSING
+  STUDENT_HOUSING
+  MIXED_USE
+  LAND
+  OTHER
+  UNKNOWN
+}
+
+/// The team's five deal categories (A/B/C/D/GE in the analysis instructions).
+enum DealCategory {
+  EXISTING_MEZZANINE // A — existing property, equity request
+  EXISTING_STRETCH_SENIOR // B — existing property, refinance / takeout
+  CONSTRUCTION_BRIDGE // C — needs development, bridge loan
+  CONSTRUCTION_LOAN // D — needs development, full construction loan
+  GROUND_UP_EQUITY // GE — needs development, equity
+}
+
+/// Crow's position in the capital stack — from the internal deal record,
+/// never inferred from the OM.
+enum CrowPosition {
+  MEZZANINE
+  STRETCH_SENIOR
+  WHOLE_LOAN
+  PREFERRED_EQUITY
+  LP_EQUITY
+  OTHER
+}
+
+enum RateType {
+  FIXED
+  FLOATING
+}
+
+enum DealOutcome {
+  SCREENED // looked at, no quote issued
+  QUOTED
+  CLOSED
+  PASSED
+  LOST // quoted, lost to a competing lender
+}
+
+// ─────────────────────────────── MODELS ───────────────────────────────
+
+model User {
+  id        String       @id @default(cuid())
+  name      String
+  email     String       @unique
+  role      Role         @default(ANALYST)
+  active    Boolean      @default(true) // users are deactivated, never deleted
+  createdAt DateTime     @default(now())
+  comps     CreditComp[]
+}
+
+/// One past deal the team has underwritten — the credit "comp".
+/// All financial fields are nullable on purpose: verbatim-or-null doctrine.
+model CreditComp {
+  id       String  @id @default(cuid())
+  dealName String? // internal deal name, if any
+
+  // ── Property & market ──
+  propertyName String?
+  address      String?
+  city         String?
+  state        String?
+  zip          String? // location filter #1 works zip-first
+  market       String
+  submarket    String?
+  propertyType PropertyType @default(UNKNOWN)
+  units        Int? // multifamily
+  sizeSf       Int? // commercial
+  yearBuilt    Int?
+  occupancyPct Float? // CURRENT / in-place only — null for pre-delivery assets
+
+  // ── Classification ──
+  category     DealCategory?
+  crowPosition CrowPosition?
+
+  // ── Loan terms (verbatim from source; null when not stated) ──
+  loanAmount       Float?
+  loanPerUnit      Float? // stated, never computed
+  rateType         RateType?
+  indexName        String? // e.g. "SOFR" when floating
+  spreadBps        Int? // over the index, when floating
+  ratePct          Float? // all-in / fixed rate, stored as fraction (0.0685)
+  termMonths       Int?
+  ioMonths         Int?
+  originationDate  DateTime?
+
+  // ── Credit metrics (verbatim; fractions 0–1 for percents) ──
+  ltvPct           Float?
+  ltcPct           Float?
+  dscr             Float?
+  debtYieldPct     Float? // suppressed on development deals in analysis
+  totalProjectCost Float?
+  tpcPerUnit       Float? // stated, never computed
+  impliedCapPct    Float?
+  stabilizedCapPct Float?
+
+  // ── Parties & outcome ──
+  borrowerSponsor String?
+  brokerage       String?
+  outcome         DealOutcome @default(SCREENED)
+  outcomeNote     String? // pricing where we landed / why we passed / who won
+
+  // ── Provenance ──
+  sourceNote  String? // "OM Index row 14", "term sheet 3/24", broker call…
+  omLink      String? // SharePoint link to the underlying OM, if any
+  notes       String?
+  archived    Boolean  @default(false) // nothing hard-deleted — archive instead
+  enteredById String?
+  enteredBy   User?    @relation(fields: [enteredById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([market])
+  @@index([propertyType])
+  @@index([category])
+  @@index([zip])
+}
