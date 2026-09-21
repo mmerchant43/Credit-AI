@@ -6,6 +6,7 @@ import {
   PROPERTY_TYPE_LABELS, CATEGORY_LABELS, POSITION_LABELS, OUTCOME_LABELS,
 } from "@/lib/format";
 import CompFilters from "@/components/CompFilters";
+import DuplicateAlert, { type DupRow } from "@/components/DuplicateAlert";
 
 export const dynamic = "force-dynamic";
 
@@ -53,7 +54,7 @@ function buildWhere(p: Params) {
 export default async function CompsPage({ searchParams }: { searchParams: Params }) {
   const where = buildWhere(searchParams);
   const filtered = Object.keys(searchParams).length > 0;
-  const [comps, total] = await Promise.all([
+  const [comps, total, dupCandidates] = await Promise.all([
     prisma.creditComp.findMany({
       where,
       orderBy: { createdAt: "desc" },
@@ -61,7 +62,34 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
       include: { metricYears: { orderBy: { yearLabel: "asc" } } },
     }),
     prisma.creditComp.count({ where: { archived: false } }),
+    prisma.creditComp.findMany({
+      where: { archived: false, dupApproved: false },
+      select: { id: true, propertyName: true, city: true, state: true, loanAmount: true, sourceNote: true, createdAt: true },
+    }),
   ]);
+
+  // Same property name + city (case-insensitive) appearing more than once → flag.
+  const byKey = new Map<string, typeof dupCandidates>();
+  for (const c of dupCandidates) {
+    const key = `${(c.propertyName ?? "").trim().toLowerCase()}|${(c.city ?? "").trim().toLowerCase()}`;
+    if (!c.propertyName) continue;
+    const arr = byKey.get(key) ?? [];
+    arr.push(c);
+    byKey.set(key, arr);
+  }
+  const dupGroups: DupRow[][] = [...byKey.values()]
+    .filter((rows) => rows.length > 1)
+    .map((rows) =>
+      rows.map((r) => ({
+        id: r.id,
+        name: r.propertyName ?? "—",
+        location: [r.city, r.state].filter(Boolean).join(", "),
+        loan: fmtMoney(r.loanAmount),
+        source: r.sourceNote ?? "manual / analysis entry",
+        created: r.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+      }))
+    );
+  const dupIds = new Set(dupGroups.flat().map((r) => r.id));
 
   return (
     <div className="space-y-5 pb-6">
@@ -74,6 +102,8 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
       <Suspense>
         <CompFilters />
       </Suspense>
+
+      <DuplicateAlert groups={dupGroups} />
 
       <div className="card overflow-x-auto">
         <table className="w-full text-sm">
@@ -104,6 +134,7 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
                 <tr key={c.id} className="border-b border-slate-100 hover:bg-slate-50">
                   <td className="px-3 py-2">
                     <span className="font-medium">{c.propertyName ?? c.dealName ?? c.address ?? "N/A"}</span>
+                    {dupIds.has(c.id) && <span className="badge bg-amber-100 text-amber-800 border-amber-300 ml-1.5">dup?</span>}
                     {c.borrowerSponsor && <div className="text-xs text-slate-400">{c.borrowerSponsor}</div>}
                   </td>
                   <td className="px-3 py-2 text-slate-600 text-xs">

@@ -1,9 +1,10 @@
-// The five-filter comp screen, as deterministic code — now with ADJUSTABLE
+// The five-filter comp screen, as deterministic code — with ADJUSTABLE
 // criteria (Mason, 9/21/26): each filter can be tuned or switched off, and a
-// filter that isn't populated — either turned off, or missing its datum on
-// the subject — is simply not applied. A comp missing the datum for an
-// applied filter passes with an honest "not stated" note rather than being
-// knocked out. Every candidate still gets a full trace row.
+// filter that isn't populated — turned off, or missing its datum on the
+// SUBJECT — is not applied. A comp missing the datum for vintage/occupancy/
+// category passes with an honest "not stated" note; LOCATION is the one hard
+// gate — a comp whose whereabouts are unknown fails a location screen
+// (Mason, 9/21/26). Every candidate still gets a full trace row.
 
 export const VINTAGE_TOLERANCE = 3; // default: subject year built ± 3
 export const OCCUPANCY_TOLERANCE_PTS = 10; // default: ± 10 percentage points
@@ -78,21 +79,24 @@ function fLocation(subject: Screenable, comp: Screenable, mode: LocationMode, ra
     if (radiusMiles == null || radiusMiles <= 0) return na(F1, "no radius set — not applied");
     if (subject.lat == null || subject.lon == null)
       return na(F1, "subject has no coordinates (zip not stated) — not applied");
+    // Location is a hard geographic gate: a comp whose whereabouts are unknown
+    // cannot be inside the radius (Mason, 9/21/26 — v8's leniency here let
+    // no-zip comps from random cities into radius screens).
     if (comp.lat == null || comp.lon == null)
-      return na(F1, "no coordinates on comp (zip not stated) — not applied");
+      return { filter: F1, passed: false, reason: "no coordinates on record (zip missing or unknown)" };
     const d = haversine(subject.lat, subject.lon, comp.lat, comp.lon);
     return { filter: F1, passed: d <= radiusMiles, reason: `${d.toFixed(1)} mi from subject (zip centroids, limit ${radiusMiles} mi)` };
   }
   if (mode === "zip") {
     const s = zip5(subject.zip), c = zip5(comp.zip);
     if (!s) return na(F1, "subject zip not stated — not applied");
-    if (!c) return na(F1, "zip not stated on comp — not applied");
+    if (!c) return { filter: F1, passed: false, reason: "no zip on record" };
     return { filter: F1, passed: s === c, reason: `zip ${c} vs subject ${s}` };
   }
   // city fallback
   const sc = norm(subject.city), cc = norm(comp.city);
   if (!sc) return na(F1, "subject city not stated — not applied");
-  if (!cc) return na(F1, "city not stated on comp — not applied");
+  if (!cc) return { filter: F1, passed: false, reason: "no city on record" };
   return {
     filter: F1,
     passed: sc === cc && norm(subject.state) === norm(comp.state),

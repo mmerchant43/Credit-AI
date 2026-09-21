@@ -153,6 +153,7 @@ model CreditComp {
   omLink      String? // SharePoint link to the underlying OM, if any
   notes       String?
   archived    Boolean  @default(false) // nothing hard-deleted — archive instead
+  dupApproved Boolean  @default(false) // Mason reviewed a duplicate flag and kept this row
   enteredById String?
   enteredBy   User?    @relation(fields: [enteredById], references: [id])
   createdAt   DateTime @default(now())

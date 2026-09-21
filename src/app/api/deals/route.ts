@@ -60,6 +60,23 @@ export async function POST(req: Request) {
 
     const { data, metricYears } = toCompData(parsed.data);
 
+    // Subject-only exception to verbatim-or-null (Mason, 9/21/26): when the
+    // OM doesn't state loan/unit or loan PSF, derive them for the SUBJECT so
+    // its charts populate — plain division, flagged in notes as computed.
+    const derived: string[] = [];
+    if (data.loanPerUnit == null && data.loanAmount != null && data.units != null && data.units > 0) {
+      data.loanPerUnit = Math.round(data.loanAmount / data.units);
+      derived.push(`Loan/Unit $${data.loanPerUnit.toLocaleString()} computed (loan ÷ units)`);
+    }
+    if (data.loanPerSf == null && data.loanAmount != null && data.sizeSf != null && data.sizeSf > 0) {
+      data.loanPerSf = Math.round((data.loanAmount / data.sizeSf) * 100) / 100;
+      derived.push(`Loan PSF $${data.loanPerSf.toLocaleString()} computed (loan ÷ NRA)`);
+    }
+    if (derived.length) {
+      data.notes = [data.notes, `Derived for subject (not OM-stated): ${derived.join("; ")}`]
+        .filter(Boolean).join("\n");
+    }
+
     // 1. Auto-add the subject to the comp database (outcome: Screened).
     const subject = await prisma.creditComp.create({
       data: {

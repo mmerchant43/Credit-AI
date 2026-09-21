@@ -23,7 +23,7 @@ export default function MetricStrip({
 }) {
   if (values.length === 0) return <span className="text-xs text-slate-400">no comp values</span>;
 
-  const W = 260, H = 34, PAD = 14, MID = 17;
+  const W = 420, H = 36, PAD = 16, MID = 18;
   let lo = Math.min(...values, ...(subject != null ? [subject] : []));
   let hi = Math.max(...values, ...(subject != null ? [subject] : []));
   if (lo === hi) { lo -= Math.abs(lo) * 0.05 + 1; hi += Math.abs(hi) * 0.05 + 1; }
@@ -33,7 +33,8 @@ export default function MetricStrip({
   const outside = subject != null && (subject < cLo || subject > cHi);
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} role="img"
+    <div className="flex justify-center">
+    <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} style={{ maxWidth: W }} role="img"
       aria-label={`Comp range ${fmtShort(kind, cLo)} to ${fmtShort(kind, cHi)}${subject != null ? `, subject ${fmtShort(kind, subject)}` : ""}`}>
       {/* axis */}
       <line x1={PAD} y1={MID} x2={W - PAD} y2={MID} stroke="#CBD5E1" strokeWidth={1} />
@@ -59,5 +60,6 @@ export default function MetricStrip({
       <text x={PAD} y={H - 2} textAnchor="start" fontSize={8} fill="#94A3B8">{fmtShort(kind, cLo)}</text>
       <text x={W - PAD} y={H - 2} textAnchor="end" fontSize={8} fill="#94A3B8">{fmtShort(kind, cHi)}</text>
     </svg>
+    </div>
   );
 }

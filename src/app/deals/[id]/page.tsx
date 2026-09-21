@@ -18,17 +18,10 @@ export const dynamic = "force-dynamic";
 // popup (auto-opens on a fresh deal); any change re-screens the live database
 // immediately. With no criteria in the URL, the saved snapshot renders.
 
+// Trimmed to the essentials per Mason (9/21/26) — the metric detail lives in
+// the Subject vs. Comps charts below.
 const COMP_COLS: { key: string; label: string; kind: "usd" | "pct" | "x" | "num" }[] = [
   { key: "loanAmount", label: "Loan Amount", kind: "usd" },
-  { key: "loanPerUnit", label: "$/Unit", kind: "usd" },
-  { key: "loanPerSf", label: "$/SF", kind: "usd" },
-  { key: "ltcPct", label: "LTC", kind: "pct" },
-  { key: "ltvPct", label: "LTV", kind: "pct" },
-  { key: "dscr", label: "DSCR", kind: "x" },
-  { key: "debtYieldPct", label: "Debt Yield", kind: "pct" },
-  { key: "totalProjectCost", label: "TPC", kind: "usd" },
-  { key: "tpcPerUnit", label: "TPC/Unit", kind: "usd" },
-  { key: "impliedCapPct", label: "Cap Rate", kind: "pct" },
 ];
 
 function fmtBy(kind: string, v: number | null | undefined) {
@@ -219,7 +212,7 @@ export default async function DealAnalysisPage({
                 </tr>
               ))}
               {view.matchedCount === 0 && (
-                <tr><td colSpan={15} className="px-3 py-6 text-center text-slate-400">
+                <tr><td colSpan={6} className="px-3 py-6 text-center text-slate-400">
                   No comps passed the current criteria — loosen or switch off a filter in “Adjust Criteria”.
                 </td></tr>
               )}

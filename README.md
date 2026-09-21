@@ -1,4 +1,4 @@
-# Credit Comp Platform — Version 8.0
+# Credit Comp Platform — Version 9.0
 
 Crow Holdings internal credit comp database. Past underwritten deals ("comps")
 compared against new opportunities. Sister site to the Industrial Comp
@@ -39,9 +39,13 @@ every deploy.
 ## What's live (see Website Change List.md in the project folder)
 
 356 imported comps · comps table with filters (category, stories, state,
-city, zip, LTV) · Add a Comp (OM upload or manual) · New Deal Analysis
-(OM upload or manual → adjustable five-criteria screen via popup, live
-re-screen on every change, off/blank/missing criteria not applied → AI deal
-writeup in the header, comparison table with one-click ✕ remove + undo,
-"Subject vs. Comps" line charts, failed candidates tucked into a collapsible;
-subject auto-added to the database).
+city, zip, LTV) and a duplicate-review popup (same name + city flagged;
+remove archives, approve keeps) · Add a Comp (OM upload or manual) · New
+Deal Analysis (OM upload or manual → adjustable five-criteria popup with
+toggles, live re-screen on every change; location is a hard gate — no-zip
+comps fail zip/radius screens — while vintage/occupancy/category skip
+missing data → AI deal writeup in the header, trimmed comparison table
+(Property · Location · Vintage · Units · Loan Amount · ✕ with undo),
+centered "Subject vs. Comps" line charts, failed candidates in a
+collapsible; subject auto-added, with Loan/Unit and Loan PSF derived for
+the subject when the OM omits them).
