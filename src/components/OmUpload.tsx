@@ -13,27 +13,40 @@ const PDFJS_VERSION = "4.10.38"; // keep in lockstep with package.json
 const KEYWORDS = /DSCR|debt service|debt yield|loan request|loan amount|sources\s*(&|and)\s*uses|unit mix|stories|occupancy|year built|delivery|LTV|LTC|loan-to|rent roll|financing|capitalization|total project cost|sponsor|cap rate|per unit|per square foot|PSF|comparabl|competitive set|rent survey|comp set|recent sales|sale price|comps/i;
 
 async function pdfToText(file: File, onProgress: (msg: string) => void): Promise<string> {
+  if (file.size > 150_000_000) {
+    throw new Error("That PDF is over 150 MB — export a smaller copy (print to PDF) and try again.");
+  }
   const pdfjs = await import("pdfjs-dist");
   pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${PDFJS_VERSION}/build/pdf.worker.min.mjs`;
   const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
-  const total = doc.numPages;
-  const pageText = async (n: number) => {
-    const page = await doc.getPage(n);
-    const content = await page.getTextContent();
-    return (content.items as { str?: string }[]).map((i) => i.str ?? "").join(" ");
-  };
-  const parts: string[] = [];
-  const kept: number[] = [];
-  for (let n = 1; n <= total; n++) {
-    if (n % 10 === 0) onProgress(`Reading page ${n} of ${total}…`);
-    const txt = await pageText(n);
-    if (n <= 18 || (kept.length < 48 && KEYWORDS.test(txt))) {
-      kept.push(n);
-      parts.push(`--- PAGE ${n} ---\n${txt}`);
+  try {
+    const total = Math.min(doc.numPages, 400);
+    const pageText = async (n: number) => {
+      const page = await doc.getPage(n);
+      const content = await page.getTextContent();
+      return (content.items as { str?: string }[]).map((i) => i.str ?? "").join(" ");
+    };
+    const parts: string[] = [];
+    const kept: number[] = [];
+    for (let n = 1; n <= total; n++) {
+      if (n % 10 === 0) onProgress(`Reading page ${n} of ${total}…`);
+      const txt = await pageText(n);
+      if (n <= 18 || (kept.length < 48 && KEYWORDS.test(txt))) {
+        kept.push(n);
+        parts.push(`--- PAGE ${n} ---\n${txt}`);
+      }
+      if (kept.length >= 48 && n > 18) break;
     }
-    if (kept.length >= 48 && n > 18) break;
+    return parts.join("\n").slice(0, 170000);
+  } finally {
+    await doc.destroy().catch(() => {});
   }
-  return parts.join("\n").slice(0, 170000);
+}
+
+/** Read a JSON error body safely — gateway timeouts and proxies return HTML,
+ *  which must become a friendly message, not a JSON.parse crash. */
+async function safeBody(res: Response): Promise<{ error?: string; [k: string]: unknown }> {
+  try { return await res.json(); } catch { return {}; }
 }
 
 export default function OmUpload({ mode }: { mode: "comp" | "deal" }) {
@@ -57,21 +70,30 @@ export default function OmUpload({ mode }: { mode: "comp" | "deal" }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, fileName: file.name, mode }),
       });
-      const exBody = await ex.json();
-      if (!ex.ok) throw new Error(exBody.error ?? "Extraction failed.");
+      const exBody = await safeBody(ex);
+      if (!ex.ok) throw new Error(exBody.error ?? `The server hit an error (${ex.status}) — wait a minute and try again.`);
 
       setStatus(mode === "deal" ? "Screening the comp database…" : "Saving the comp…");
       const save = await fetch(mode === "deal" ? "/api/deals" : "/api/comps", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...exBody.fields, fromOmUpload: true }),
+        body: JSON.stringify({ ...(exBody.fields as object), fromOmUpload: true }),
       });
-      const saveBody = await save.json();
-      if (!save.ok) throw new Error(saveBody.error ?? "Could not save.");
+      const saveBody = await safeBody(save);
+      if (!save.ok) throw new Error(saveBody.error ?? `The server hit an error (${save.status}) — wait a minute and try again.`);
       router.push(mode === "deal" ? `/deals/${saveBody.analysisId}?new=1` : "/comps");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      const name = (err as { name?: string })?.name;
+      if (name === "PasswordException") {
+        setError("This PDF is password-protected — remove the password (printing to a new PDF works) and try again.");
+      } else if (name === "InvalidPDFException") {
+        setError("That file isn't a readable PDF — export or re-save it as a PDF and try again.");
+      } else if (err instanceof TypeError) {
+        setError("Lost the connection mid-extraction — check your network and try again.");
+      } else {
+        setError(err instanceof Error ? err.message : "Something went wrong reading the PDF.");
+      }
       setStatus(null);
       setBusy(false);
     }
@@ -84,19 +106,23 @@ export default function OmUpload({ mode }: { mode: "comp" | "deal" }) {
         type="file"
         accept="application/pdf,.pdf"
         className="hidden"
-        onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleFile(f); }}
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          e.target.value = ""; // allow re-choosing the SAME file after a failure
+          if (f) void handleFile(f);
+        }}
       />
       {busy ? (
         <>
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
           <p className="text-sm text-slate-600">{status}</p>
-          <p className="text-xs text-slate-400">Large OMs can take up to a minute.</p>
+          <p className="text-xs text-slate-400">Large OMs can take 2–3 minutes — leave this tab open.</p>
         </>
       ) : (
         <>
           <p className="font-display text-lg">Upload the Offering Memorandum</p>
           <p className="text-sm text-slate-500 max-w-md mx-auto">
-            Drop in the OM PDF — the deal facts are read out of it (verbatim-or-null, nothing derived
+            Choose the OM PDF — the deal facts are read out of it (verbatim-or-null, nothing derived
             {mode === "deal" ? "), the five-filter screen runs against the database, and the deal is added automatically." : ") and saved to the database as a comp."}
           </p>
           <button type="button" className="btn btn-primary" onClick={() => inputRef.current?.click()}>

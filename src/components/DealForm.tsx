@@ -60,8 +60,8 @@ export default function DealForm({ mode }: { mode: "comp" | "deal" }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error ?? "Something went wrong.");
+      const body = await res.json().catch(() => ({} as { error?: string; analysisId?: string }));
+      if (!res.ok) throw new Error(body.error ?? `The server hit an error (${res.status}) — try again.`);
       router.push(mode === "deal" ? `/deals/${body.analysisId}?new=1` : "/comps");
       router.refresh();
     } catch (err) {

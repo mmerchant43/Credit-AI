@@ -194,6 +194,7 @@ model DealAnalysis {
   locationMode String // "zip" | "city" | "none"
   matchedCount Int
   pinned       Boolean    @default(false) // starred on the homepage (Mason, 9/22/26)
+  archived     Boolean    @default(false) // ✕'d off the homepage — never hard-deleted
   snapshot     Json // { matchedIds, trace, stats } as computed at save time
   createdBy    String? // signed-in user's name
   createdAt    DateTime   @default(now())

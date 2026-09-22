@@ -1,7 +1,7 @@
 "use client";
 
 // The comps filter bar — trimmed per Mason (9/21/26): Category, Stories
-// range, State, City, Zip, LTV range. Nothing else.
+// range, State, City, Zip. Nothing else.
 // Plain GET form: the URL is the filter state, so views are shareable.
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
@@ -44,7 +44,7 @@ export default function CompFilters() {
 
   return (
     <form ref={formRef} onSubmit={onSubmit} className="card p-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <div>
           <span className="label">Deal Name</span>
           <input className="field" name="name" placeholder="search…" defaultValue={defaults.get("name") ?? ""} />
@@ -70,7 +70,6 @@ export default function CompFilters() {
           <span className="label">Zip Code</span>
           <input className="field" name="zip" placeholder="5-digit" defaultValue={defaults.get("zip") ?? ""} />
         </div>
-        <Range name="ltv" label="LTV (%)" placeholderMin="% min" placeholderMax="% max" defaults={defaults} />
       </div>
       <div className="flex items-center gap-2 mt-4">
         <button type="submit" className="btn btn-primary text-sm">Apply Filters</button>

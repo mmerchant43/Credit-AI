@@ -5,7 +5,9 @@ import { currentUser } from "@/lib/auth";
 // The browser extracts the PDF's text (no big file ever hits this function)
 // and posts it here; we return fields shaped exactly like the manual form,
 // so the same validation and unit conversion applies either way.
-export const maxDuration = 60;
+// Big OMs legitimately take a couple of minutes to read — give the function
+// real time (requires Vercel Fluid Compute, the default on new projects).
+export const maxDuration = 300;
 
 const EXTRACTION_PROMPT = `You are a real-estate private equity credit analyst extracting deal facts from a multifamily Offering Memorandum (debt/financing package). Extract the subject deal's facts from the OM text below.
 
@@ -21,7 +23,7 @@ IRON RULES:
 - TOTAL PROJECT COST: hunt hard for it under any of its names — total project cost, total development cost, total capitalization, total uses, total deal cost, sponsor's total cost/basis (purchase price + capex for existing assets), or the stated total valuation of the deal. Use the total the OM itself presents; say in "notes" which label you used. tpcPerUnit: use the stated figure, or DIVIDE totalProjectCost by units (mark "computed" in notes) — this division is sanctioned.
 - DEBT YIELD: most OMs state it somewhere — loan-metrics tables, sensitivity grids, sources-and-uses commentary, or a "NOI / Loan" row. Search the whole text before giving up. If the OM states NOI and the loan amount for the same year but no debt yield, you may compute NOI ÷ loan (mark "computed" in notes).
 
-Respond with ONLY a JSON object (no markdown fence, no commentary) with exactly these keys (null when not stated): propertyName, address, city, state (2-letter), zip, market ("City, ST" metro), submarket, units, stories, sizeSf, yearBuilt, occupancyPct, category, classificationEvidence, loanAmount, loanPerUnit, loanPerSf, rateType ("FIXED"|"FLOATING"|null), indexName, spreadBps, ratePct, termMonths, ioMonths, ltvPct, ltcPct, totalProjectCost, tpcPerUnit, impliedCapPct, stabilizedCapPct, dscr0, dy0, dscr1, dy1, dscr2, dy2, dscr3, dy3, borrowerSponsor, brokerage, sourceNote (e.g. "OM dated Jun-26"), notes (ranges, ambiguities, caveats), omRentComps, omSalesComps.
+Respond with ONLY a JSON object (no markdown fence, no commentary). To keep the response compact, OMIT every key whose value would be null — both top-level keys and comp-table row keys (propertyName, city, state, category, classificationEvidence must always be present). The full key set (include only when stated): propertyName, address, city, state (2-letter), zip, market ("City, ST" metro), submarket, units, stories, sizeSf, yearBuilt, occupancyPct, category, classificationEvidence, loanAmount, loanPerUnit, loanPerSf, rateType ("FIXED"|"FLOATING"|null), indexName, spreadBps, ratePct, termMonths, ioMonths, ltvPct, ltcPct, totalProjectCost, tpcPerUnit, impliedCapPct, stabilizedCapPct, dscr0, dy0, dscr1, dy1, dscr2, dy2, dscr3, dy3, borrowerSponsor, brokerage, sourceNote (e.g. "OM dated Jun-26"), notes (ranges, ambiguities, caveats), omRentComps, omSalesComps.
 
 omRentComps: the OM's rent/lease comparables table — it may be labeled Rent Comparables, Lease Comps, Competitive Set, Market Rent Survey, or similar — as an array (max 12 rows; if the table is longer, keep the subject row plus the first 11 comps), each {"name","city","state","units","yearBuilt","occupancyPct","avgRent","rentPsf","isSubject"} — avgRent = average monthly rent per unit in dollars, rentPsf in dollars, occupancyPct AS PERCENT. When the table includes the subject property's own row, include it with "isSubject": true. null if the OM has no such table.
 omSalesComps: the OM's sales comparables table as an array (max 12 rows, same rule), each {"name","city","state","units","yearBuilt","salePrice","pricePerUnit","capRate","saleDate","isSubject"} — capRate AS PERCENT, saleDate as the OM states it ("Mar-25"). null if none. These arrays are display-only and must be verbatim from the OM's own comp tables. Keep "notes" and "classificationEvidence" CONCISE (2-3 sentences each) so the full JSON always fits.
@@ -59,11 +61,23 @@ export async function POST(req: Request) {
         max_tokens: 14000, // full field set + two comp tables, with generous headroom
         messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, 180000) }],
       }),
-      signal: AbortSignal.timeout(55000),
+      signal: AbortSignal.timeout(280000),
     });
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
       console.error("anthropic error", res.status, detail.slice(0, 300));
+      if (res.status === 401 || res.status === 403) {
+        return NextResponse.json(
+          { error: "The extraction service rejected the API key — check ANTHROPIC_API_KEY in Vercel → Settings → Environment Variables and redeploy. Enter the deal manually in the meantime." },
+          { status: 502 }
+        );
+      }
+      if (res.status === 429 || res.status === 529) {
+        return NextResponse.json(
+          { error: "The extraction service is busy right now — wait a minute and try the upload again." },
+          { status: 502 }
+        );
+      }
       return NextResponse.json({ error: `Extraction service error (${res.status}). Try again, or enter the deal manually.` }, { status: 502 });
     }
     const body = (await res.json()) as { content?: { type: string; text?: string }[]; stop_reason?: string };

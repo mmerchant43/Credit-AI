@@ -39,8 +39,8 @@ function AddressFixRow({ c }: { c: UnmappedComp }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: c.id, address: value }),
       });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error ?? "Failed.");
+      const body = await res.json().catch(() => ({} as { error?: string; geocoded?: boolean }));
+      if (!res.ok) throw new Error(body.error ?? `Failed (${res.status}).`);
       if (!body.geocoded) setError("Saved, but that address couldn't be located — check the spelling.");
       router.refresh();
     } catch (e) {
@@ -101,6 +101,8 @@ export default function DealMap({
           iconAnchor: [size / 2, size / 2],
         });
 
+      const esc = (t: string) =>
+        t.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
       const subject = points.find((p) => p.isSubject);
       const bounds: [number, number][] = [];
       for (const p of points) {
@@ -109,7 +111,7 @@ export default function DealMap({
           zIndexOffset: p.isSubject ? 1000 : 0,
         }).addTo(map);
         marker.bindPopup(
-          `<b>${p.name}</b>${p.isSubject ? " (Subject)" : ""}<br/>${p.detail}` +
+          `<b>${esc(p.name)}</b>${p.isSubject ? " (Subject)" : ""}<br/>${esc(p.detail)}` +
           `<br/><span style="color:#94A3B8;font-size:11px">${p.precision === "address" ? "address-level pin" : "zip-centroid pin (approximate)"}</span>`
         );
         bounds.push([p.lat, p.lon]);

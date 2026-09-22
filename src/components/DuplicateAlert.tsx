@@ -28,7 +28,8 @@ function useResolver() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action, ids }),
       });
-      if (!res.ok) throw new Error((await res.json()).error ?? "Failed.");
+      const body = await res.json().catch(() => ({} as { error?: string }));
+      if (!res.ok) throw new Error(body.error ?? `Failed (${res.status}).`);
       after?.();
       router.refresh();
     } catch (e) {

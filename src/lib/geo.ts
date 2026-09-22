@@ -120,7 +120,14 @@ export async function ensureAddressCoords<T extends Geocodable>(rows: T[]): Prom
 /** Fill in missing lat/lon (from zip) on the given rows, persisting what it
  *  learns so each zip is only ever looked up once. Mutates and returns rows. */
 export async function ensureCoords<T extends Geocodable>(rows: T[]): Promise<T[]> {
-  const need = rows.filter((r) => (r.lat == null || r.lon == null) && zip5(r.zip).length === 5);
+  // "zip-failed" sentinel: an unknown zip stops re-firing 4s lookups on
+  // every screen (fixing the zip via set-address clears it).
+  const need = rows.filter(
+    (r) =>
+      (r.lat == null || r.lon == null) &&
+      zip5(r.zip).length === 5 &&
+      r.geoPrecision !== "zip-failed"
+  );
   if (need.length === 0) return rows;
 
   // One lookup per distinct zip, limited concurrency.
@@ -134,6 +141,7 @@ export async function ensureCoords<T extends Geocodable>(rows: T[]): Promise<T[]
   }
 
   const updates: { id: string; lat: number; lon: number }[] = [];
+  const failures: string[] = [];
   for (const r of need) {
     const c = coords.get(zip5(r.zip));
     if (c) {
@@ -141,18 +149,24 @@ export async function ensureCoords<T extends Geocodable>(rows: T[]): Promise<T[]
       r.lon = c[1];
       if (!r.geoPrecision) r.geoPrecision = "zip";
       updates.push({ id: r.id, lat: c[0], lon: c[1] });
+    } else {
+      r.geoPrecision = "zip-failed";
+      failures.push(r.id);
     }
   }
   // Persist quietly; a failed write just means we geocode again next time.
   try {
-    await Promise.all(
-      updates.map((u) =>
+    await Promise.all([
+      ...updates.map((u) =>
         prisma.creditComp.update({
           where: { id: u.id },
           data: { lat: u.lat, lon: u.lon, geoPrecision: "zip" },
         })
-      )
-    );
+      ),
+      ...failures.map((id) =>
+        prisma.creditComp.update({ where: { id }, data: { geoPrecision: "zip-failed" } })
+      ),
+    ]);
   } catch {
     /* non-fatal */
   }

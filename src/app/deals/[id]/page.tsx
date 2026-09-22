@@ -14,6 +14,9 @@ import MetricStrip from "@/components/MetricStrip";
 import { RemoveCompButton, UndoRemoveButton } from "@/components/CompRemove";
 
 export const dynamic = "force-dynamic";
+// First view of an analysis geocodes its pins (Census/zip lookups) before
+// rendering — give it the same Fluid-Compute headroom as /api/extract.
+export const maxDuration = 300;
 
 // A saved deal analysis. The five screening criteria are adjustable from the
 // popup (auto-opens on a fresh deal); any change re-screens the live database
@@ -129,21 +132,24 @@ export default async function DealAnalysisPage({
     };
   } else {
     view = {
-      matchedIds: savedSnap.matchedIds, trace: savedSnap.trace, stats: savedSnap.stats,
-      candidatesScreened: savedSnap.candidatesScreened,
+      matchedIds: savedSnap.matchedIds ?? [], trace: savedSnap.trace ?? [], stats: savedSnap.stats ?? [],
+      candidatesScreened: savedSnap.candidatesScreened ?? 0,
       modeLabel:
         { zip: "same zip", city: "same city (fallback)", none: "no database comps", radius: "radius" }[analysis.locationMode] ?? analysis.locationMode,
       matchedCount: analysis.matchedCount, live: false,
     };
   }
 
+  // archived: false — a comp deleted from the database drops out of saved
+  // analyses too (audit fix, 9/22/26).
   const matched = await prisma.creditComp.findMany({
-    where: { id: { in: view.matchedIds } },
+    where: { id: { in: view.matchedIds }, archived: false },
     include: { metricYears: true },
   });
   const orderedMatched = view.matchedIds
     .map((id) => matched.find((m) => m.id === id))
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
+  if (!view.live) view.matchedCount = orderedMatched.length;
   const rows = [{ r: s, isSubject: true }, ...orderedMatched.map((r) => ({ r, isSubject: false }))];
 
   const avail = {

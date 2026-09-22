@@ -28,6 +28,7 @@ export default async function Home() {
     prisma.creditComp.count({ where: { archived: false } }).catch(() => 0),
     prisma.creditComp.groupBy({ by: ["market"], where: { archived: false } }).then((g) => g.length).catch(() => 0),
     prisma.dealAnalysis.findMany({
+      where: { archived: false },
       orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
       take: 30,
       include: { subject: true },

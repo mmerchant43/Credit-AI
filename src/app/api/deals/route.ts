@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/auth";
 import { compInputSchema, toCompData } from "@/lib/compInput";
 import { runScreen, summarize, excludeSameName, type Screenable } from "@/lib/screen";
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 // Analyst-style writeup of the subject deal for the analysis header, in
 // three sections (Mason, 9/22/26): the Deal, the Sponsor, and the Ask.
@@ -141,11 +141,18 @@ export async function POST(req: Request) {
       // Never clobber workflow state the analysis flow doesn't know about:
       // outcome (QUOTED/CLOSED/... set via Add-a-Comp) and a hand-curated
       // market label survive a re-analysis untouched.
-      const freshValues = Object.fromEntries(
+      const freshValues: Record<string, unknown> = Object.fromEntries(
         Object.entries(data).filter(
           ([k, v]) => v != null && k !== "notes" && k !== "outcome" && k !== "market"
         )
       );
+      // A changed zip means the old pin is wrong — clear coords so they
+      // re-geocode (audit fix, 9/22/26).
+      if (freshValues.zip && freshValues.zip !== existing.zip) {
+        freshValues.lat = null;
+        freshValues.lon = null;
+        freshValues.geoPrecision = null;
+      }
       subject = await prisma.creditComp.update({
         where: { id: existing.id },
         data: {

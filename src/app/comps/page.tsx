@@ -26,11 +26,8 @@ const str = (p: Params, k: string): string | undefined => {
 };
 const range = (min?: number, max?: number) =>
   min == null && max == null ? undefined : { ...(min != null ? { gte: min } : {}), ...(max != null ? { lte: max } : {}) };
-// LTV / LTC / Debt Yield are stored as fractions; users type percents.
-const pctRange = (min?: number, max?: number) =>
-  range(min != null ? min / 100 : undefined, max != null ? max / 100 : undefined);
 
-// Filter set per Mason (9/21-22/26): Deal Name search, Category, Stories range, State, City, Zip, LTV range.
+// Filter set per Mason (9/21-22/26): Deal Name search, Category, Stories range, State, City, Zip.
 function buildWhere(p: Params) {
   const where: Record<string, unknown> = { archived: false };
 
@@ -54,9 +51,6 @@ function buildWhere(p: Params) {
   if (city) where.city = { contains: city, mode: "insensitive" };
   const zip = str(p, "zip");
   if (zip) where.zip = { startsWith: zip.slice(0, 5) };
-
-  const ltv = pctRange(num(p, "ltvMin"), num(p, "ltvMax"));
-  if (ltv) where.ltvPct = ltv;
 
   return where;
 }

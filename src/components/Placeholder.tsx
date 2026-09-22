@@ -1,6 +1,7 @@
 // Homepage deal lists (Pinned + Recent) and the shell's ComingSoon card.
 import Link from "next/link";
 import PinStar from "./PinStar";
+import ArchiveAnalysis from "./ArchiveAnalysis";
 
 export interface AnalysisListItem {
   id: string;
@@ -51,6 +52,7 @@ export function ActiveDealAnalyses({
                   {a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                 </span>
               </Link>
+              <ArchiveAnalysis id={a.id} name={a.subjectName} />
             </div>
           ))}
         </div>

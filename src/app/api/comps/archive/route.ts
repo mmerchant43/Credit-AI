@@ -12,9 +12,13 @@ export async function POST(req: Request) {
     if (!id || typeof id !== "string") {
       return NextResponse.json({ error: "No comp given." }, { status: 400 });
     }
+    const existing = await prisma.creditComp.findUnique({ where: { id }, select: { outcomeNote: true } });
     await prisma.creditComp.update({
       where: { id },
-      data: { archived: true, outcomeNote: `Removed by ${user.name}` },
+      data: {
+        archived: true,
+        outcomeNote: [existing?.outcomeNote, `Removed by ${user.name}`].filter(Boolean).join(" · ").slice(0, 2000),
+      },
     });
     return NextResponse.json({ ok: true });
   } catch (e) {

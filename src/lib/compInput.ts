@@ -13,14 +13,20 @@ const blankToUndef = (v: unknown) =>
   v == null || (typeof v === "string" && v.trim() === "") ? undefined : v;
 const optNum = z.preprocess(blankToUndef, z.coerce.number().finite().optional());
 const optInt = z.preprocess(blankToUndef, z.coerce.number().int().optional());
-const optStr = z.preprocess(blankToUndef, z.string().trim().max(2000).optional());
+// Coerce and TRUNCATE rather than reject — a model that writes a verbose
+// note or a numeric zip must never fail the whole save after a 2-minute
+// extraction (audit fix, 9/22/26).
+const optStr = z.preprocess(
+  (v) => (blankToUndef(v) == null ? undefined : String(v).trim().slice(0, 2000)),
+  z.string().optional()
+);
 
 export const compInputSchema = z.object({
-  propertyName: z.string().trim().min(1, "Property name is required"),
+  propertyName: z.preprocess((v) => String(v ?? "").trim().slice(0, 300), z.string().min(1, "Property name is required")),
   dealName: optStr,
   address: optStr,
-  city: z.string().trim().min(1, "City is required"),
-  state: z.string().trim().min(2, "State is required").max(30),
+  city: z.preprocess((v) => String(v ?? "").trim().slice(0, 120), z.string().min(1, "City is required")),
+  state: z.preprocess((v) => String(v ?? "").trim().slice(0, 30), z.string().min(2, "State is required")),
   zip: optStr,
   market: optStr,
   submarket: optStr,
