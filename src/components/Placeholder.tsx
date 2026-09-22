@@ -1,6 +1,6 @@
-// Shell placeholders — honest empty sections that name what will live there,
-// so the homepage reads like the finished product from day one.
+// Homepage deal lists (Pinned + Recent) and the shell's ComingSoon card.
 import Link from "next/link";
+import PinStar from "./PinStar";
 
 export interface AnalysisListItem {
   id: string;
@@ -10,36 +10,48 @@ export interface AnalysisListItem {
   matchedCount: number;
   createdBy: string | null;
   createdAt: Date;
+  pinned: boolean;
 }
 
-export function ActiveDealAnalyses({ analyses }: { analyses: AnalysisListItem[] }) {
+export function ActiveDealAnalyses({
+  title,
+  analyses,
+  emptyText,
+}: {
+  title: string;
+  analyses: AnalysisListItem[];
+  emptyText?: string;
+}) {
+  if (analyses.length === 0 && !emptyText) return null;
   return (
     <section>
       <div className="section-head">
-        <h2>Recent Deal Analyses</h2>
+        <h2>{title}</h2>
         <div className="rule" />
       </div>
       {analyses.length === 0 ? (
         <div className="card p-4">
           <p className="text-sm text-slate-500">
-            Nothing analyzed yet. Each analysis screens a subject deal against the comp database
-            and saves it here.{" "}
+            {emptyText}{" "}
             <Link href="/deals/new" className="text-accent underline">Start a new deal analysis</Link>.
           </p>
         </div>
       ) : (
         <div className="card divide-y divide-slate-100">
           {analyses.map((a) => (
-            <Link key={a.id} href={`/deals/${a.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
-              <span className="text-sm">
-                <b className="font-medium">{a.subjectName}</b>
-                <span className="text-slate-500"> · {a.location} · {a.category}</span>
-              </span>
-              <span className="text-xs text-slate-400">
-                {a.matchedCount} comp{a.matchedCount === 1 ? "" : "s"} · {a.createdBy ?? "—"} ·{" "}
-                {a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-              </span>
-            </Link>
+            <div key={a.id} className="flex items-center gap-2 px-4 py-3 hover:bg-slate-50">
+              <PinStar id={a.id} pinned={a.pinned} />
+              <Link href={`/deals/${a.id}`} className="flex flex-1 items-center justify-between gap-4 min-w-0">
+                <span className="text-sm truncate">
+                  <b className="font-medium">{a.subjectName}</b>
+                  <span className="text-slate-500"> · {a.location} · {a.category}</span>
+                </span>
+                <span className="text-xs text-slate-400 whitespace-nowrap">
+                  {a.matchedCount} comp{a.matchedCount === 1 ? "" : "s"} · {a.createdBy ?? "—"} ·{" "}
+                  {a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                </span>
+              </Link>
+            </div>
           ))}
         </div>
       )}

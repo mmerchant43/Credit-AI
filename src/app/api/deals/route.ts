@@ -6,10 +6,16 @@ import { runScreen, summarize, excludeSameName, type Screenable } from "@/lib/sc
 
 export const maxDuration = 60;
 
-// Short analyst-style writeup of the subject deal for the analysis header
-// (Mason, 9/21/26). Best-effort: no key or an API hiccup just means no
-// writeup — the analysis itself never depends on it.
-async function generateWriteup(fields: Record<string, unknown>, evidence: string): Promise<string | null> {
+// Analyst-style writeup of the subject deal for the analysis header, in
+// three sections (Mason, 9/22/26): the Deal, the Sponsor, and the Ask.
+// Best-effort: no key or an API hiccup just means no writeup — the analysis
+// itself never depends on it.
+export interface WriteupSections { deal: string; sponsor: string; ask: string }
+
+async function generateWriteup(
+  fields: Record<string, unknown>,
+  evidence: string
+): Promise<WriteupSections | null> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return null;
   try {
@@ -18,21 +24,31 @@ async function generateWriteup(fields: Record<string, unknown>, evidence: string
       headers: { "x-api-key": apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 300,
+        max_tokens: 600,
         messages: [{
           role: "user",
           content:
-            "You are a real-estate private equity credit analyst. Write a 2-3 sentence plain-prose deal summary for the top of an internal comp analysis: what the asset is, where, what is being requested, and the key credit facts. Use ONLY the facts below — never invent, compute, or embellish a number. No headers, no bullets, no preamble.\n\nDEAL FACTS (null = not stated):\n" +
-            JSON.stringify(fields) +
+            'You are a real-estate private equity credit analyst writing the header of an internal comp analysis. Use ONLY the facts below — never invent, compute, or embellish a number. Respond with ONLY a JSON object (no fence, no commentary): {"deal": "...", "sponsor": "...", "ask": "..."}.\n' +
+            "- deal: 1-2 sentences — what the asset is (units, stories, class, vintage), where, and its current state (occupancy for existing assets).\n" +
+            "- sponsor: 1-2 sentences — who the sponsor/borrower is and anything stated about them.\n" +
+            "- ask: 2-3 sentences — the requested proceeds, what the proceeds will be used for, and whether the request is cash-in, cash-neutral, or cash-out. Decide cash-in/neutral/out only from the stated facts (e.g. new loan vs existing payoff, equity contributed or returned); if the facts don't establish it, say the OM doesn't state it.\n\n" +
+            "DEAL FACTS (null = not stated):\n" + JSON.stringify(fields) +
             "\n\nCLASSIFICATION EVIDENCE:\n" + evidence,
         }],
       }),
-      signal: AbortSignal.timeout(25000),
+      signal: AbortSignal.timeout(30000),
     });
     if (!res.ok) return null;
     const body = (await res.json()) as { content?: { type: string; text?: string }[] };
-    const text = body.content?.find((c) => c.type === "text")?.text?.trim();
-    return text && text.length > 20 ? text.slice(0, 1200) : null;
+    const text = body.content?.find((c) => c.type === "text")?.text ?? "";
+    const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1);
+    const parsed = JSON.parse(json) as Partial<WriteupSections>;
+    if (!parsed.deal || !parsed.ask) return null;
+    return {
+      deal: String(parsed.deal).slice(0, 800),
+      sponsor: String(parsed.sponsor ?? "Not stated in the OM.").slice(0, 800),
+      ask: String(parsed.ask).slice(0, 800),
+    };
   } catch {
     return null;
   }
@@ -190,9 +206,11 @@ export async function POST(req: Request) {
           stats,
           candidatesScreened: screen.candidatesScreened,
           classificationEvidence: parsed.data.classificationEvidence,
-          writeup,
+          writeup: writeup ? [writeup.deal, writeup.sponsor, writeup.ask].join(" ") : null,
+          writeupSections: writeup,
           omRentComps,
           omSalesComps,
+          fromOmUpload: raw.fromOmUpload === true,
         })),
         createdBy: user.name,
       },

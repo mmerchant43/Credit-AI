@@ -1,4 +1,4 @@
-# Credit Comp Platform — Version 10.0
+# Credit Comp Platform — Version 13.0
 
 Crow Holdings internal credit comp database. Past underwritten deals ("comps")
 compared against new opportunities. Sister site to the Industrial Comp
@@ -48,4 +48,6 @@ missing data → AI deal writeup in the header, trimmed comparison table
 (Property · Location · Vintage · Units · Loan Amount · ✕ with undo),
 centered "Subject vs. Comps" line charts, failed candidates in a
 collapsible; subject auto-added, with Loan/Unit and Loan PSF derived for
-the subject when the OM omits them).
+the subject when the OM omits them) · comp map on every analysis (Leaflet +
+OpenStreetMap, Census address-level pins with zip-centroid fallback, radius
+circle, inline "no address" fix-ups) · homepage Pinned Deals via star toggle.

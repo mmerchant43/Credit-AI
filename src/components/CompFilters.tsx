@@ -44,7 +44,11 @@ export default function CompFilters() {
 
   return (
     <form ref={formRef} onSubmit={onSubmit} className="card p-4">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+        <div>
+          <span className="label">Deal Name</span>
+          <input className="field" name="name" placeholder="search…" defaultValue={defaults.get("name") ?? ""} />
+        </div>
         <div>
           <span className="label">Category</span>
           <select className="field" name="category" defaultValue={defaults.get("category") ?? ""}>

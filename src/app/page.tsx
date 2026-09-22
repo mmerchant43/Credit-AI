@@ -28,13 +28,13 @@ export default async function Home() {
     prisma.creditComp.count({ where: { archived: false } }).catch(() => 0),
     prisma.creditComp.groupBy({ by: ["market"], where: { archived: false } }).then((g) => g.length).catch(() => 0),
     prisma.dealAnalysis.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 8,
+      orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
+      take: 30,
       include: { subject: true },
     }).catch(() => []),
   ]);
 
-  const analyses = recent.map((a) => ({
+  const toItem = (a: (typeof recent)[number]) => ({
     id: a.id,
     subjectName: a.subject.propertyName ?? a.subject.dealName ?? "Subject",
     location: [a.subject.city, a.subject.state].filter(Boolean).join(", "),
@@ -42,7 +42,10 @@ export default async function Home() {
     matchedCount: a.matchedCount,
     createdBy: a.createdBy,
     createdAt: a.createdAt,
-  }));
+    pinned: a.pinned,
+  });
+  const pinnedDeals = recent.filter((a) => a.pinned).map(toItem);
+  const recentDeals = recent.filter((a) => !a.pinned).slice(0, 8).map(toItem);
 
   const tiles = [
     { href: "/deals/new", label: "New Deal Analysis", icon: Icons.deal },
@@ -67,7 +70,12 @@ export default async function Home() {
         </div>
       </section>
 
-      <ActiveDealAnalyses analyses={analyses} />
+      <ActiveDealAnalyses title="Pinned Deals" analyses={pinnedDeals} />
+      <ActiveDealAnalyses
+        title="Recent Deal Analyses"
+        analyses={recentDeals}
+        emptyText="Nothing analyzed yet. Each analysis screens a subject deal against the comp database and saves it here."
+      />
 
       {/* Health line */}
       <div className="text-xs text-slate-500 border-t border-accent/30 pt-3 flex gap-5">

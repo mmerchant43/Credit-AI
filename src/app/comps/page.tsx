@@ -3,10 +3,12 @@ import { Suspense } from "react";
 import { prisma } from "@/lib/db";
 import {
   DASH, fmtMoney, fmtNum, fmtPct, fmtX, fmtDate,
-  PROPERTY_TYPE_LABELS, CATEGORY_LABELS, POSITION_LABELS, OUTCOME_LABELS,
+  CATEGORY_LABELS,
 } from "@/lib/format";
 import CompFilters from "@/components/CompFilters";
-import DuplicateAlert, { type DupRow } from "@/components/DuplicateAlert";
+import DuplicateAlert, { DupBadge, type DupRow } from "@/components/DuplicateAlert";
+import CompDetail, { type CompFull } from "@/components/CompDetail";
+import ArchiveComp from "@/components/ArchiveComp";
 
 export const dynamic = "force-dynamic";
 
@@ -28,9 +30,17 @@ const range = (min?: number, max?: number) =>
 const pctRange = (min?: number, max?: number) =>
   range(min != null ? min / 100 : undefined, max != null ? max / 100 : undefined);
 
-// Filter set per Mason (9/21/26): Category, Stories range, State, City, Zip, LTV range.
+// Filter set per Mason (9/21-22/26): Deal Name search, Category, Stories range, State, City, Zip, LTV range.
 function buildWhere(p: Params) {
   const where: Record<string, unknown> = { archived: false };
+
+  const name = str(p, "name");
+  if (name) {
+    where.OR = [
+      { propertyName: { contains: name, mode: "insensitive" } },
+      { dealName: { contains: name, mode: "insensitive" } },
+    ];
+  }
 
   const category = str(p, "category");
   if (category === "BRIDGE_REFI" || category === "CONSTRUCTION") where.category = category;
@@ -89,7 +99,30 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
         created: r.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       }))
     );
-  const dupIds = new Set(dupGroups.flat().map((r) => r.id));
+  // Row id → its duplicate group, so each DUP? badge opens just its own copies.
+  const dupGroupById = new Map<string, DupRow[]>();
+  for (const g of dupGroups) for (const r of g) dupGroupById.set(r.id, g);
+
+  const toFull = (c: (typeof comps)[number]): CompFull => ({
+    id: c.id,
+    propertyName: c.propertyName,
+    address: c.address, city: c.city, state: c.state, zip: c.zip,
+    market: c.market, submarket: c.submarket,
+    category: c.category, crowPosition: c.crowPosition,
+    units: c.units, stories: c.stories, sizeSf: c.sizeSf,
+    yearBuilt: c.yearBuilt, occupancyPct: c.occupancyPct,
+    loanAmount: c.loanAmount, loanPerUnit: c.loanPerUnit, loanPerSf: c.loanPerSf,
+    rateType: c.rateType, indexName: c.indexName, spreadBps: c.spreadBps,
+    ratePct: c.ratePct, termMonths: c.termMonths, ioMonths: c.ioMonths,
+    ltvPct: c.ltvPct, ltcPct: c.ltcPct, dscr: c.dscr, debtYieldPct: c.debtYieldPct,
+    totalProjectCost: c.totalProjectCost, tpcPerUnit: c.tpcPerUnit,
+    impliedCapPct: c.impliedCapPct, stabilizedCapPct: c.stabilizedCapPct,
+    borrowerSponsor: c.borrowerSponsor, brokerage: c.brokerage,
+    outcome: c.outcome, outcomeNote: c.outcomeNote,
+    sourceNote: c.sourceNote, notes: c.notes,
+    originationDate: c.originationDate ? fmtDate(c.originationDate) : null,
+    metricYears: c.metricYears.map((m) => ({ yearLabel: m.yearLabel, dscr: m.dscr, debtYieldPct: m.debtYieldPct })),
+  });
 
   return (
     <div className="space-y-5 pb-6">
@@ -122,7 +155,7 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
               <th className="px-3 py-2 text-center">LTC</th>
               <th className="px-3 py-2 text-center">DSCR</th>
               <th className="px-3 py-2 text-center">Debt Yield</th>
-              <th className="px-3 py-2 text-center">Outcome</th>
+              <th className="px-1 py-2" aria-label="delete" />
             </tr>
           </thead>
           <tbody>
@@ -133,8 +166,8 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
               return (
                 <tr key={c.id} className="border-b border-slate-100 hover:bg-slate-50">
                   <td className="px-3 py-2">
-                    <span className="font-medium">{c.propertyName ?? c.dealName ?? c.address ?? "N/A"}</span>
-                    {dupIds.has(c.id) && <span className="badge bg-amber-100 text-amber-800 border-amber-300 ml-1.5">dup?</span>}
+                    <CompDetail comp={toFull(c)} />
+                    {dupGroupById.has(c.id) && <DupBadge group={dupGroupById.get(c.id)!} />}
                     {c.borrowerSponsor && <div className="text-xs text-slate-400">{c.borrowerSponsor}</div>}
                   </td>
                   <td className="px-3 py-2 text-slate-600 text-xs">
@@ -155,8 +188,8 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
                   <td className="px-3 py-2 text-center tabular-nums" title={c.metricYears.map((m) => `${m.yearLabel}: DY ${m.debtYieldPct != null ? (m.debtYieldPct * 100).toFixed(2) + "%" : "—"}`).join(" · ")}>
                     {fmtPct(dyShown, 1)}
                   </td>
-                  <td className="px-3 py-2 text-center">
-                    <span className="badge bg-slate-100 text-slate-600 border-slate-200">{OUTCOME_LABELS[c.outcome] ?? c.outcome}</span>
+                  <td className="px-1 py-2 text-center">
+                    <ArchiveComp id={c.id} name={c.propertyName ?? c.dealName ?? "comp"} />
                   </td>
                 </tr>
               );

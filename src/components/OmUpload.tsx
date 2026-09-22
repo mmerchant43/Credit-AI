@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const PDFJS_VERSION = "4.10.38"; // keep in lockstep with package.json
-const KEYWORDS = /DSCR|debt service|debt yield|loan request|loan amount|sources\s*(&|and)\s*uses|unit mix|stories|occupancy|year built|delivery|LTV|LTC|loan-to|rent roll|financing|capitalization|total project cost|sponsor|cap rate|per unit|per square foot|PSF/i;
+const KEYWORDS = /DSCR|debt service|debt yield|loan request|loan amount|sources\s*(&|and)\s*uses|unit mix|stories|occupancy|year built|delivery|LTV|LTC|loan-to|rent roll|financing|capitalization|total project cost|sponsor|cap rate|per unit|per square foot|PSF|comparabl|competitive set|rent survey|comp set|recent sales|sale price|comps/i;
 
 async function pdfToText(file: File, onProgress: (msg: string) => void): Promise<string> {
   const pdfjs = await import("pdfjs-dist");
@@ -27,13 +27,13 @@ async function pdfToText(file: File, onProgress: (msg: string) => void): Promise
   for (let n = 1; n <= total; n++) {
     if (n % 10 === 0) onProgress(`Reading page ${n} of ${total}…`);
     const txt = await pageText(n);
-    if (n <= 18 || (kept.length < 40 && KEYWORDS.test(txt))) {
+    if (n <= 18 || (kept.length < 48 && KEYWORDS.test(txt))) {
       kept.push(n);
       parts.push(`--- PAGE ${n} ---\n${txt}`);
     }
-    if (kept.length >= 40 && n > 18) break;
+    if (kept.length >= 48 && n > 18) break;
   }
-  return parts.join("\n").slice(0, 150000);
+  return parts.join("\n").slice(0, 170000);
 }
 
 export default function OmUpload({ mode }: { mode: "comp" | "deal" }) {
@@ -64,7 +64,7 @@ export default function OmUpload({ mode }: { mode: "comp" | "deal" }) {
       const save = await fetch(mode === "deal" ? "/api/deals" : "/api/comps", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(exBody.fields),
+        body: JSON.stringify({ ...exBody.fields, fromOmUpload: true }),
       });
       const saveBody = await save.json();
       if (!save.ok) throw new Error(saveBody.error ?? "Could not save.");

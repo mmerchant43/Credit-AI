@@ -101,8 +101,9 @@ model CreditComp {
   city         String?
   state        String?
   zip          String? // location filter #1 works zip-first
-  lat          Float? // zip-centroid coords, geocoded lazily and cached (radius filter)
+  lat          Float? // geocoded lazily and cached (radius filter + map)
   lon          Float?
+  geoPrecision String? // "address" (Census street match) | "zip" (centroid)
   market       String
   submarket    String?
   propertyType PropertyType @default(UNKNOWN)
@@ -192,6 +193,7 @@ model DealAnalysis {
   subject      CreditComp @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   locationMode String // "zip" | "city" | "none"
   matchedCount Int
+  pinned       Boolean    @default(false) // starred on the homepage (Mason, 9/22/26)
   snapshot     Json // { matchedIds, trace, stats } as computed at save time
   createdBy    String? // signed-in user's name
   createdAt    DateTime   @default(now())

@@ -21,7 +21,8 @@ export default function MetricStrip({
   subject: number | null;
   median: number | null;
 }) {
-  if (values.length === 0) return <span className="text-xs text-slate-400">no comp values</span>;
+  if (values.length === 0)
+    return <div className="text-center text-xs text-slate-400">no comp values</div>;
 
   const W = 420, H = 36, PAD = 16, MID = 18;
   let lo = Math.min(...values, ...(subject != null ? [subject] : []));

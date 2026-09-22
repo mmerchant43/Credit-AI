@@ -42,6 +42,79 @@ export interface Geocodable {
   zip: string | null;
   lat: number | null;
   lon: number | null;
+  geoPrecision?: string | null;
+  address?: string | null;
+  city?: string | null;
+  state?: string | null;
+}
+
+/** Street-address geocoding via the US Census geocoder (free, no key).
+ *  Returns [lat, lon] for a real street match, else null. */
+export async function geocodeAddress(
+  address: string, city: string, state: string, zip?: string | null
+): Promise<[number, number] | null> {
+  try {
+    const oneline = [address, city, state, zip ?? ""].filter(Boolean).join(", ");
+    const url =
+      "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress" +
+      `?address=${encodeURIComponent(oneline)}&benchmark=Public_AR_Current&format=json`;
+    const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
+    if (!res.ok) return null;
+    const body = (await res.json()) as {
+      result?: { addressMatches?: { coordinates?: { x: number; y: number } }[] };
+    };
+    const c = body.result?.addressMatches?.[0]?.coordinates;
+    if (!c || !isFinite(c.x) || !isFinite(c.y)) return null;
+    return [c.y, c.x]; // Census returns x=lon, y=lat
+  } catch {
+    return null;
+  }
+}
+
+/** Upgrade rows to address-level coordinates where a street address exists
+ *  (used for the map's pins — screening keeps the cheaper zip centroids).
+ *  Persists lat/lon/geoPrecision; failures are silent and retried next time. */
+export async function ensureAddressCoords<T extends Geocodable>(rows: T[]): Promise<T[]> {
+  // "address-failed" is a persisted sentinel: Census couldn't match the
+  // address, so don't re-fire the 6s lookup on every page view. Editing the
+  // address via /api/comps/set-address re-geocodes and clears it.
+  const need = rows.filter(
+    (r) =>
+      r.geoPrecision !== "address" &&
+      r.geoPrecision !== "address-failed" &&
+      r.address && r.city && r.state
+  );
+  const CONCURRENCY = 5;
+  for (let i = 0; i < need.length; i += CONCURRENCY) {
+    const chunk = need.slice(i, i + CONCURRENCY);
+    const results = await Promise.all(
+      chunk.map((r) => geocodeAddress(r.address!, r.city!, r.state!, r.zip))
+    );
+    await Promise.all(
+      chunk.map(async (r, j) => {
+        const c = results[j];
+        try {
+          if (c) {
+            r.lat = c[0];
+            r.lon = c[1];
+            r.geoPrecision = "address";
+            await prisma.creditComp.update({
+              where: { id: r.id },
+              data: { lat: c[0], lon: c[1], geoPrecision: "address" },
+            });
+          } else {
+            // Keep any zip-centroid coords; just stop retrying the address.
+            r.geoPrecision = "address-failed";
+            await prisma.creditComp.update({
+              where: { id: r.id },
+              data: { geoPrecision: "address-failed" },
+            });
+          }
+        } catch { /* non-fatal */ }
+      })
+    );
+  }
+  return rows;
 }
 
 /** Fill in missing lat/lon (from zip) on the given rows, persisting what it
@@ -66,6 +139,7 @@ export async function ensureCoords<T extends Geocodable>(rows: T[]): Promise<T[]
     if (c) {
       r.lat = c[0];
       r.lon = c[1];
+      if (!r.geoPrecision) r.geoPrecision = "zip";
       updates.push({ id: r.id, lat: c[0], lon: c[1] });
     }
   }
@@ -73,7 +147,10 @@ export async function ensureCoords<T extends Geocodable>(rows: T[]): Promise<T[]
   try {
     await Promise.all(
       updates.map((u) =>
-        prisma.creditComp.update({ where: { id: u.id }, data: { lat: u.lat, lon: u.lon } })
+        prisma.creditComp.update({
+          where: { id: u.id },
+          data: { lat: u.lat, lon: u.lon, geoPrecision: "zip" },
+        })
       )
     );
   } catch {
