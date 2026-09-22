@@ -5,8 +5,16 @@
 // no API key. Comps without a mappable location are flagged below the map
 // with an inline address box; saving geocodes it and the map updates.
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import "leaflet/dist/leaflet.css";
+
+function haversineMi(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 3958.7613;
+  const p1 = (lat1 * Math.PI) / 180, p2 = (lat2 * Math.PI) / 180;
+  const dp = p2 - p1, dl = ((lon2 - lon1) * Math.PI) / 180;
+  const a = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
 
 export interface MapPoint {
   id: string;
@@ -80,7 +88,20 @@ export default function DealMap({
   radiusMiles: number | null;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
   const dataKey = JSON.stringify([points.map((p) => [p.id, p.lat, p.lon]), radiusMiles]);
+  const hasSubjectPin = points.some((p) => p.isSubject);
+
+  function pushRadius(v: number | null) {
+    const q = new URLSearchParams(params.toString());
+    q.delete("new");
+    q.delete("loc");
+    if (v && v > 0) q.set("radius", String(Math.min(Math.max(v, 0.5), 25)));
+    else q.delete("radius");
+    router.replace(`${pathname}${q.toString() ? `?${q}` : ""}`, { scroll: false });
+  }
 
   useEffect(() => {
     let map: import("leaflet").Map | null = null;
@@ -89,13 +110,16 @@ export default function DealMap({
       const L = (await import("leaflet")).default;
       if (cancelled || !containerRef.current) return;
       map = L.map(containerRef.current, { scrollWheelZoom: false });
-      // Carto Voyager — clean, Google-Maps-style cartography, no API key.
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-        maxZoom: 20,
-        subdomains: "abcd",
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      }).addTo(map);
+      // Esri World Street Map — clean commercial cartography, no API key.
+      // (Carto's basemaps started requiring an API key — swapped 9/22/26.)
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        {
+          maxZoom: 19,
+          attribution:
+            "Tiles &copy; Esri &mdash; Source: Esri, HERE, Garmin, &copy; OpenStreetMap contributors",
+        }
+      ).addTo(map);
 
       const pin = (color: string, size: number, ring: string, label: string) =>
         L.divIcon({
@@ -121,13 +145,39 @@ export default function DealMap({
         bounds.push([p.lat, p.lon]);
       }
       if (subject && radiusMiles && radiusMiles > 0) {
-        L.circle([subject.lat, subject.lon], {
+        const circle = L.circle([subject.lat, subject.lon], {
           radius: radiusMiles * 1609.34,
           color: "#A78C52",
           weight: 1.5,
           fillColor: "#A78C52",
           fillOpacity: 0.08,
         }).addTo(map);
+
+        // Draggable handle on the circle's eastern edge — drag in/out to
+        // resize the radius; releasing re-screens (Mason, 9/22/26).
+        const lonOffset = radiusMiles / (69.172 * Math.cos((subject.lat * Math.PI) / 180));
+        const handle = L.marker([subject.lat, subject.lon + lonOffset], {
+          draggable: true,
+          icon: L.divIcon({
+            className: "",
+            html: `<div style="width:16px;height:16px;border-radius:9999px;background:#fff;border:3px solid #A78C52;box-shadow:0 1px 4px rgba(27,42,74,.5);cursor:ew-resize" title="Drag to resize the radius"></div>`,
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+          }),
+          zIndexOffset: 900,
+        }).addTo(map);
+        handle.bindTooltip(`${radiusMiles} mi — drag to resize`, { direction: "right" });
+        handle.on("drag", () => {
+          const p = handle.getLatLng();
+          const mi = haversineMi(subject.lat, subject.lon, p.lat, p.lng);
+          circle.setRadius(Math.min(Math.max(mi, 0.5), 25) * 1609.34);
+          handle.setTooltipContent(`${Math.min(Math.max(mi, 0.5), 25).toFixed(1)} mi`);
+        });
+        handle.on("dragend", () => {
+          const p = handle.getLatLng();
+          const mi = Math.round(haversineMi(subject.lat, subject.lon, p.lat, p.lng) * 10) / 10;
+          pushRadius(mi);
+        });
       }
       if (bounds.length > 0) {
         map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
@@ -152,7 +202,34 @@ export default function DealMap({
       <div className="card overflow-hidden">
         {/* relative z-0 isolates Leaflet's internal z-indexes so the map can
             never paint above the site's modals/popups */}
-        <div ref={containerRef} className="relative z-0" style={{ height: 420, width: "100%" }} />
+        <div className="relative">
+          <div ref={containerRef} className="relative z-0" style={{ height: 420, width: "100%" }} />
+          {/* Radius control lives ON the map (Mason, 9/22/26) */}
+          <div className="absolute top-2 right-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
+            {hasSubjectPin ? (
+              <>
+                <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Radius</span>
+                <input
+                  className="field !w-16 text-center !py-1"
+                  type="number" min={0.5} max={25} step={0.5}
+                  key={`r-${radiusMiles ?? "off"}`}
+                  defaultValue={radiusMiles ?? ""}
+                  placeholder="off"
+                  onBlur={(e) => pushRadius(e.target.value === "" ? null : Number(e.target.value))}
+                  onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+                />
+                <span className="text-xs text-slate-400">mi</span>
+                {radiusMiles ? (
+                  <button type="button" className="btn text-xs" onClick={() => pushRadius(null)}>Clear</button>
+                ) : (
+                  <span className="text-xs text-slate-400">blank = zip → city</span>
+                )}
+              </>
+            ) : (
+              <span className="text-xs text-slate-400">subject has no pin — radius unavailable</span>
+            )}
+          </div>
+        </div>
         {unmapped.length > 0 && (
           <div className="border-t border-slate-200">
             {unmapped.map((c) => (

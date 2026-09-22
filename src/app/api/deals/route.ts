@@ -30,7 +30,7 @@ async function generateWriteup(
           content:
             'You are a real-estate private equity credit analyst writing the header of an internal comp analysis. Use ONLY the facts below — never invent, compute, or embellish a number. Respond with ONLY a JSON object (no fence, no commentary): {"deal": "...", "sponsor": "...", "ask": "..."}.\n' +
             "- deal: 1-2 sentences — what the asset is (units, stories, class, vintage), where, and its current state (occupancy for existing assets).\n" +
-            "- sponsor: 1-2 sentences — who the sponsor/borrower is and anything stated about them.\n" +
+            "- sponsor: 2-3 sentences — a short PROFILE of the sponsor/borrower, not just the name: who they are, track record, portfolio size, equity in this deal — whatever the facts below state (see sponsorDescription when present).\n" +
             "- ask: 2-3 sentences — the requested proceeds and what the proceeds will be used for. Mention cash-in, cash-neutral, or cash-out ONLY when the stated facts clearly establish it (e.g. new loan vs existing payoff, equity contributed or returned); when they don't, say NOTHING about cash-in/neutral/out — do not mention that the OM omits it.\n\n" +
             "DEAL FACTS (null = not stated):\n" + JSON.stringify(fields) +
             "\n\nCLASSIFICATION EVIDENCE:\n" + evidence,
@@ -84,6 +84,8 @@ export async function POST(req: Request) {
     const raw = (await req.json()) as Record<string, unknown>;
     const omRentComps = sanitizeOmComps(raw.omRentComps, RENT_KEYS);
     const omSalesComps = sanitizeOmComps(raw.omSalesComps, SALE_KEYS);
+    const sponsorDescription =
+      typeof raw.sponsorDescription === "string" ? raw.sponsorDescription.trim().slice(0, 600) : null;
     const parsed = compInputSchema.safeParse(raw);
     if (!parsed.success) {
       return NextResponse.json(
@@ -197,7 +199,7 @@ export async function POST(req: Request) {
 
     // 3. Short AI writeup for the analysis header (best-effort).
     const writeup = await generateWriteup(
-      { ...data, metricYears },
+      { ...data, metricYears, sponsorDescription },
       parsed.data.classificationEvidence ?? ""
     );
 

@@ -18,9 +18,9 @@ export const dynamic = "force-dynamic";
 // rendering — give it the same Fluid-Compute headroom as /api/extract.
 export const maxDuration = 300;
 
-// A saved deal analysis. The five screening criteria are adjustable from the
-// popup (auto-opens on a fresh deal); any change re-screens the live database
-// immediately. With no criteria in the URL, the saved snapshot renders.
+// A saved deal analysis. The screening criteria sit inline above the map
+// (location = the radius control ON the map); any change re-screens the live
+// database immediately. With no criteria in the URL, the saved snapshot renders.
 
 // Trimmed to the essentials per Mason (9/21/26) — the metric detail lives in
 // the Subject vs. Comps charts below.
@@ -42,6 +42,17 @@ function fmtBy(kind: string, v: number | null | undefined) {
 const avgOf = (vals: (number | null | undefined)[]): number | null => {
   const v = vals.filter((x): x is number => typeof x === "number" && isFinite(x));
   return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+};
+/** Unit-weighted average (Mason, 9/22/26): Σ(value × units) / Σ(units) over
+ *  rows where both are stated; falls back to the simple average when no row
+ *  carries a weight. */
+const wavgOf = (pairs: [number | null | undefined, number | null | undefined][]): number | null => {
+  const usable = pairs.filter(
+    ([v, w]) => typeof v === "number" && isFinite(v) && typeof w === "number" && isFinite(w) && (w as number) > 0
+  ) as [number, number][];
+  if (usable.length === 0) return avgOf(pairs.map(([v]) => v));
+  const totW = usable.reduce((a, [, w]) => a + w, 0);
+  return usable.reduce((a, [v, w]) => a + v * w, 0) / totW;
 };
 /** "value (+4.2%)" — subject vs. comp average, red-tinted when above/below is meaningless to color. */
 const vsAvg = (subject: number | null | undefined, average: number | null, fmt: (n: number) => string): string => {
@@ -241,17 +252,19 @@ export default async function DealAnalysisPage({
         ) : null}
       </section>
 
-      {/* Screening criteria (popup on new deals; summary bar always) */}
+      {/* Screening criteria — inline card; location lives on the map below */}
       <Suspense>
         <CriteriaPanel avail={avail} />
       </Suspense>
 
-      {/* Map — subject + matched comps */}
-      <DealMap
-        points={mapPoints}
-        unmapped={unmapped}
-        radiusMiles={criteria.location === "radius" ? criteria.radiusMiles : null}
-      />
+      {/* Map — subject + matched comps; radius control lives on the map */}
+      <Suspense>
+        <DealMap
+          points={mapPoints}
+          unmapped={unmapped}
+          radiusMiles={criteria.location === "radius" ? criteria.radiusMiles : null}
+        />
+      </Suspense>
 
       {/* Comparison table */}
       <section>
@@ -312,7 +325,7 @@ export default async function DealAnalysisPage({
               ))}
               {view.matchedCount === 0 && (
                 <tr><td colSpan={8} className="px-3 py-6 text-center text-slate-400">
-                  No comps passed the current criteria — loosen or switch off a filter in “Adjust Criteria”.
+                  No comps passed the current criteria — loosen a filter in the Screening panel above, or widen the radius on the map.
                 </td></tr>
               )}
             </tbody>
@@ -400,8 +413,8 @@ export default async function DealAnalysisPage({
                     units: avgOf(comps.map((r) => r.units)),
                     yearBuilt: avgOf(comps.map((r) => r.yearBuilt)),
                     occ: avgOf(comps.map((r) => r.occupancyPct)),
-                    rent: avgOf(comps.map((r) => r.avgRent)),
-                    psf: avgOf(comps.map((r) => r.rentPsf)),
+                    rent: wavgOf(comps.map((r) => [r.avgRent, r.units])), // unit-weighted
+                    psf: wavgOf(comps.map((r) => [r.rentPsf, r.units])), // unit-weighted
                   };
                   if (comps.length === 0) return null;
                   return (
@@ -477,7 +490,7 @@ export default async function DealAnalysisPage({
                     units: avgOf(comps.map((r) => r.units)),
                     yearBuilt: avgOf(comps.map((r) => r.yearBuilt)),
                     price: avgOf(comps.map((r) => r.salePrice)),
-                    ppu: avgOf(comps.map((r) => r.pricePerUnit)),
+                    ppu: wavgOf(comps.map((r) => [r.pricePerUnit, r.units])), // unit-weighted
                     cap: avgOf(comps.map((r) => r.capRate)),
                   };
                   if (comps.length === 0) return null;
