@@ -23,8 +23,8 @@ IRON RULES:
 
 Respond with ONLY a JSON object (no markdown fence, no commentary) with exactly these keys (null when not stated): propertyName, address, city, state (2-letter), zip, market ("City, ST" metro), submarket, units, stories, sizeSf, yearBuilt, occupancyPct, category, classificationEvidence, loanAmount, loanPerUnit, loanPerSf, rateType ("FIXED"|"FLOATING"|null), indexName, spreadBps, ratePct, termMonths, ioMonths, ltvPct, ltcPct, totalProjectCost, tpcPerUnit, impliedCapPct, stabilizedCapPct, dscr0, dy0, dscr1, dy1, dscr2, dy2, dscr3, dy3, borrowerSponsor, brokerage, sourceNote (e.g. "OM dated Jun-26"), notes (ranges, ambiguities, caveats), omRentComps, omSalesComps.
 
-omRentComps: the OM's rent/lease comparables table — it may be labeled Rent Comparables, Lease Comps, Competitive Set, Market Rent Survey, or similar — as an array (max 20), each {"name","city","state","units","yearBuilt","occupancyPct","avgRent","rentPsf","isSubject"} — avgRent = average monthly rent per unit in dollars, rentPsf in dollars, occupancyPct AS PERCENT. When the table includes the subject property's own row, include it with "isSubject": true. null if the OM has no such table.
-omSalesComps: the OM's sales comparables table as an array (max 20), each {"name","city","state","units","yearBuilt","salePrice","pricePerUnit","capRate","saleDate","isSubject"} — capRate AS PERCENT, saleDate as the OM states it ("Mar-25"). null if none. These arrays are display-only and must be verbatim from the OM's own comp tables.
+omRentComps: the OM's rent/lease comparables table — it may be labeled Rent Comparables, Lease Comps, Competitive Set, Market Rent Survey, or similar — as an array (max 12 rows; if the table is longer, keep the subject row plus the first 11 comps), each {"name","city","state","units","yearBuilt","occupancyPct","avgRent","rentPsf","isSubject"} — avgRent = average monthly rent per unit in dollars, rentPsf in dollars, occupancyPct AS PERCENT. When the table includes the subject property's own row, include it with "isSubject": true. null if the OM has no such table.
+omSalesComps: the OM's sales comparables table as an array (max 12 rows, same rule), each {"name","city","state","units","yearBuilt","salePrice","pricePerUnit","capRate","saleDate","isSubject"} — capRate AS PERCENT, saleDate as the OM states it ("Mar-25"). null if none. These arrays are display-only and must be verbatim from the OM's own comp tables. Keep "notes" and "classificationEvidence" CONCISE (2-3 sentences each) so the full JSON always fits.
 
 OM TEXT:
 `;
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 6000, // full field set + two 20-row OM comp tables needs headroom
+        max_tokens: 14000, // full field set + two comp tables, with generous headroom
         messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, 180000) }],
       }),
       signal: AbortSignal.timeout(55000),
