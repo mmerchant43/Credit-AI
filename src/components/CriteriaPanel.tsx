@@ -107,7 +107,7 @@ export default function CriteriaPanel({ avail }: { avail: SubjectAvailability })
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-[1200] flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
           <div className="card bg-white p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-1">
               <h3 className="font-display text-xl">Screening Criteria</h3>

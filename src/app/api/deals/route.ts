@@ -31,7 +31,7 @@ async function generateWriteup(
             'You are a real-estate private equity credit analyst writing the header of an internal comp analysis. Use ONLY the facts below — never invent, compute, or embellish a number. Respond with ONLY a JSON object (no fence, no commentary): {"deal": "...", "sponsor": "...", "ask": "..."}.\n' +
             "- deal: 1-2 sentences — what the asset is (units, stories, class, vintage), where, and its current state (occupancy for existing assets).\n" +
             "- sponsor: 1-2 sentences — who the sponsor/borrower is and anything stated about them.\n" +
-            "- ask: 2-3 sentences — the requested proceeds, what the proceeds will be used for, and whether the request is cash-in, cash-neutral, or cash-out. Decide cash-in/neutral/out only from the stated facts (e.g. new loan vs existing payoff, equity contributed or returned); if the facts don't establish it, say the OM doesn't state it.\n\n" +
+            "- ask: 2-3 sentences — the requested proceeds and what the proceeds will be used for. Mention cash-in, cash-neutral, or cash-out ONLY when the stated facts clearly establish it (e.g. new loan vs existing payoff, equity contributed or returned); when they don't, say NOTHING about cash-in/neutral/out — do not mention that the OM omits it.\n\n" +
             "DEAL FACTS (null = not stated):\n" + JSON.stringify(fields) +
             "\n\nCLASSIFICATION EVIDENCE:\n" + evidence,
         }],

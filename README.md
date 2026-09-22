@@ -1,4 +1,4 @@
-# Credit Comp Platform — Version 15.0
+# Credit Comp Platform — Version 17.0
 
 Crow Holdings internal credit comp database. Past underwritten deals ("comps")
 compared against new opportunities. Sister site to the Industrial Comp

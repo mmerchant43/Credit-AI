@@ -94,7 +94,7 @@ export function DupBadge({ group }: { group: DupRow[] }) {
         dup?
       </button>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-[1200] flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
           <div className="card bg-white p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto space-y-4" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="font-display text-xl">Duplicates — {group[0]?.name}</h3>
@@ -129,7 +129,7 @@ export default function DuplicateAlert({ groups }: { groups: DupRow[][] }) {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-[1200] flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
           <div className="card bg-white p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto space-y-5" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="font-display text-xl">Possible Duplicates</h3>

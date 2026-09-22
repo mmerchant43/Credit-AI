@@ -36,6 +36,22 @@ function fmtBy(kind: string, v: number | null | undefined) {
   return String(v);
 }
 
+// ── OM comp-table footer math (Mason, 9/22/26): comp average + subject
+//    percentage comparison. Averages are across comp rows only (subject
+//    excluded); a column with no comp values stays a dash. ──
+const avgOf = (vals: (number | null | undefined)[]): number | null => {
+  const v = vals.filter((x): x is number => typeof x === "number" && isFinite(x));
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+};
+/** "value (+4.2%)" — subject vs. comp average, red-tinted when above/below is meaningless to color. */
+const vsAvg = (subject: number | null | undefined, average: number | null, fmt: (n: number) => string): string => {
+  if (subject == null) return DASH;
+  if (average == null || average === 0) return fmt(subject);
+  const d = ((subject - average) / Math.abs(average)) * 100;
+  const sign = d >= 0 ? "+" : "−";
+  return `${fmt(subject)} (${sign}${Math.abs(d).toFixed(1)}%)`;
+};
+
 type Params = { [k: string]: string | string[] | undefined };
 const one = (p: Params, k: string) => (Array.isArray(p[k]) ? p[k]?.[0] : p[k]) as string | undefined;
 
@@ -164,6 +180,8 @@ export default async function DealAnalysisPage({
   const mapRows = [s, ...orderedMatched];
   await ensureCoords(mapRows);
   await ensureAddressCoords(mapRows);
+  // Pin labels match the Comparison table: S = subject, 1..N = comp order.
+  const numById = new Map<string, string>(orderedMatched.map((m, i) => [m.id, String(i + 1)]));
   const mapPoints: MapPoint[] = mapRows
     .filter((r) => r.lat != null && r.lon != null)
     .map((r) => ({
@@ -174,6 +192,7 @@ export default async function DealAnalysisPage({
       isSubject: r.id === s.id,
       precision: r.geoPrecision ?? "zip",
       detail: [[r.city, r.state].filter(Boolean).join(", "), r.zip, fmtMoney(r.loanAmount)].filter(Boolean).join(" · "),
+      label: r.id === s.id ? "S" : numById.get(r.id) ?? "•",
     }));
   const unmapped: UnmappedComp[] = mapRows
     .filter((r) => r.lat == null || r.lon == null || !r.address)
@@ -195,8 +214,8 @@ export default async function DealAnalysisPage({
 
       {/* Subject snapshot */}
       <section className="card human p-4">
-        <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm">
-          <span><b className="font-display">{s.propertyName ?? DASH}</b></span>
+        <div className="flex flex-wrap gap-x-8 gap-y-2 text-base">
+          <span><b className="font-display text-lg">{s.propertyName ?? DASH}</b></span>
           <span>Location: <b>{[s.city, s.state].filter(Boolean).join(", ") || DASH}{s.zip ? ` ${s.zip}` : ""}</b></span>
           <span>Category: <b>{s.category ? CATEGORY_LABELS[s.category] : DASH}</b></span>
           <span>Units: <b>{s.units ?? DASH}</b></span>
@@ -205,14 +224,14 @@ export default async function DealAnalysisPage({
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
         </div>
         {savedSnap.writeupSections ? (
-          <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
             {([
               ["The Deal", savedSnap.writeupSections.deal],
               ["The Sponsor", savedSnap.writeupSections.sponsor],
               ["The Ask", savedSnap.writeupSections.ask],
             ] as const).map(([label, text]) => (
               <div key={label}>
-                <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">{label}</div>
+                <div className="text-sm font-bold uppercase tracking-wide text-slate-600 mb-1.5">{label}</div>
                 <p className="font-display text-[17px] leading-relaxed text-ink/90">{text}</p>
               </div>
             ))}
@@ -248,6 +267,7 @@ export default async function DealAnalysisPage({
           <table className="w-full text-sm">
             <thead>
               <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
+                <th className="px-2 py-2 text-center w-10">#</th>
                 <th className="px-3 py-2 text-left">Property</th>
                 <th className="px-3 py-2 text-left">Location</th>
                 <th className="px-3 py-2 text-center">Category</th>
@@ -258,8 +278,16 @@ export default async function DealAnalysisPage({
               </tr>
             </thead>
             <tbody>
-              {rows.map(({ r, isSubject }) => (
+              {rows.map(({ r, isSubject }, i) => (
                 <tr key={r.id} className={`border-b border-slate-100 ${isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
+                  <td className="px-2 py-2 text-center">
+                    <span
+                      className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white ${isSubject ? "bg-accent" : "bg-navy"}`}
+                      title={isSubject ? "Subject — gold pin on the map" : `Comp ${i} — navy pin ${i} on the map`}
+                    >
+                      {isSubject ? "S" : i}
+                    </span>
+                  </td>
                   <td className="px-3 py-2">{isSubject ? "▸ " : ""}{r.propertyName ?? r.dealName ?? DASH}{isSubject ? " (Subject)" : ""}</td>
                   <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ")}{r.zip ? ` ${r.zip}` : ""}</td>
                   <td className="px-3 py-2 text-center text-xs text-slate-500">{r.category ? CATEGORY_LABELS[r.category] ?? DASH : DASH}</td>
@@ -283,7 +311,7 @@ export default async function DealAnalysisPage({
                 </tr>
               ))}
               {view.matchedCount === 0 && (
-                <tr><td colSpan={7} className="px-3 py-6 text-center text-slate-400">
+                <tr><td colSpan={8} className="px-3 py-6 text-center text-slate-400">
                   No comps passed the current criteria — loosen or switch off a filter in “Adjust Criteria”.
                 </td></tr>
               )}
@@ -365,6 +393,42 @@ export default async function DealAnalysisPage({
                     <td className="px-3 py-2 text-right tabular-nums">{r.rentPsf != null ? `$${r.rentPsf.toFixed(2)}` : DASH}</td>
                   </tr>
                 ))}
+                {(() => {
+                  const comps = savedSnap.omRentComps!.filter((r) => !r.isSubject);
+                  const subj = savedSnap.omRentComps!.find((r) => r.isSubject);
+                  const a = {
+                    units: avgOf(comps.map((r) => r.units)),
+                    yearBuilt: avgOf(comps.map((r) => r.yearBuilt)),
+                    occ: avgOf(comps.map((r) => r.occupancyPct)),
+                    rent: avgOf(comps.map((r) => r.avgRent)),
+                    psf: avgOf(comps.map((r) => r.rentPsf)),
+                  };
+                  if (comps.length === 0) return null;
+                  return (
+                    <>
+                      <tr className="machine border-b border-slate-200 font-medium">
+                        <td className="px-3 py-2">Comp Average ({comps.length})</td>
+                        <td className="px-3 py-2" />
+                        <td className="px-3 py-2 text-center tabular-nums">{a.units != null ? Math.round(a.units) : DASH}</td>
+                        <td className="px-3 py-2 text-center tabular-nums">{a.yearBuilt != null ? Math.round(a.yearBuilt) : DASH}</td>
+                        <td className="px-3 py-2 text-center tabular-nums">{a.occ != null ? `${a.occ.toFixed(1)}%` : DASH}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{a.rent != null ? fmtMoney(a.rent) : DASH}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{a.psf != null ? `$${a.psf.toFixed(2)}` : DASH}</td>
+                      </tr>
+                      {subj && (
+                        <tr className="human font-medium">
+                          <td className="px-3 py-2">▸ {subj.name} vs. Average</td>
+                          <td className="px-3 py-2" />
+                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.units, a.units, (n) => String(Math.round(n)))}</td>
+                          <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt != null ? `${subj.yearBuilt}${a.yearBuilt != null ? ` (${subj.yearBuilt - Math.round(a.yearBuilt) >= 0 ? "+" : ""}${subj.yearBuilt - Math.round(a.yearBuilt)} yrs)` : ""}` : DASH}</td>
+                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.occupancyPct, a.occ, (n) => `${n.toFixed(1)}%`)}</td>
+                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.avgRent, a.rent, (n) => fmtMoney(n))}</td>
+                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.rentPsf, a.psf, (n) => `$${n.toFixed(2)}`)}</td>
+                        </tr>
+                      )}
+                    </>
+                  );
+                })()}
               </tbody>
             </table>
           </div>
@@ -406,6 +470,44 @@ export default async function DealAnalysisPage({
                     <td className="px-3 py-2 text-center">{r.saleDate ?? DASH}</td>
                   </tr>
                 ))}
+                {(() => {
+                  const comps = savedSnap.omSalesComps!.filter((r) => !r.isSubject);
+                  const subj = savedSnap.omSalesComps!.find((r) => r.isSubject);
+                  const a = {
+                    units: avgOf(comps.map((r) => r.units)),
+                    yearBuilt: avgOf(comps.map((r) => r.yearBuilt)),
+                    price: avgOf(comps.map((r) => r.salePrice)),
+                    ppu: avgOf(comps.map((r) => r.pricePerUnit)),
+                    cap: avgOf(comps.map((r) => r.capRate)),
+                  };
+                  if (comps.length === 0) return null;
+                  return (
+                    <>
+                      <tr className="machine border-b border-slate-200 font-medium">
+                        <td className="px-3 py-2">Comp Average ({comps.length})</td>
+                        <td className="px-3 py-2" />
+                        <td className="px-3 py-2 text-center tabular-nums">{a.units != null ? Math.round(a.units) : DASH}</td>
+                        <td className="px-3 py-2 text-center tabular-nums">{a.yearBuilt != null ? Math.round(a.yearBuilt) : DASH}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{a.price != null ? fmtMoney(a.price) : DASH}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{a.ppu != null ? fmtMoney(a.ppu) : DASH}</td>
+                        <td className="px-3 py-2 text-center tabular-nums">{a.cap != null ? `${a.cap.toFixed(2)}%` : DASH}</td>
+                        <td className="px-3 py-2" />
+                      </tr>
+                      {subj && (
+                        <tr className="human font-medium">
+                          <td className="px-3 py-2">▸ {subj.name} vs. Average</td>
+                          <td className="px-3 py-2" />
+                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.units, a.units, (n) => String(Math.round(n)))}</td>
+                          <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt != null ? `${subj.yearBuilt}${a.yearBuilt != null ? ` (${subj.yearBuilt - Math.round(a.yearBuilt) >= 0 ? "+" : ""}${subj.yearBuilt - Math.round(a.yearBuilt)} yrs)` : ""}` : DASH}</td>
+                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.salePrice, a.price, (n) => fmtMoney(n))}</td>
+                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.pricePerUnit, a.ppu, (n) => fmtMoney(n))}</td>
+                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.capRate, a.cap, (n) => `${n.toFixed(2)}%`)}</td>
+                          <td className="px-3 py-2" />
+                        </tr>
+                      )}
+                    </>
+                  );
+                })()}
               </tbody>
             </table>
           </div>

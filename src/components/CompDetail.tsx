@@ -83,7 +83,7 @@ export default function CompDetail({ comp }: { comp: CompFull }) {
         {c.propertyName ?? "N/A"}
       </button>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-[1200] flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
           <div className="card bg-white p-6 w-full max-w-3xl max-h-[85vh] overflow-y-auto space-y-5 text-left" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between gap-4">
               <div>

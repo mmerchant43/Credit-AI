@@ -16,6 +16,7 @@ export interface MapPoint {
   isSubject: boolean;
   precision: string | null; // "address" | "zip"
   detail: string;
+  label: string; // "S" for the subject, "1".."N" matching the Comparison table
 }
 
 export interface UnmappedComp {
@@ -88,15 +89,18 @@ export default function DealMap({
       const L = (await import("leaflet")).default;
       if (cancelled || !containerRef.current) return;
       map = L.map(containerRef.current, { scrollWheelZoom: false });
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      // Carto Voyager — clean, Google-Maps-style cartography, no API key.
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        maxZoom: 20,
+        subdomains: "abcd",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
       }).addTo(map);
 
-      const dot = (color: string, size: number, ring: string) =>
+      const pin = (color: string, size: number, ring: string, label: string) =>
         L.divIcon({
           className: "",
-          html: `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:${color};border:2.5px solid ${ring};box-shadow:0 1px 4px rgba(27,42,74,.5)"></div>`,
+          html: `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:${color};border:2.5px solid ${ring};box-shadow:0 1px 4px rgba(27,42,74,.5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:${Math.round(size * 0.5)}px;font-family:ui-sans-serif,system-ui">${label}</div>`,
           iconSize: [size, size],
           iconAnchor: [size / 2, size / 2],
         });
@@ -107,7 +111,7 @@ export default function DealMap({
       const bounds: [number, number][] = [];
       for (const p of points) {
         const marker = L.marker([p.lat, p.lon], {
-          icon: p.isSubject ? dot("#A78C52", 20, "#fff") : dot("#1B2A4A", 14, "#fff"),
+          icon: p.isSubject ? pin("#A78C52", 26, "#fff", esc(p.label)) : pin("#1B2A4A", 22, "#fff", esc(p.label)),
           zIndexOffset: p.isSubject ? 1000 : 0,
         }).addTo(map);
         marker.bindPopup(
@@ -146,7 +150,9 @@ export default function DealMap({
         <span className="text-xs text-slate-400 whitespace-nowrap">subject (gold) · comps (navy){radiusMiles ? " · radius shown" : ""}</span>
       </div>
       <div className="card overflow-hidden">
-        <div ref={containerRef} style={{ height: 420, width: "100%" }} />
+        {/* relative z-0 isolates Leaflet's internal z-indexes so the map can
+            never paint above the site's modals/popups */}
+        <div ref={containerRef} className="relative z-0" style={{ height: 420, width: "100%" }} />
         {unmapped.length > 0 && (
           <div className="border-t border-slate-200">
             {unmapped.map((c) => (
