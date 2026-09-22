@@ -58,69 +58,77 @@ export default function CriteriaPanel({ avail }: { avail: SubjectAvailability })
     startTransition(() => router.replace(`${pathname}${q.toString() ? `?${q}` : ""}`, { scroll: false }));
   }
 
-  const group = "flex items-center gap-2";
-  const label = "text-sm font-medium whitespace-nowrap";
-  const hint = "text-xs text-slate-400 whitespace-nowrap";
+  const colTitle = "text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1.5";
+  const hint = "text-xs text-slate-400";
 
   return (
     <div className="card p-4">
-      <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-        <span className="label !mb-0">Screening</span>
-
-        <div className={group}>
-          <span className={label}>Location</span>
-          <span className={hint}>
-            {Number(c.radius) > 0 ? `${c.radius} mi radius — adjust on the map` : "same zip → same city · set a radius on the map"}
-          </span>
-        </div>
-
-        <div className={group}>
-          <span className={label}>Vintage</span>
-          <Toggle on={c.vin !== "off"} label="Vintage filter" onChange={(v) => push({ vin: v ? "3" : "off" })} />
-          {c.vin !== "off" && (
-            <>
-              <span className={hint}>±</span>
-              <input className="field !w-14 text-center" type="number" min={0} step={1}
-                key={`vin-${c.vin}`} defaultValue={c.vin}
-                onBlur={(e) => push({ vin: e.target.value === "" ? "off" : e.target.value })}
-                onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }} />
-              <span className={hint}>yrs</span>
-            </>
-          )}
-          {!avail.yearBuilt && <span className={hint}>(subject year unknown — won&apos;t apply)</span>}
-        </div>
-
-        <div className={group}>
-          <span className={label}>Occupancy</span>
-          <Toggle on={c.occ !== "off"} label="Occupancy filter" onChange={(v) => push({ occ: v ? "10" : "off" })} />
-          {c.occ !== "off" && (
-            <>
-              <span className={hint}>±</span>
-              <input className="field !w-14 text-center" type="number" min={0} step={1}
-                key={`occ-${c.occ}`} defaultValue={c.occ}
-                onBlur={(e) => push({ occ: e.target.value === "" ? "off" : e.target.value })}
-                onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }} />
-              <span className={hint}>pts</span>
-            </>
-          )}
-          {!avail.occupancy && <span className={hint}>(n/a for this subject)</span>}
-        </div>
-
-        <div className={group}>
-          <span className={label}>Same category</span>
-          <Toggle on={c.cat !== "off"} label="Category filter" onChange={(v) => push({ cat: v ? "" : "off" })} />
-        </div>
-
-        <div className={group}>
-          <span className={label}>Same property type</span>
-          <Toggle on={c.typ !== "off"} label="Property type filter" onChange={(v) => push({ typ: v ? "" : "off" })} />
-        </div>
-
-        <button type="button" className="btn text-xs ml-auto"
+      <div className="flex items-center gap-3 mb-3">
+        <span className="label !mb-0">Screening Criteria</span>
+        <div className="flex-1 border-t border-accent/30" />
+        <span className={hint}>{isPending ? "re-screening…" : "changes apply instantly"}</span>
+        <button type="button" className="btn text-xs"
           onClick={() => push({ radius: "", loc: "", vin: "", occ: "", cat: "", typ: "", x: "" })}>
           Reset
         </button>
-        <span className={hint}>{isPending ? "re-screening…" : ""}</span>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-4">
+        <div>
+          <div className={colTitle}>Location</div>
+          <div className="text-sm font-medium">{Number(c.radius) > 0 ? `${c.radius} mi radius` : "1 mi radius"}</div>
+          <div className={hint}>adjust on the map</div>
+        </div>
+
+        <div>
+          <div className={colTitle}>Vintage</div>
+          <div className="flex items-center gap-2">
+            <Toggle on={c.vin !== "off"} label="Vintage filter" onChange={(v) => push({ vin: v ? "3" : "off" })} />
+            {c.vin !== "off" && (
+              <>
+                <input className="field !w-14 text-center !py-1" type="number" min={0} step={1}
+                  key={`vin-${c.vin}`} defaultValue={c.vin}
+                  onBlur={(e) => push({ vin: e.target.value === "" ? "off" : e.target.value })}
+                  onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }} />
+                <span className={hint}>± yrs</span>
+              </>
+            )}
+          </div>
+          {!avail.yearBuilt && <div className={hint}>subject year unknown — won&apos;t apply</div>}
+        </div>
+
+        <div>
+          <div className={colTitle}>Occupancy</div>
+          <div className="flex items-center gap-2">
+            <Toggle on={c.occ !== "off"} label="Occupancy filter" onChange={(v) => push({ occ: v ? "10" : "off" })} />
+            {c.occ !== "off" && (
+              <>
+                <input className="field !w-14 text-center !py-1" type="number" min={0} step={1}
+                  key={`occ-${c.occ}`} defaultValue={c.occ}
+                  onBlur={(e) => push({ occ: e.target.value === "" ? "off" : e.target.value })}
+                  onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }} />
+                <span className={hint}>± pts</span>
+              </>
+            )}
+          </div>
+          {!avail.occupancy && <div className={hint}>n/a for this subject</div>}
+        </div>
+
+        <div>
+          <div className={colTitle}>Same Category</div>
+          <div className="flex items-center gap-2">
+            <Toggle on={c.cat !== "off"} label="Category filter" onChange={(v) => push({ cat: v ? "" : "off" })} />
+            <span className={hint}>{c.cat !== "off" ? "on" : "off"}</span>
+          </div>
+        </div>
+
+        <div>
+          <div className={colTitle}>Same Property Type</div>
+          <div className="flex items-center gap-2">
+            <Toggle on={c.typ !== "off"} label="Property type filter" onChange={(v) => push({ typ: v ? "" : "off" })} />
+            <span className={hint}>{c.typ !== "off" ? "on" : "off"}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

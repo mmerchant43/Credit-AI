@@ -110,16 +110,29 @@ export default function DealMap({
       const L = (await import("leaflet")).default;
       if (cancelled || !containerRef.current) return;
       map = L.map(containerRef.current, { scrollWheelZoom: false });
-      // Esri World Street Map — clean commercial cartography, no API key.
-      // (Carto's basemaps started requiring an API key — swapped 9/22/26.)
-      L.tileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        {
-          maxZoom: 19,
-          attribution:
-            "Tiles &copy; Esri &mdash; Source: Esri, HERE, Garmin, &copy; OpenStreetMap contributors",
-        }
-      ).addTo(map);
+      // Basemap: Stadia "Alidade Smooth" when a (free) key is configured —
+      // the cleanest modern look — else Esri Light Gray Canvas, the cleanest
+      // keyless option (minimal gray base + labels; pins pop).
+      const stadiaKey = process.env.NEXT_PUBLIC_STADIA_API_KEY;
+      if (stadiaKey) {
+        L.tileLayer(
+          `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${stadiaKey}`,
+          {
+            maxZoom: 20,
+            attribution:
+              '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          }
+        ).addTo(map);
+      } else {
+        L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+          { maxNativeZoom: 16, maxZoom: 18, attribution: "Tiles &copy; Esri &mdash; Esri, HERE, Garmin" }
+        ).addTo(map);
+        L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+          { maxNativeZoom: 16, maxZoom: 18, attribution: "" }
+        ).addTo(map);
+      }
 
       const pin = (color: string, size: number, ring: string, label: string) =>
         L.divIcon({
@@ -204,7 +217,7 @@ export default function DealMap({
             never paint above the site's modals/popups */}
         <div className="relative">
           <div ref={containerRef} className="relative z-0" style={{ height: 420, width: "100%" }} />
-          {/* Radius control lives ON the map (Mason, 9/22/26) */}
+          {/* Radius control lives ON the map (Mason, 9/22/26). Default 1 mi. */}
           <div className="absolute top-2 right-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
             {hasSubjectPin ? (
               <>
@@ -212,18 +225,12 @@ export default function DealMap({
                 <input
                   className="field !w-16 text-center !py-1"
                   type="number" min={0.5} max={25} step={0.5}
-                  key={`r-${radiusMiles ?? "off"}`}
-                  defaultValue={radiusMiles ?? ""}
-                  placeholder="off"
+                  key={`r-${radiusMiles ?? 1}`}
+                  defaultValue={radiusMiles ?? 1}
                   onBlur={(e) => pushRadius(e.target.value === "" ? null : Number(e.target.value))}
                   onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
                 />
-                <span className="text-xs text-slate-400">mi</span>
-                {radiusMiles ? (
-                  <button type="button" className="btn text-xs" onClick={() => pushRadius(null)}>Clear</button>
-                ) : (
-                  <span className="text-xs text-slate-400">blank = zip → city</span>
-                )}
+                <span className="text-xs text-slate-400">mi · drag the ring&apos;s edge to resize</span>
               </>
             ) : (
               <span className="text-xs text-slate-400">subject has no pin — radius unavailable</span>

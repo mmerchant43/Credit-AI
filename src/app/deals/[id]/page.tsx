@@ -75,9 +75,10 @@ function parseCriteria(p: Params): { criteria: Criteria; anySet: boolean } {
   const typ = one(p, "typ");
 
   const anySet = Boolean(loc || radius > 0 || vin || occ || cat || typ);
+  // Default location screen is a 1-mile radius (Mason, 9/22/26).
   const criteria: Criteria = {
-    location: loc === "off" ? "off" : loc === "radius" || radius > 0 ? "radius" : "auto",
-    radiusMiles: radius > 0 ? Math.min(radius, 25) : null,
+    location: loc === "off" ? "off" : "radius",
+    radiusMiles: radius > 0 ? Math.min(radius, 25) : 1,
     propertyType: typ !== "off",
     vintageYears: vin === "off" ? null : vin != null && vin !== "" ? Math.max(0, Number(vin) || 0) : DEFAULT_CRITERIA.vintageYears,
     occupancyPts: occ === "off" ? null : occ != null && occ !== "" ? Math.max(0, Number(occ) || 0) : DEFAULT_CRITERIA.occupancyPts,
@@ -257,12 +258,18 @@ export default async function DealAnalysisPage({
         <CriteriaPanel avail={avail} />
       </Suspense>
 
-      {/* Map — subject + matched comps; radius control lives on the map */}
+      {/* Map — subject + matched comps; radius control lives on the map.
+          The ring only renders when it reflects the match set on screen
+          (legacy zip/city snapshots draw no ring until you interact). */}
       <Suspense>
         <DealMap
           points={mapPoints}
           unmapped={unmapped}
-          radiusMiles={criteria.location === "radius" ? criteria.radiusMiles : null}
+          radiusMiles={
+            view.live
+              ? (criteria.location === "radius" ? criteria.radiusMiles : null)
+              : (analysis.locationMode === "radius" ? criteria.radiusMiles : null)
+          }
         />
       </Suspense>
 

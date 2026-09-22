@@ -3,8 +3,9 @@ import { prisma } from "@/lib/db";
 import { currentUser } from "@/lib/auth";
 import { compInputSchema, toCompData } from "@/lib/compInput";
 import { runScreen, summarize, excludeSameName, type Screenable } from "@/lib/screen";
+import { ensureCoords } from "@/lib/geo";
 
-export const maxDuration = 120;
+export const maxDuration = 300; // first save on a fresh DB geocodes the whole pool
 
 // Analyst-style writeup of the subject deal for the analysis header, in
 // three sections (Mason, 9/22/26): the Deal, the Sponsor, and the Ask.
@@ -183,14 +184,20 @@ export async function POST(req: Request) {
     }
 
     // 2. Screen it against every other active comp — never against a comp
-    //    with exactly the subject's own name (same asset).
+    //    with exactly the subject's own name (same asset). Default screen is
+    //    a 1-MILE RADIUS (Mason, 9/22/26) — coords are zip-centroid cached,
+    //    so this is one lookup for the subject and cache hits for the rest.
     const comps = excludeSameName(
       subject as unknown as Screenable,
       await prisma.creditComp.findMany({
         where: { archived: false, id: { not: subject.id } },
       }) as unknown as Screenable[]
     );
-    const screen = runScreen(subject as unknown as Screenable, comps as unknown as Screenable[]);
+    await ensureCoords([subject as unknown as Screenable & { id: string }, ...(comps as (Screenable & { id: string })[])]);
+    const screen = runScreen(subject as unknown as Screenable, comps as unknown as Screenable[], {
+      location: "radius",
+      radiusMiles: 1,
+    });
     const matchedFull = comps.filter((c) => screen.matched.some((m) => m.id === c.id));
     const stats = summarize(
       subject as unknown as Record<string, unknown>,
