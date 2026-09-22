@@ -392,7 +392,7 @@ export default async function DealAnalysisPage({
                   <th className="px-3 py-2 text-right">Min</th>
                   <th className="px-3 py-2 text-right">Median</th>
                   <th className="px-3 py-2 text-right">Max</th>
-                  <th className="px-3 py-2 text-center" title="comps (navy) · median (tick) · subject (gold)">Distribution</th>
+                  <th className="px-3 py-2 text-center w-[45%] min-w-[380px]" title="comps (navy) · median (tick) · subject (gold)">Distribution</th>
                 </tr>
               </thead>
               <tbody>
@@ -402,7 +402,18 @@ export default async function DealAnalysisPage({
                     .filter((v): v is number => typeof v === "number" && isFinite(v));
                   return (
                     <tr key={row.key} className="border-b border-slate-100">
-                      <td className="px-3 py-2">{row.label}{row.outside && <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">outside range</span>}</td>
+                      <td className="px-3 py-2">{row.label}{
+                        // Range flag (Mason, 9/22/26): every metric with a
+                        // subject value and a comp range gets one — green
+                        // within, red below/above.
+                        row.subject != null && row.min != null && row.max != null && (
+                          row.subject < row.min
+                            ? <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">below range</span>
+                            : row.subject > row.max
+                              ? <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">above range</span>
+                              : <span className="badge bg-green-50 text-green-700 border-green-200 ml-2">within range</span>
+                        )
+                      }</td>
                       <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBy(row.kind, row.subject)}</td>
                       <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.min)}</td>
                       <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.median)}</td>
@@ -491,7 +502,7 @@ export default async function DealAnalysisPage({
                             <td className="px-3 py-2 text-right tabular-nums">{subj.avgRent != null ? fmtMoney(subj.avgRent) : DASH}</td>
                             <td className="px-3 py-2 text-right tabular-nums">{subj.rentPsf != null ? `$${subj.rentPsf.toFixed(2)}` : DASH}</td>
                           </tr>
-                          <tr className="bg-accent/10 font-medium text-accent">
+                          <tr className="bg-accent/10 font-semibold text-[#7A6234]">
                             <td className="px-3 py-2 text-xs uppercase tracking-wide">vs. Comp Average</td>
                             <td className="px-3 py-2" />
                             <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.units, a.units)}</td>
@@ -583,7 +594,7 @@ export default async function DealAnalysisPage({
                             <td className="px-3 py-2 text-center tabular-nums">{subj.capRate != null ? `${subj.capRate.toFixed(2)}%` : DASH}</td>
                             <td className="px-3 py-2" />
                           </tr>
-                          <tr className="bg-accent/10 font-medium text-accent">
+                          <tr className="bg-accent/10 font-semibold text-[#7A6234]">
                             <td className="px-3 py-2 text-xs uppercase tracking-wide">vs. Comp Average</td>
                             <td className="px-3 py-2" />
                             <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.units, a.units)}</td>

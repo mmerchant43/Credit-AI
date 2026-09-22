@@ -36,7 +36,11 @@ export interface UnmappedComp {
   hasAddress: boolean;
 }
 
-function AddressFixRow({ c }: { c: UnmappedComp }) {
+function AddressFixRow({ c, onPlace, isPlacing }: {
+  c: UnmappedComp;
+  onPlace: (c: UnmappedComp) => void;
+  isPlacing: boolean;
+}) {
   const router = useRouter();
   const [value, setValue] = useState("");
   const [busy, setBusy] = useState(false);
@@ -52,7 +56,7 @@ function AddressFixRow({ c }: { c: UnmappedComp }) {
       });
       const body = await res.json().catch(() => ({} as { error?: string; geocoded?: boolean }));
       if (!res.ok) throw new Error(body.error ?? `Failed (${res.status}).`);
-      if (!body.geocoded) setError("Saved, but that address couldn't be located — check the spelling.");
+      if (!body.geocoded) setError("Saved, but neither geocoder (Census, OpenStreetMap) could locate that address — double-check it, or include the city and zip.");
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed.");
@@ -74,8 +78,22 @@ function AddressFixRow({ c }: { c: UnmappedComp }) {
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => { if (e.key === "Enter") void save(); }}
       />
-      <button type="button" className="btn text-xs" disabled={busy || value.trim().length < 3} onClick={save}>
+      <button
+        type="button"
+        className="btn text-xs !bg-accent !text-white !border-accent hover:!bg-[#8F7743] disabled:!bg-slate-200 disabled:!text-slate-400 disabled:!border-slate-200"
+        disabled={busy || value.trim().length < 3}
+        onClick={save}
+      >
         {busy ? "Locating…" : "Save & map"}
+      </button>
+      {/* Geocoder-proof fallback (Mason, 9/22/26): brand-new addresses may
+          not be in any geocoder yet — click the exact spot instead. */}
+      <button
+        type="button"
+        className={`btn text-xs ${isPlacing ? "!bg-accent !text-white" : ""}`}
+        onClick={() => onPlace(c)}
+      >
+        {isPlacing ? "Click the map…" : "Place pin on map"}
       </button>
       {error && <span className="text-xs text-red-600 w-full">{error}</span>}
     </div>
@@ -108,6 +126,19 @@ export default function DealMap({
   const drawingRef = useRef(false);
   const drawApi = useRef<{ start: () => void; cancel: () => void; finish: () => void } | null>(null);
   const boundaryMode = drawing || Boolean(polygon);
+
+  // Manual pin placement: which unpinned comp is waiting for a map click.
+  const [placing, setPlacing] = useState<UnmappedComp | null>(null);
+  const placingRef = useRef<UnmappedComp | null>(null);
+  function startPlacing(c: UnmappedComp) {
+    drawApi.current?.cancel(); // one map-click mode at a time
+    placingRef.current = c;
+    setPlacing(c);
+  }
+  function cancelPlacing() {
+    placingRef.current = null;
+    setPlacing(null);
+  }
 
   // Read the URL live (window.location) so a handler wired up inside the
   // map effect never replays stale params over criteria toggled since.
@@ -187,13 +218,34 @@ export default function DealMap({
         },
       };
       map.on("click", (e: import("leaflet").LeafletMouseEvent) => {
-        if (!drawingRef.current || !sketch.line || !map) return;
-        verts.push([e.latlng.lat, e.latlng.lng]);
-        sketch.line.setLatLngs(verts);
-        sketch.dots.push(
-          L.circleMarker(e.latlng, { radius: 4, color: "#A78C52", fillColor: "#fff", fillOpacity: 1, weight: 2 }).addTo(map)
-        );
-        setVertCount(verts.length);
+        // Boundary drawing takes the click first…
+        if (drawingRef.current && sketch.line && map) {
+          verts.push([e.latlng.lat, e.latlng.lng]);
+          sketch.line.setLatLngs(verts);
+          sketch.dots.push(
+            L.circleMarker(e.latlng, { radius: 4, color: "#A78C52", fillColor: "#fff", fillOpacity: 1, weight: 2 }).addTo(map)
+          );
+          setVertCount(verts.length);
+          return;
+        }
+        // …then manual pin placement (Mason, 9/22/26).
+        const target = placingRef.current;
+        if (!target) return;
+        placingRef.current = null;
+        setPlacing(null);
+        void (async () => {
+          try {
+            const res = await fetch("/api/comps/set-latlon", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: target.id, lat: e.latlng.lat, lon: e.latlng.lng }),
+            });
+            if (res.ok) router.refresh();
+            else alert(`Could not save the pin for ${target.name} — please try again.`);
+          } catch {
+            alert(`Could not save the pin for ${target.name} — please try again.`);
+          }
+        })();
       });
       // Basemap: Stadia "Alidade Smooth" when a (free) key is configured —
       // the cleanest modern look — else Esri Light Gray Canvas, the cleanest
@@ -321,6 +373,15 @@ export default function DealMap({
             never paint above the site's modals/popups */}
         <div className="relative">
           <div ref={containerRef} className="relative z-0" style={{ height: 420, width: "100%" }} />
+          {/* Manual pin placement banner */}
+          {placing && (
+            <div className="absolute top-2 left-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
+              <span className="text-xs text-slate-600">
+                Click the map to place the pin for <b>{placing.name}</b>
+              </span>
+              <button type="button" className="btn text-xs" onClick={cancelPlacing}>Cancel</button>
+            </div>
+          )}
           {/* Radius control lives ON the map (Mason, 9/22/26). Default 1 mi. */}
           <div className="absolute top-2 right-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
             {hasSubjectPin ? (
@@ -390,7 +451,11 @@ export default function DealMap({
             </div>
             {unmapped.map((c) => (
               <div key={c.id}>
-                <AddressFixRow c={c} />
+                <AddressFixRow
+                  c={c}
+                  onPlace={startPlacing}
+                  isPlacing={placing?.id === c.id}
+                />
               </div>
             ))}
           </div>

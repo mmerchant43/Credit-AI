@@ -3,7 +3,7 @@ import "./globals.css";
 import { TopBar } from "@/components/TopBar";
 
 export const metadata: Metadata = {
-  title: "Crow Holdings: New Deal Analyzer",
+  title: "Crow Holdings: Credit Team",
   description: "Crow Holdings internal credit comp database — past underwritten deals for comparison against new opportunities.",
 };
 

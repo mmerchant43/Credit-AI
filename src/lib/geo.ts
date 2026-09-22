@@ -48,13 +48,8 @@ export interface Geocodable {
   state?: string | null;
 }
 
-/** Street-address geocoding via the US Census geocoder (free, no key).
- *  Returns [lat, lon] for a real street match, else null. */
-export async function geocodeAddress(
-  address: string, city: string, state: string, zip?: string | null
-): Promise<[number, number] | null> {
+async function fetchCensus(oneline: string): Promise<[number, number] | null> {
   try {
-    const oneline = [address, city, state, zip ?? ""].filter(Boolean).join(", ");
     const url =
       "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress" +
       `?address=${encodeURIComponent(oneline)}&benchmark=Public_AR_Current&format=json`;
@@ -71,24 +66,83 @@ export async function geocodeAddress(
   }
 }
 
+/** OpenStreetMap Nominatim fallback (free, no key) — OSM picks up new
+ *  construction YEARS before the Census address file does, which is exactly
+ *  where this database lives (Mason, 9/22/26: valid Prosper, TX addresses
+ *  were "not locatable" on Census alone). */
+async function fetchNominatim(query: string): Promise<[number, number] | null> {
+  try {
+    const url =
+      "https://nominatim.openstreetmap.org/search" +
+      `?q=${encodeURIComponent(query)}&format=jsonv2&limit=1&countrycodes=us`;
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(6000),
+      headers: { "User-Agent": "CrowHoldings-CreditCompPlatform/27 (internal comp map)" },
+    });
+    if (!res.ok) return null;
+    const body = (await res.json()) as { lat?: string; lon?: string }[];
+    const p = Array.isArray(body) ? body[0] : null;
+    if (!p) return null;
+    const lat = Number(p.lat), lon = Number(p.lon);
+    return isFinite(lat) && isFinite(lon) ? [lat, lon] : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Street-address geocoding: US Census first, OpenStreetMap Nominatim as
+ *  fallback. City/state/zip are appended ONLY when not already typed into
+ *  the address (users paste full "street, city, ST zip" lines — duplicating
+ *  the components confuses the parsers). `near` (the comp's zip centroid,
+ *  when known) sanity-checks the hit: a match more than 50 miles from the
+ *  stated zip is a wrong-city mismatch, not the property. */
+export async function geocodeAddress(
+  address: string, city: string, state: string, zip?: string | null,
+  near?: [number, number] | null
+): Promise<[number, number] | null> {
+  const a = address.toLowerCase();
+  const parts = [address];
+  if (city && !a.includes(city.toLowerCase())) parts.push(city);
+  // state is free text from manual entry — escape regex metacharacters so a
+  // stray "(" can never throw and take the analysis page down (audit, 9/22/26).
+  const stateEsc = state.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (state && !new RegExp(`\\b${stateEsc}\\b`, "i").test(address)) parts.push(state);
+  const z = zip5(zip);
+  if (z && !address.includes(z)) parts.push(z);
+  const oneline = parts.join(", ");
+
+  const plausible = (c: [number, number] | null): [number, number] | null =>
+    c && (!near || haversineMiles(near[0], near[1], c[0], c[1]) <= 50) ? c : null;
+
+  return plausible(await fetchCensus(oneline)) ?? plausible(await fetchNominatim(oneline));
+}
+
 /** Upgrade rows to address-level coordinates where a street address exists
  *  (used for the map's pins — screening keeps the cheaper zip centroids).
  *  Persists lat/lon/geoPrecision; failures are silent and retried next time. */
 export async function ensureAddressCoords<T extends Geocodable>(rows: T[]): Promise<T[]> {
-  // "address-failed" is a persisted sentinel: Census couldn't match the
-  // address, so don't re-fire the 6s lookup on every page view. Editing the
-  // address via /api/comps/set-address re-geocodes and clears it.
+  // "address-failed-v2" is a persisted sentinel: NEITHER geocoder matched
+  // the address, so don't re-fire the lookups on every page view. Editing
+  // the address via /api/comps/set-address re-geocodes and clears it.
+  // (Legacy "address-failed" rows — Census-only misses — deliberately get
+  // ONE automatic retry here now that the Nominatim fallback exists.)
   const need = rows.filter(
     (r) =>
       r.geoPrecision !== "address" &&
-      r.geoPrecision !== "address-failed" &&
+      r.geoPrecision !== "address-failed-v2" &&
       r.address && r.city && r.state
   );
-  const CONCURRENCY = 5;
+  const CONCURRENCY = 2; // polite to Nominatim's rate limits
   for (let i = 0; i < need.length; i += CONCURRENCY) {
     const chunk = need.slice(i, i + CONCURRENCY);
     const results = await Promise.all(
-      chunk.map((r) => geocodeAddress(r.address!, r.city!, r.state!, r.zip))
+      chunk.map((r) =>
+        geocodeAddress(
+          r.address!, r.city!, r.state!, r.zip,
+          // Zip-centroid coords, when present, guard against wrong-city hits.
+          r.lat != null && r.lon != null ? [r.lat, r.lon] : null
+        )
+      )
     );
     await Promise.all(
       chunk.map(async (r, j) => {
@@ -104,10 +158,10 @@ export async function ensureAddressCoords<T extends Geocodable>(rows: T[]): Prom
             });
           } else {
             // Keep any zip-centroid coords; just stop retrying the address.
-            r.geoPrecision = "address-failed";
+            r.geoPrecision = "address-failed-v2";
             await prisma.creditComp.update({
               where: { id: r.id },
-              data: { geoPrecision: "address-failed" },
+              data: { geoPrecision: "address-failed-v2" },
             });
           }
         } catch { /* non-fatal */ }

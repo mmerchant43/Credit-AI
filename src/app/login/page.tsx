@@ -36,7 +36,7 @@ export default function Login() {
       <form onSubmit={submit} className="card p-8 w-full max-w-sm space-y-4">
         <div className="text-center">
           <div className="font-display text-2xl text-ink">
-            Crow Holdings<span className="text-slate-400">:</span> <span className="text-accent">New Deal Analyzer</span>
+            Crow Holdings<span className="text-slate-400">:</span> <span className="text-accent">Credit Team</span>
           </div>
           <div className="mt-2 mx-auto w-16 border-t border-accent/60" />
           <p className="text-sm text-slate-500 mt-3">The team's underwritten deal history. Sign in to continue.</p>

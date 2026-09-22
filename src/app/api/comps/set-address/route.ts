@@ -18,7 +18,13 @@ export async function POST(req: Request) {
     const comp = await prisma.creditComp.findUnique({ where: { id } });
     if (!comp) return NextResponse.json({ error: "Comp not found." }, { status: 404 });
 
-    const coords = await geocodeAddress(clean, comp.city ?? "", comp.state ?? "", comp.zip);
+    const coords = await geocodeAddress(
+      clean, comp.city ?? "", comp.state ?? "", comp.zip,
+      // Existing zip-centroid coords guard against a wrong-city geocoder hit.
+      comp.geoPrecision !== "address" && comp.lat != null && comp.lon != null
+        ? [comp.lat, comp.lon]
+        : null
+    );
     await prisma.creditComp.update({
       where: { id },
       data: {
