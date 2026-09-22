@@ -114,6 +114,7 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
     borrowerSponsor: c.borrowerSponsor, brokerage: c.brokerage,
     outcome: c.outcome, outcomeNote: c.outcomeNote,
     sourceNote: c.sourceNote, notes: c.notes,
+    omLink: c.omLink,
     originationDate: c.originationDate ? fmtDate(c.originationDate) : null,
     metricYears: c.metricYears.map((m) => ({ yearLabel: m.yearLabel, dscr: m.dscr, debtYieldPct: m.debtYieldPct })),
   });
@@ -161,6 +162,10 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
                 <tr key={c.id} className="border-b border-slate-100 hover:bg-slate-50">
                   <td className="px-3 py-2">
                     <CompDetail comp={toFull(c)} />
+                    {c.omLink && (
+                      <a href={c.omLink} target="_blank" rel="noopener noreferrer"
+                        className="ml-1.5 text-slate-300 hover:text-accent" title="Open the OM in a new tab">↗</a>
+                    )}
                     {dupGroupById.has(c.id) && <DupBadge group={dupGroupById.get(c.id)!} />}
                     {c.borrowerSponsor && <div className="text-xs text-slate-400">{c.borrowerSponsor}</div>}
                   </td>

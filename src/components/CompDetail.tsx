@@ -46,6 +46,7 @@ export interface CompFull {
   sourceNote: string | null;
   notes: string | null;
   originationDate: string | null; // pre-formatted server-side
+  omLink: string | null;
   metricYears: { yearLabel: string; dscr: number | null; debtYieldPct: number | null }[];
 }
 
@@ -92,7 +93,14 @@ export default function CompDetail({ comp }: { comp: CompFull }) {
                   {[c.address, [c.city, c.state].filter(Boolean).join(", "), c.zip].filter(Boolean).join(" · ") || DASH}
                 </p>
               </div>
-              <button type="button" className="btn btn-primary text-sm shrink-0" onClick={() => setOpen(false)}>Done</button>
+              <div className="flex items-center gap-2 shrink-0">
+                {c.omLink && (
+                  <a href={c.omLink} target="_blank" rel="noopener noreferrer" className="btn text-sm">
+                    Open OM ↗
+                  </a>
+                )}
+                <button type="button" className="btn btn-primary text-sm" onClick={() => setOpen(false)}>Done</button>
+              </div>
             </div>
 
             <Block title="Property & Market">

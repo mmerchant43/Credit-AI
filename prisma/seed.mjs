@@ -25,10 +25,38 @@ try {
 }
 const prisma = new PrismaClient();
 
+// OM links (Mason, 9/22/26): set OM_BASE_URL in Vercel to the web URL of the
+// "Multifamily Comps - 2026" folder (SharePoint/OneDrive), and every imported
+// comp gets a clickable link to its own OM composed from that base + omPath.
+const OM_BASE = (process.env.OM_BASE_URL ?? "").replace(/\/+$/, "");
+
 let created = 0, updated = 0, failed = 0;
 for (const r of records) {
-  const { sourceKey, metricYears = [], ...fields } = r;
+  const { sourceKey, metricYears = [], omPath, ...fields } = r;
   if (!sourceKey) { failed++; continue; }
+  if (fields.omLink == null && OM_BASE && omPath) {
+    fields.omLink = `${OM_BASE}/${omPath.split("/").map(encodeURIComponent).join("/")}`;
+  }
+  // Sanctioned derivations (Mason, 9/22/26): metrics may be backed into from
+  // stated figures when the OM doesn't quote them directly — same math as
+  // subject properties. Order matters: totals first, then ratios, then
+  // per-unit/per-SF.
+  if (fields.totalProjectCost == null && fields.loanAmount > 0 && fields.ltcPct > 0.05 && fields.ltcPct <= 1) {
+    fields.totalProjectCost = Math.round(fields.loanAmount / fields.ltcPct);
+  }
+  if (fields.ltcPct == null && fields.loanAmount > 0 && fields.totalProjectCost > 0) {
+    const r = fields.loanAmount / fields.totalProjectCost;
+    if (r > 0.30 && r < 1.05) fields.ltcPct = Math.round(r * 10000) / 10000; // senior-debt plausibility band
+  }
+  if (fields.loanPerSf == null && fields.loanAmount > 0 && fields.sizeSf > 0) {
+    fields.loanPerSf = Math.round((fields.loanAmount / fields.sizeSf) * 100) / 100;
+  }
+  if (fields.loanPerUnit == null && fields.loanAmount > 0 && fields.units > 0) {
+    fields.loanPerUnit = Math.round(fields.loanAmount / fields.units);
+  }
+  if (fields.tpcPerUnit == null && fields.totalProjectCost > 0 && fields.units > 0) {
+    fields.tpcPerUnit = Math.round(fields.totalProjectCost / fields.units);
+  }
   try {
     const existing = await prisma.creditComp.findUnique({ where: { sourceKey } });
     const comp = existing

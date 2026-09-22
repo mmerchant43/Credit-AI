@@ -49,7 +49,8 @@
     "dscr": 1.25,
     "debtYieldPct": 0.08
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Lake Stevens - Elowen.pdf"
  },
  {
   "sourceKey": "00280ba972c4",
@@ -101,7 +102,8 @@
     "dscr": null,
     "debtYieldPct": 0.1045
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Tustin - The Hill Tuston.pdf"
  },
  {
   "sourceKey": "00574eae5677",
@@ -153,7 +155,8 @@
     "dscr": 1.74,
     "debtYieldPct": 0.0912
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO - Ridian Apartments.pdf"
  },
  {
   "sourceKey": "008a7d5442e9",
@@ -194,7 +197,8 @@
   "outcomeNote": "In Process folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Financing Package_The Copeland_DWS.pdf",
   "notes": "Category evidence: Built, delivered 4-story wrap product from 2019 with a full rent roll and 94.5% current occupancy (as of 6/21/26); request is a refinance of an existing loan maturing November 2026, not new construction.\nLoan Term stated as a range ('3-5 years with maximum prepayment flexibility') so left null; Amortization stated as 'None' (fully interest-only) but no numeric IO month count given. Loan Type stated as 'Fixed or floating rate' (undecided), so rateType left null. No loan per-unit/per-SF, DSCR, debt yield, or cap rate figures stated anywhere in the digest (package includes historical income statements, rent roll, and market data but no debt-sizing metrics or valuation cap rate). GREF acquired the property in October 2021 for $99M (an acquisition price, not a current valuation/cap rate). No explicit OM date; document references 'Quotes July 24th' and an expected loan closing of October 2026, with the existing loan maturing November 2026 and rent roll dated as of 6/21/2026.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "1.0 - In Process/Financing Package_The Copeland_DWS.pdf"
  },
  {
   "sourceKey": "018b9d740cea",
@@ -241,7 +245,8 @@
     "dscr": null,
     "debtYieldPct": 0.1012
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/SC - The Exchange at Indian Land.pdf"
  },
  {
   "sourceKey": "01b70871f32b",
@@ -313,7 +318,8 @@
     "dscr": null,
     "debtYieldPct": 0.057
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Jefferson Verdant FM 8.19.26.pdf"
  },
  {
   "sourceKey": "01dd51fbe50b",
@@ -365,7 +371,8 @@
     "dscr": null,
     "debtYieldPct": 0.12
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Chicago - 310 West Huron.pdf"
  },
  {
   "sourceKey": "02b708d1070a",
@@ -406,7 +413,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: WA, Koz on West 4th Ave.pdf",
   "notes": "Category evidence: Financing is being arranged 'to build' the Project; permits expected by construction start (March 1, 2024), 22-month construction timeline to a January 2026 completion, 10-month lease-up, and a development cost budget (land/hard/soft/financing costs); no rent roll or in-place occupancy.\nLoan term stated as 'Term 3+1+1' (Submission Key Points); interpreted as a 3-year base term with two 1-year extension options, so termMonths recorded as 36 (base) with extensions noted rather than derived/summed. Requested Debt Structure is 'Floating rate' but no index, spread, or rate is stated. Amortization is 'Interest Only' with no specific IO month figure separate from the term. No LTV, DSCR, debt yield, or cap rate figures appear anywhere in the digest (package includes only LTC-based sizing). Gross SF is 172,382 vs Net Rentable SF of 80,724; sizeSf uses Net Rentable SF. No specific submarket name is given beyond 'just South of Downtown Spokane'. No zip code stated. No explicit OM date; text references a contemplated construction start of March 1, 2024 and completion January 2026 / stabilization December 2026, and a 'soft closing date of March 31st' (year not stated).\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/WA, Koz on West 4th Ave.pdf"
  },
  {
   "sourceKey": "02f3fd100d75",
@@ -453,7 +461,8 @@
     "dscr": null,
     "debtYieldPct": 0.082
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Trilogy BFR Portfolio.pdf"
  },
  {
   "sourceKey": "04fb18916a57",
@@ -494,7 +503,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Austin - 2700 S Lamar.pdf (OM date 2026-03)",
   "notes": "Category evidence: OM presents a JV equity request and construction loan for ground-up development ('399-Unit Class A Luxury Multifamily Development'), with a development timeline (Construction Start Jul-2026, First Delivery Oct-2028, Construction End Aug-2029, Stabilization Jan-2030) and a site development permit still in process as of March 2026; comparable table lists the subject as 'Proposed' status vs. competing projects listed as 'Construction'. No rent roll, T-12, or in-place occupancy is presented.\nPrimary ask is JV equity ($64,765,980, 90/10 co-invest); loanAmount field instead captures the stated Construction Loan ($119,937,007 at 62.5% LTC) since that is the only loan-shaped figure with an LTC given. Total Cost of Project stated as $191,899,207 / $480,950 per unit / $507.32 PSF (PSF not captured - no field for TPC per SF). OM cites 'Untrended / Trended Yield 6.48% / 7.46%' which is a yield-on-cost metric, not mapped to impliedCapPct/stabilizedCapPct or metricYears since it is neither a going-in cap rate nor a DSCR/debt-yield-by-projection-year figure. yearBuilt uses the stated 'First Delivery' year (Oct-2028) as the closest verbatim delivery-year figure; Construction End is Aug-2029. omDate of 2026-03 is inferred from the in-text status note 'As of March 2026, all technical comments have been cleared' (entitlement status, not an explicit OM publication date). Digest is truncated after page 9, before the Underwriting, Comparables, Sponsor Overview, and Area Highlights sections, so DSCR, debt yield, interest rate/term, and further sponsor detail were not available in the extracted text.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Austin - 2700 S Lamar.pdf"
  },
  {
   "sourceKey": "050b1de187ca",
@@ -541,7 +551,8 @@
     "dscr": 1.1,
     "debtYieldPct": 0.084
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Montrose.pdf"
  },
  {
   "sourceKey": "050c6486e957",
@@ -588,7 +599,8 @@
     "dscr": 1.29,
     "debtYieldPct": 0.089
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Phoenix - 207 E McDowell.pdf"
  },
  {
   "sourceKey": "06839e6c819f",
@@ -640,7 +652,8 @@
     "dscr": null,
     "debtYieldPct": 0.109
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Bellevue - Highland Park.pdf"
  },
  {
   "sourceKey": "06f976f6e03c",
@@ -687,7 +700,8 @@
     "dscr": 1.29,
     "debtYieldPct": 0.089
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Construction Loan Request - 207 E McDowell (Phoenix, AZ).pdf"
  },
  {
   "sourceKey": "07392f79bb25",
@@ -754,7 +768,8 @@
     "dscr": null,
     "debtYieldPct": 0.1029
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, San Marcos - San Marcos Apartments.pdf"
  },
  {
   "sourceKey": "078118ac2d8c",
@@ -801,7 +816,8 @@
     "dscr": null,
     "debtYieldPct": 0.0744
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AL, Huntsville - The Arcadia.pdf"
  },
  {
   "sourceKey": "078e63941089",
@@ -848,7 +864,8 @@
     "dscr": 1.46,
     "debtYieldPct": 0.0997
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NJ, Newark - The Ocular.pdf"
  },
  {
   "sourceKey": "088c3c3aa0fd",
@@ -895,7 +912,8 @@
     "dscr": 1.25,
     "debtYieldPct": 0.0849
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MA, Melrose - Essex Street.pdf"
  },
  {
   "sourceKey": "09d898468866",
@@ -947,7 +965,8 @@
     "dscr": null,
     "debtYieldPct": 0.0933
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Franklin - The Middle.pdf"
  },
  {
   "sourceKey": "09deb6278388",
@@ -999,7 +1018,8 @@
     "dscr": 1.24,
     "debtYieldPct": 0.0904
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Boerne - Retreat at Fair Oaks.pdf"
  },
  {
   "sourceKey": "0b02142ba39c",
@@ -1066,7 +1086,8 @@
     "dscr": 1.55,
     "debtYieldPct": 0.0872
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Dania Refi Loan Package 8.18.26 (LAN).pdf"
  },
  {
   "sourceKey": "0b0a7d920603",
@@ -1133,7 +1154,8 @@
     "dscr": null,
     "debtYieldPct": 0.096
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Wesley Chapel - Double Branch.pdf"
  },
  {
   "sourceKey": "0b33e86e1c0d",
@@ -1185,7 +1207,8 @@
     "dscr": null,
     "debtYieldPct": 0.1211
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NJ, Hanover - 190 Park Ave.pdf"
  },
  {
   "sourceKey": "0b98e5569803",
@@ -1232,7 +1255,8 @@
     "dscr": 1.25,
     "debtYieldPct": 0.0924
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Apopka - Floridian Town Center.pdf"
  },
  {
   "sourceKey": "0cf465d76632",
@@ -1299,7 +1323,8 @@
     "dscr": null,
     "debtYieldPct": 0.0722
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Phoenix - Azur Phoenix.pdf"
  },
  {
   "sourceKey": "0d6990bc0921",
@@ -1371,7 +1396,8 @@
     "dscr": null,
     "debtYieldPct": 0.0745
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, McKinney - Parkside at Craig Ranch Apartments.pdf"
  },
  {
   "sourceKey": "0e75f8a3ccdb",
@@ -1412,7 +1438,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: NC, Charlotte - Cortland Belgate.pdf (OM date 2026-01)",
   "notes": "Category evidence: Property is a completed 2017-vintage, 266-unit garden community with a current rent roll (1/9/2026) and 93% physical occupancy - built and operating. Note: this document is an investment-sales Offering Memorandum (property offered 'free and clear' as part of an 8-property portfolio sale called 'Project Constellation'), not a financing request, so no loan terms are stated; BRIDGE_REFI is used only to reflect that the asset is built/existing.\nThis digest is a sale/investment OM (Project Constellation portfolio), not a debt/financing OM, so all loan-term fields are null - none are stated anywhere in the text. 'No. of Stories' listed as '3 and 4' (mixed), so stories left null. Total rentable SF not given as a single stated figure (only average unit SF of 1,112 SF and per-unit-type SF are stated); not computed per iron rule. Property name 'Cortland Belgate' suggests Cortland ownership but the OM only refers to 'the Owner' without naming it, so borrowerSponsor is left null.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/NC, Charlotte - Cortland Belgate.pdf"
  },
  {
   "sourceKey": "0ecd4a13c5ce",
@@ -1453,7 +1480,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Spring - Territory at Spring Stuebner Apts.pdf",
   "notes": "Category evidence: Property is described as a 'proposed' project 'to-be-built' by Dhanani Private Equity Group; the OM presents a soft/hard cost budget (land, construction contract, hard cost contingency, developer fee) totaling $66,500,000 in Total Uses, with no rent roll, T-12, or in-place occupancy - only projected market/effective rents.\nOM cover labels this a 'construction loan opportunity' but page 12 header instead reads 'JOINT VENTURE OPPORTUNITY' and the Sponsorship section describes offering investors 'equity partnership' with a 10-12% ROI, so the actual capital being solicited (senior construction debt vs. JV equity) is ambiguous in the text; no loan amount, rate, term, or LTC/LTC figures appear anywhere in the digest. Total Uses of $66,500,000 (land $9.2M, construction contract $44,982,000, contingencies, soft costs, developer fee) is the only capitalization figure given; per-unit TPC not stated (not computed). Houston multifamily market data cited 'as of December 2023' and document footer shows a 2024 copyright, but no explicit OM date/month is stated so omDate left null. No delivery/completion date stated, so yearBuilt left null despite this being a construction deal. Second harvest: tpcPerUnit not stated in digest (Uses table has no $/unit column); computed = totalProjectCost ($66,500,000) / units (318) = $209,119, marked computed. No debt yield/NOI info found.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Spring - Territory at Spring Stuebner Apts.pdf"
  },
  {
   "sourceKey": "0f203eae3aad",
@@ -1505,7 +1533,8 @@
     "dscr": 1.94,
     "debtYieldPct": 0.117
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/PA, Pittsburgh - Tower @ Northshore.pdf"
  },
  {
   "sourceKey": "0f218e19335a",
@@ -1557,7 +1586,8 @@
     "dscr": null,
     "debtYieldPct": 0.098
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Vancouver - 12th & Main.pdf"
  },
  {
   "sourceKey": "0f542e1be225",
@@ -1609,7 +1639,8 @@
     "dscr": null,
     "debtYieldPct": 0.1289
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Phoenix - Clear Sky Van Buren.pdf"
  },
  {
   "sourceKey": "10f78a440d72",
@@ -1661,7 +1692,8 @@
     "dscr": null,
     "debtYieldPct": 0.0916
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/The Stately Mystic Apartmentsv2 (1).pdf"
  },
  {
   "sourceKey": "117990f31347",
@@ -1702,7 +1734,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: IL, Schaumburg - The District.pdf",
   "notes": "Category evidence: Ground-up mixed-use development with a development cost budget, GMP construction contract, GC (Nicholas & Associates), and construction schedule (construction start Apr 2025, end Feb 2027); no rent roll or in-place occupancy exists.\nThis is a preferred equity raise, not a conventional debt loan; no rate/DSCR/debt yield/LTV/LTC terms are stated. Sources & Uses list Preferred Equity of $25,506,980 vs. the $25.5MM headline. Total Development Budget is labeled 'net of TIF' at $170,046,535 in the Returns Summary, but the Development Budget table shows Total Development Costs of $170,046,535 with a separate 'Total Development Costs Net of TIF' of $142,415,421 (net of the $27,631,114 TIF funding) -- an internal inconsistency in the OM; totalProjectCost uses the $170,046,535 gross figure (matches Total Uses). Year built is ambiguous: the Class A Rent Comparables table lists YOC 2025 for the Subject, while the Project Schedule shows Construction End Feb 2027 and Stabilization May 2028; yearBuilt uses the construction-end date. Untrended stabilized return on cost (net of TIF) is 7.20%; disposition cap rate at sale is 5.50% -- neither is a stated going-in/stabilized cap rate so both are left null. Address is ambiguous: Development Summary lists 'TBD Progress Parkway, Schaumburg, IL 60173' while narrative text references '1301 E. Algonquin Rd., Schaumburg, IL' for the broader Veridian master plan.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/IL, Schaumburg - The District.pdf"
  },
  {
   "sourceKey": "11cbaa6fe0d4",
@@ -1754,7 +1787,8 @@
     "dscr": null,
     "debtYieldPct": 0.0805
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, The Colony - Jefferson Grandscape.pdf"
  },
  {
   "sourceKey": "123b9c81e66d",
@@ -1806,7 +1840,8 @@
     "dscr": null,
     "debtYieldPct": 0.0697
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Panama City Beach - Sunnyside Apartments.pdf"
  },
  {
   "sourceKey": "1285fe20863a",
@@ -1868,7 +1903,8 @@
     "dscr": null,
     "debtYieldPct": 0.0802
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - Kenect Nashville.pdf"
  },
  {
   "sourceKey": "13bc60166c4d",
@@ -1925,7 +1961,8 @@
     "dscr": null,
     "debtYieldPct": 0.076
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Chicago - 3Eleven Apartments.pdf"
  },
  {
   "sourceKey": "15935f55fbcd",
@@ -1966,7 +2003,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CA, San Diego - Ion Napa.pdf",
   "notes": "Category evidence: To-be-built, ground-up project; the 2.59-acre site is currently occupied by single-story industrial buildings purchased by the Sponsor in Feb 2023, there is no rent roll or existing occupancy (comp tables list the Subject's occupancy as N/A/TBD), and the Sponsor will separately seek a senior construction loan to build the project.\nThis is a JV equity capital raise, not a loan -- no dollar figure is stated for the equity check itself, only the total project cost and untrended return on cost; a senior construction loan will be sourced separately once an equity partner is secured, so no loan terms exist yet. Address is inconsistent in the OM: the cover page states '5444 Napa Street' while the Lease/Sale Comparables tables list the Subject's address as '5404 Napa Street'; propertyName/address use the cover page version. Story count is also inconsistent: Property Summary twice states 'seven-story, 389-unit,' while the construction description separately states 'podium featuring five levels of Type-IIA over two levels of Type-IA, 8 stories above grade'; stories uses the 'seven-story' figure. Land was purchased for $21,000,000 in Feb 2023, stated as a $55,141/unit basis (verbatim, not derived). stabilizedCapPct (4.50%) is taken from the Sale Comparables table, which lists a projected Subject sale value of $258,130,000 at a 4.50% cap rate -- not explicitly labeled 'stabilized cap rate' in the OM but the only cap-rate figure tied to the Subject's own valuation. No DSCR/debt yield metrics exist since no loan has been arranged. No explicit OM date is stated; market commentary cites CBRE/RealPage 4Q24 data, suggesting the OM was likely prepared in early-to-mid 2025.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/CA, San Diego - Ion Napa.pdf"
  },
  {
   "sourceKey": "15b7a17eee48",
@@ -2013,7 +2051,8 @@
     "dscr": null,
     "debtYieldPct": 0.0874
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NJ, Moorestown - Pearl Apartments.pdf"
  },
  {
   "sourceKey": "17aa344c0e02",
@@ -2054,7 +2093,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: PA, Philadelphia - Penn Canopy Apartments.pdf (OM date 2025-03)",
   "notes": "Category evidence: Ground-up, to-be-built Phase I development at 42nd & Chestnut Street; land closing Sept 2022, Development Capitalization Closing May 2025, 22-month construction period (Q2 2025-Q1 2027) followed by 8-month lease-up (Q1-Q3 2027); no rent roll or current occupancy exists.\nThis digest contains no financing terms anywhere -- no loan amount, rate, index/spread, term, LTV/LTC, total development cost, cap rate, or DSCR/debt yield figures are stated at all; the document is an 'Executive Summary - Market Context' deck (cover dated March 2025) focused on market/comp positioning for University City, not a capital-markets financing package with a stated ask. It was prepared by Quaker Lane Services LLC (QLC), an affiliate of the Sponsor (QuakerLane Capital) itself, rather than by an independent third-party debt/equity placement broker, so brokerage is left null. The subject is a 3-parcel assemblage (4141-4147 Chestnut St, 4144-4152 Ludlow St, and 26-40 S. 42nd St, totaling 0.7 acres across Phase 1 + Phase 2) at the corner of 42nd & Chestnut; only Phase 1 (136 units, 7 stories, 679 SF avg unit) is detailed -- a separate Phase 2 exists but is not sized in this excerpt. Year built (2027) is inferred from the Market Positioning comp table, which lists 'Penn Canopy Phase 1' with Year Built '2027', consistent with the Q1 2027 construction-end date on the development timeline. No zip code, total site NRA, or per-unit/per-SF cost figures are given anywhere.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/PA, Philadelphia - Penn Canopy Apartments.pdf"
  },
  {
   "sourceKey": "18d2241846be",
@@ -2106,7 +2146,8 @@
     "dscr": 1.22,
     "debtYieldPct": 0.077
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Venice - The Archer.pdf"
  },
  {
   "sourceKey": "1a0676629f3b",
@@ -2178,7 +2219,8 @@
     "dscr": null,
     "debtYieldPct": 0.088
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Dallas - Lyra on McKinney.pdf"
  },
  {
   "sourceKey": "1a6cc594becc",
@@ -2219,7 +2261,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: AZ, Phoenix - Encanto Estates.pdf",
   "notes": "Category evidence: Ground-up development with a construction start date (Apr-2023), construction end date, full cost budget (land, hard costs, soft costs, developer fee, lease-up expense), and projected lease-up velocity/duration; no rent roll or in-place occupancy is presented, confirming the property is not yet built.\nPrimary ask in this OM is a $19MM preferred-equity placement, not a loan; loanAmount/ltcPct instead reflect the senior 'Debt' line in the Sources of Funds table ($55,876,687 / 60% of Total Sources), stated directly. No DSCR, debt yield, interest rate, spread, or stories are stated for the property. Rate type/index inferred only from the footnote 'Interest reserve and model contemplate the forward SOFR curve' -- no spread or all-in rate given. Document has internal inconsistencies: Date of Opening is given as both 'October 2024' (Property Overview) and 'Jan-25' (Project Timing); the equity-request percentage is described both as '50% of total equity required' and, elsewhere, 'up to 80% of total project cost' (the latter appears to be a template/text error, since $19M is ~20% of the $93.1M total cost). Zip code '78750' as printed does not match actual Phoenix, AZ zip ranges (85xxx) -- recorded verbatim per source. Uses of Funds table's second dollar column is Per SF (not Per Unit), e.g. Construction Hard Costs $194/SF, confirmed by cross-check against Residential NRSF of 344,839 SF. Terminal Cap Rate of 5.50% is an exit/reversion assumption, not a going-in or stabilized valuation cap rate, so it was not mapped to impliedCapPct/stabilizedCapPct.\nAddress/zip verified against OM 9/21/26 (fields corrected: address) Second harvest: tpcPerUnit not stated (only $270 PSF shown for Total Uses, not $/unit); computed = $93,128,000 / 299 units = $311,465, marked computed. No debt yield found; only 'Return on Cost' (untrended 6.30-6.31%, Year 3 7.09%) which is NOI/TotalCost not NOI/loan, and no dollar NOI figure is stated to compute a true debt yield.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/AZ, Phoenix - Encanto Estates.pdf"
  },
  {
   "sourceKey": "1ad50f786ba2",
@@ -2281,7 +2324,8 @@
     "dscr": null,
     "debtYieldPct": 0.088
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/The Heights - Financing Memorandum.pdf"
  },
  {
   "sourceKey": "1bbaff73febf",
@@ -2333,7 +2377,8 @@
     "dscr": 1.78,
     "debtYieldPct": 0.1293
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - CoOp @ EaDo.pdf"
  },
  {
   "sourceKey": "1eac553e88ce",
@@ -2380,7 +2425,8 @@
     "dscr": null,
     "debtYieldPct": 0.0726
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Frisco - Links on PGA Pkwy.pdf"
  },
  {
   "sourceKey": "1f5935ac3abe",
@@ -2421,7 +2467,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: WA, Tacoma - Prose at Fircrest.pdf",
   "notes": "Category evidence: Alliance Residential is 'under contract to purchase' 9.49 acres of land and plans to develop 391 units; the OM presents a development budget (land, hard construction costs, GC fees, contingency, financing fees, interest reserve) and pro forma income projections rather than an actual rent roll or T12 -- confirming the property is not yet built.\nNo DSCR, debt yield, interest rate, index/spread, or loan term is stated anywhere in this OM; the Construction Loan appears only as a Development Budget 'Source' (60% of total, $79,236,252), not as an actively-marketed loan term sheet, so this reads more like an internal sponsor development budget than a broker-shopped financing package. Mapped the stated 'Yield on Cost' figures (Current 6.23% / Trended 7.01%) to impliedCapPct/stabilizedCapPct respectively, since no other going-in or stabilized cap rate is given -- this is a judgment call, as yield-on-cost is not a market cap rate. Building height given only as a range ('four 4-5 story buildings'), so stories is left null. No Residential NRA/rentable SF figure is stated (only average unit size 801-802 SF and total units), so sizeSf is null. Cover page lists three named contacts (Jeremiah Jolicoeur, David Lodwick, David Armesy) at a Seattle, WA address, but it is unclear whether they are an external placement/brokerage team or Alliance Residential's internal capital-markets staff, so brokerage is left null. Cover page address is styled '2119 Mildred Ave, Fircrest WA 98466' while the Community Description table elsewhere calls it '2119 Mildred St.' -- used 'St' per the more detailed property table, with zip taken from the cover page.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/WA, Tacoma - Prose at Fircrest.pdf"
  },
  {
   "sourceKey": "1fdba066c379",
@@ -2473,7 +2520,8 @@
     "dscr": null,
     "debtYieldPct": 0.109
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/PA, Manayunk - Umbria Place.pdf"
  },
  {
   "sourceKey": "2153fc84b19e",
@@ -2520,7 +2568,8 @@
     "dscr": 1.2,
     "debtYieldPct": 0.091
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MA, Millbury - Rice Pond Village.pdf"
  },
  {
   "sourceKey": "2183aadd9136",
@@ -2572,7 +2621,8 @@
     "dscr": 1.26,
     "debtYieldPct": 0.0806
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Mid Main.pdf"
  },
  {
   "sourceKey": "21d080f6d13f",
@@ -2624,7 +2674,8 @@
     "dscr": 1.13,
     "debtYieldPct": 0.075
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NY, Westbury - Cornerstone Westbury.pdf"
  },
  {
   "sourceKey": "231fceb91bc2",
@@ -2676,7 +2727,8 @@
     "dscr": null,
     "debtYieldPct": 0.093
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Celine Residences.pdf"
  },
  {
   "sourceKey": "2489f37df455",
@@ -2723,7 +2775,8 @@
     "dscr": null,
     "debtYieldPct": 0.073
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Lakewood Ranch - Stellar at Masters Ave.pdf"
  },
  {
   "sourceKey": "24aafae5aaae",
@@ -2770,7 +2823,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Phoenix - Village at Carver Mountain.pdf"
  },
  {
   "sourceKey": "24e96a6d566c",
@@ -2827,7 +2881,8 @@
     "dscr": 1.1,
     "debtYieldPct": 0.085
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Dripping Springs - Jovie at Belterra (55+ Community).pdf"
  },
  {
   "sourceKey": "2618e734b137",
@@ -2874,7 +2929,8 @@
     "dscr": null,
     "debtYieldPct": 0.125
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/JLL - The Dilworth OM - Debt.pdf"
  },
  {
   "sourceKey": "266ebd24bf30",
@@ -2915,7 +2971,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CO, Denver - The Charles at Denver West.pdf",
   "notes": "Category evidence: Property is a completed 2023-built, 230-unit asset with 92% in-place occupancy, rent roll, and sale/rent comps; transaction is a refinance of the sponsor's existing construction loan (construction takeout).\nOnly loan figure stated is the current balance of the existing construction loan being refinanced ($81,558,000); no new loan amount, rate, term, LTV/LTC, DSCR, or debt yield disclosed. Subject sale comp row shows YOC 2022 and a purchase price of $94,300,000 ($410,000/unit), inconsistent with the stated 2023 year of construction; not used as loan terms.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/CO, Denver - The Charles at Denver West.pdf"
  },
  {
   "sourceKey": "2709461c8f06",
@@ -2967,7 +3024,8 @@
     "dscr": null,
     "debtYieldPct": 0.0802
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Hollywood - Wilcox Multifamily Development.pdf"
  },
  {
   "sourceKey": "27187bded905",
@@ -3019,7 +3077,8 @@
     "dscr": null,
     "debtYieldPct": 0.08
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Los Angeles - Arya Apartments.pdf"
  },
  {
   "sourceKey": "2720f782a0a8",
@@ -3071,7 +3130,8 @@
     "dscr": null,
     "debtYieldPct": 0.1237
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/VA, Midlothian - Vida on the Lake.pdf"
  },
  {
   "sourceKey": "28345ba2242b",
@@ -3118,7 +3178,8 @@
     "dscr": null,
     "debtYieldPct": 0.0816
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Georgetown - Rise 510.pdf"
  },
  {
   "sourceKey": "2877488b0979",
@@ -3170,7 +3231,8 @@
     "dscr": null,
     "debtYieldPct": 0.0868
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Rowlett - The View at Sapphire Bay.pdf"
  },
  {
   "sourceKey": "288e67d31692",
@@ -3222,7 +3284,8 @@
     "dscr": 1.38,
     "debtYieldPct": 0.1001
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Catalyst Houston.pdf"
  },
  {
   "sourceKey": "2899206b5103",
@@ -3269,7 +3332,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/The ONE @ Signal Butte - Senior Loan Request.pdf"
  },
  {
   "sourceKey": "28fab07bc2fe",
@@ -3321,7 +3385,8 @@
     "dscr": null,
     "debtYieldPct": 0.0801
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA - Icon Panorama.pdf"
  },
  {
   "sourceKey": "2d15d2c32889",
@@ -3388,7 +3453,8 @@
     "dscr": null,
     "debtYieldPct": 0.097
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Happy Valley Apartments - AZ Financing Memorandum.pdf"
  },
  {
   "sourceKey": "2f730fa76c05",
@@ -3455,7 +3521,8 @@
     "dscr": null,
     "debtYieldPct": 0.0775
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NV, Reno - Redfield Ridge.pdf"
  },
  {
   "sourceKey": "2f7fe9a6410f",
@@ -3507,7 +3574,8 @@
     "dscr": null,
     "debtYieldPct": 0.074
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Garland - Atlas Crown.pdf"
  },
  {
   "sourceKey": "3027d91f986f",
@@ -3559,7 +3627,8 @@
     "dscr": null,
     "debtYieldPct": 0.0836
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Legacy at Fitz_Financing Memorandum.pdf"
  },
  {
   "sourceKey": "30691f8848aa",
@@ -3600,7 +3669,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: St. Louis and Groton.pdf",
   "notes": "Category evidence: Existing 414-unit garden-style community built in 1971 (renovated starting 2021), with an in-place rent roll dated 1/9/2023, T-3/historical financials, and 80% current occupancy -- a built, existing asset, not a construction project.\nDespite the source filename 'St. Louis and Groton.pdf', the entire digest text only covers one property, Pleasant View Gardens in St. Louis, MO -- no 'Groton' property content appears anywhere in the extracted text. This document is a Colliers investment-sales (acquisition) offering memorandum with property-level pro forma financials for a buyer, not a debt/financing package: there is no loan amount, asking price, rate, term, or LTV/LTC anywhere in the digest, so all financing fields are null and confidence is set to low. The Property Details table lists '# Stories 18 / 3', which is ambiguous (possibly buildings/stories) and not confidently a single story count, so stories is left null. Only an average unit size (702 SF) is given, not a total NRA/SF figure, so sizeSf is left null rather than computed. Current ownership/sponsor is referenced only generically ('current ownership'), never named. Rent roll is dated 1/9/2023; the boilerplate disclaimer footer shows a '\u00a92021, Colliers International' copyright notice that appears stale relative to the 2023-2024 data in the document, so no omDate is asserted.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/St. Louis and Groton.pdf"
  },
  {
   "sourceKey": "30a470e794e3",
@@ -3647,7 +3717,8 @@
     "dscr": null,
     "debtYieldPct": 0.097
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Hillcrest Apartments - JLL Financing Memorandum.pdf"
  },
  {
   "sourceKey": "3176f48285a4",
@@ -3694,7 +3765,8 @@
     "dscr": null,
     "debtYieldPct": 0.103
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Kirkland - Swyft.pdf"
  },
  {
   "sourceKey": "32084b9eb28d",
@@ -3741,7 +3813,8 @@
     "dscr": null,
     "debtYieldPct": 0.097
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Everett - Koz on Wetmore.pdf"
  },
  {
   "sourceKey": "32194d8493cb",
@@ -3788,7 +3861,8 @@
     "dscr": null,
     "debtYieldPct": 0.1153
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Heritage Green Magnolia.pdf"
  },
  {
   "sourceKey": "3255131e70f8",
@@ -3835,7 +3909,8 @@
     "dscr": 1.25,
     "debtYieldPct": 0.0813
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Vic at Sunterra.pdf"
  },
  {
   "sourceKey": "325d9356ee30",
@@ -3882,7 +3957,8 @@
     "dscr": null,
     "debtYieldPct": 0.087
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GUGV Portfolio.pdf"
  },
  {
   "sourceKey": "33410b68ea84",
@@ -3949,7 +4025,8 @@
     "dscr": null,
     "debtYieldPct": 0.105
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Pueblo - Ridge Drive.pdf"
  },
  {
   "sourceKey": "3378306e1c51",
@@ -4001,7 +4078,8 @@
     "dscr": null,
     "debtYieldPct": 0.0917
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Citrus & Summit - JLL Financing Memorandum.pdf"
  },
  {
   "sourceKey": "34d1c2f63e32",
@@ -4048,7 +4126,8 @@
     "dscr": null,
     "debtYieldPct": 0.112
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/The Marlow Wilton Manors - JLL Financing Memo (JV Equity).pdf"
  },
  {
   "sourceKey": "34e88e529a99",
@@ -4100,7 +4179,8 @@
     "dscr": null,
     "debtYieldPct": 0.1136
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/VA, Arlington - Ballston One.pdf"
  },
  {
   "sourceKey": "3521570f9e17",
@@ -4152,7 +4232,8 @@
     "dscr": 2.01,
     "debtYieldPct": 0.11
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/PA, Pittsburgh - Waterdam Gallery.pdf"
  },
  {
   "sourceKey": "356ebda73619",
@@ -4199,7 +4280,8 @@
     "dscr": 1.75,
     "debtYieldPct": 0.0921
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Frisco - Verge at Frisco.pdf"
  },
  {
   "sourceKey": "36d52b38969f",
@@ -4256,7 +4338,8 @@
     "dscr": 1.43,
     "debtYieldPct": 0.08
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Arvada - Caroline Ralston Creek.pdf"
  },
  {
   "sourceKey": "38556d1220fe",
@@ -4308,7 +4391,8 @@
     "dscr": null,
     "debtYieldPct": 0.113
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Adelaide at Park Eight.pdf"
  },
  {
   "sourceKey": "38ea45ad8fba",
@@ -4365,7 +4449,8 @@
     "dscr": 1.54,
     "debtYieldPct": null
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ - The Clareo at Avondale.pdf"
  },
  {
   "sourceKey": "3a7634e072d0",
@@ -4437,7 +4522,8 @@
     "dscr": null,
     "debtYieldPct": 0.074
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, St. Augustine - Soluna.pdf"
  },
  {
   "sourceKey": "3a828357fb24",
@@ -4484,7 +4570,8 @@
     "dscr": null,
     "debtYieldPct": 0.109
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Bancroft Flats.pdf"
  },
  {
   "sourceKey": "3ad9a59a8a78",
@@ -4531,7 +4618,8 @@
     "dscr": null,
     "debtYieldPct": 0.111
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/2400 E Atlantic Debt OM v1.pdf"
  },
  {
   "sourceKey": "3b058c6856dd",
@@ -4578,7 +4666,8 @@
     "dscr": null,
     "debtYieldPct": 0.095
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Flats at Adams.pdf"
  },
  {
   "sourceKey": "3b61ae726c02",
@@ -4645,7 +4734,8 @@
     "dscr": null,
     "debtYieldPct": 0.0775
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Rock Springs - Loan Request Package.pdf"
  },
  {
   "sourceKey": "3bc3f6a54021",
@@ -4697,7 +4787,8 @@
     "dscr": null,
     "debtYieldPct": 0.0801
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Icon Panorama - Financing OM.pdf"
  },
  {
   "sourceKey": "3c3422f3a0d0",
@@ -4749,7 +4840,8 @@
     "dscr": null,
     "debtYieldPct": 0.0777
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Ray Phoenix_Financing Memorandum.pdf"
  },
  {
   "sourceKey": "3cd4ae21b1e6",
@@ -4801,7 +4893,8 @@
     "dscr": null,
     "debtYieldPct": 0.1161
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/The Clareo at AvondalevFinal2.pdf"
  },
  {
   "sourceKey": "3d1baece1149",
@@ -4853,7 +4946,8 @@
     "dscr": null,
     "debtYieldPct": 0.123
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Fort Worth - Wheelhouse.pdf"
  },
  {
   "sourceKey": "3e3b5ecf4a96",
@@ -4900,7 +4994,8 @@
     "dscr": null,
     "debtYieldPct": 0.0838
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Los Angeles - Essense 531.pdf"
  },
  {
   "sourceKey": "3e5af43677c8",
@@ -4947,7 +5042,8 @@
     "dscr": null,
     "debtYieldPct": 0.083
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - Chartwell at Marathon Village.pdf"
  },
  {
   "sourceKey": "40231f2d7a90",
@@ -4999,7 +5095,8 @@
     "dscr": null,
     "debtYieldPct": 0.095
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Orchard Oaks Apartments - LRP - High Res.pdf"
  },
  {
   "sourceKey": "407d024fb97e",
@@ -5051,7 +5148,8 @@
     "dscr": 1.03,
     "debtYieldPct": 0.0711
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, New Braunfels - Bainbridge Creekside.pdf"
  },
  {
   "sourceKey": "41a69867704d",
@@ -5103,7 +5201,8 @@
     "dscr": 1.33,
     "debtYieldPct": 0.0897
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Pensacola - Madison Shores.pdf"
  },
  {
   "sourceKey": "41d3651ca2d0",
@@ -5144,7 +5243,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: NC, Charlotte - 700 Central.pdf",
   "notes": "Category evidence: Ground-up development on a former foundry site (operations halted late 2024); package presents a project cost budget/sources & uses, ground lease terms, and a 2028 delivery date for Phase 1 - no rent roll, T-12, or in-place occupancy.\nThis OM offers combined equity+debt capitalization for a two-parcel mixed-use Phase 1 (Wrap Multifamily 294 units + separate Office tower 225,687 SF); figures captured here are for the Wrap Multifamily component only. Office component (not a multifamily asset): Total Uses $132,585,671 ($587/NRSF), Debt (55%) $72,922,119, Equity (45%) $59,663,552. No LTV, interest rate, term, DSCR, debt yield, or cap rate stated for either component - this is an early-stage capital-raise package, not a lender term sheet. 'Debt (55%)' is interpreted as loan-to-cost of 55%; site has no street address/zip given, only 'Iron District' / Charlotte urban core intersection of CBD, South End and FreeMoreWest submarkets. Cover disclaimer copyright dated 2025; no explicit OM month/date found. Pre-development cost-sharing of $1.5mm mentioned for Wrap Multifamily but not part of the capital stack tables.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/NC, Charlotte - 700 Central.pdf"
  },
  {
   "sourceKey": "42d261113d54",
@@ -5185,7 +5285,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: AZ, Maricopa - Copper Sky.pdf (OM date 2023-04)",
   "notes": "Category evidence: NorthMarq retained to secure debt and equity for the ground-up 'development' of a 400-unit project; OM includes a Development Budget, projected 28-month construction period, and no rent roll or in-place occupancy.\nMixed-use project: 400 residential units + 21,184 SF ground-floor retail (exec summary) / ~21,000 SF (property facts page - minor discrepancy in source). Building Area 486,600 SF used as sizeSf; Total Area including 151,600 SF parking podium is 676,500 SF. Capital stack also includes Preferred Equity $18,450,000, LP Equity $23,370,000, GP Equity $1,230,000. Interest Rate of 8.00% stated without a FIXED/FLOATING or index/spread label, so rateType left null. Second-harvest addition: tpcPerUnit not stated in digest; computed as totalProjectCost ($123,000,000) / units (400) = $307,500 (computed).\nExtraction confidence: high",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/AZ, Maricopa - Copper Sky.pdf"
  },
  {
   "sourceKey": "430cd1c2fbfb",
@@ -5226,7 +5327,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: NC, Raleigh - The Porter.pdf",
   "notes": "Category evidence: Cover explicitly labeled 'CONSTRUCTION EQUITY OFFERING'; site is 'Vacant, Developable Land', construction commences Oct 2025 with delivery Aug 2027 and stabilization May 2028 - no rent roll or in-place occupancy, only underwritten/projected rents.\nThis is an LP-equity capital raise, not a lender term sheet, so no interest rate/term/DSCR/debt yield is stated for the anticipated construction debt. loanPerUnit ($164,406) and tpcPerUnit ($298,918) are stated as '$/Equiv. Unit' (a blended metric weighting retail SF into unit-equivalents), not strictly $/residential-unit. stabilizedCapPct uses the deal's 'Assumed Exit Cap' (4.75%) applied to stabilized value. A separate 'Untrended YoC' (yield-on-cost) of 6.51% is given but not captured (no matching field; distinct from a cap rate). Also: Project Equity Multiple 2.19x and Project IRR 24.29% (4-Year Hold) stated but out of schema scope. Net SF for the residential component shown inconsistently as 212,905 (Project Summary page) vs 212,952 (Project Description page); sizeSf uses the latter, labeled 'Net Rentable Area'. No explicit OM date found.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/NC, Raleigh - The Porter.pdf"
  },
  {
   "sourceKey": "4315c226d032",
@@ -5293,7 +5395,8 @@
     "dscr": null,
     "debtYieldPct": 0.072
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - Avana SOCO.pdf"
  },
  {
   "sourceKey": "43d2147b6bfd",
@@ -5340,7 +5443,8 @@
     "dscr": null,
     "debtYieldPct": 0.0914
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Aventura - Veneto Aventura.pdf"
  },
  {
   "sourceKey": "45aabadd7427",
@@ -5392,7 +5496,8 @@
     "dscr": 1.54,
     "debtYieldPct": 0.0742
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Chicago - Chateau on Wells.pdf"
  },
  {
   "sourceKey": "45d504f586d3",
@@ -5439,7 +5544,8 @@
     "dscr": null,
     "debtYieldPct": 0.0723
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/River Vista - JLL Financing Memorandum.pdf"
  },
  {
   "sourceKey": "45e8e3c0ec82",
@@ -5506,7 +5612,8 @@
     "dscr": null,
     "debtYieldPct": 0.09
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Copper Bishop Arts - Financing Memorandum.pdf"
  },
  {
   "sourceKey": "47e9b44edc36",
@@ -5558,7 +5665,8 @@
     "dscr": 1.38,
     "debtYieldPct": 0.094
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MI, South Lyon - Weslake Place Pases II & III.pdf"
  },
  {
   "sourceKey": "490463cbdf3e",
@@ -5605,7 +5713,8 @@
     "dscr": null,
     "debtYieldPct": 0.0742
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/District Civic Square - Northmarq Loan Request.pdf"
  },
  {
   "sourceKey": "49865fa02d2f",
@@ -5657,7 +5766,8 @@
     "dscr": null,
     "debtYieldPct": 0.086
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/The Gateway - JLL Financing Memorandum.pdf"
  },
  {
   "sourceKey": "4a5f726dc8cd",
@@ -5698,7 +5808,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: AR, Rogers - Fitzroy Grove.pdf",
   "notes": "Category evidence: Delivered January 2022 and still in lease-up, with a dated rent roll (3/6/2023) and stated current physical occupancy of 74.4% (79.2% leased) -- a built, existing asset rather than a to-be-built project.\nDocument boilerplate labels itself a 'Confidential Loan Submission' but its content (Investment Merits, Sponsorship Overview, sales/rent comps) reads as an acquisition marketing memorandum for LURIN; no loan amount, rate, term, LTV/LTC, DSCR, or debt yield figures appear anywhere in the extracted text, so all debt-metric fields are null. A Sales Comparisons table lists Fitzroy Grove itself with 'Date Sold: N/A' and Sale Price $63,250,000 ($253,000/unit, $256/SF) -- likely the current asking/contract price, not a loan amount, so not mapped to loanAmount. In-place average rent is $1,494/unit. Rent roll dated 3/6/2023; no explicit OM publication date given (disclaimer copyright is 2022, likely stale boilerplate).\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/AR, Rogers - Fitzroy Grove.pdf"
  },
  {
   "sourceKey": "4b985136f803",
@@ -5745,7 +5856,8 @@
     "dscr": null,
     "debtYieldPct": 0.0951
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - Demonbreun Hill.pdf"
  },
  {
   "sourceKey": "4c2fc43b2cd4",
@@ -5797,7 +5909,8 @@
     "dscr": null,
     "debtYieldPct": 0.08
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Charlotte - Northglenn.pdf"
  },
  {
   "sourceKey": "4c46a844c100",
@@ -5849,7 +5962,8 @@
     "dscr": null,
     "debtYieldPct": 0.0831
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Germantown - Lofts at the Standard.pdf"
  },
  {
   "sourceKey": "4c6b78caeac3",
@@ -5896,7 +6010,8 @@
     "dscr": null,
     "debtYieldPct": 0.0886
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Hialeah - Urbania Hialeah Phase I.pdf"
  },
  {
   "sourceKey": "4ce2d099329c",
@@ -5943,7 +6058,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Dallas - The Flynn at Live Oak.pdf"
  },
  {
   "sourceKey": "4d25e6b16b98",
@@ -5995,7 +6111,8 @@
     "dscr": null,
     "debtYieldPct": 0.091
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Pensacola - Jennings Place.pdf"
  },
  {
   "sourceKey": "4dadcddbfbaf",
@@ -6036,7 +6153,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Miami - Landmark at North Miami.pdf",
   "notes": "Category evidence: To-be-built Class A multifamily project with a full construction budget/GC-level line-item costs, a construction schedule (start Jun-25, first unit delivery Mar-27, stabilization Jan-28), and no rent roll or in-place occupancy.\nThis OM is primarily an LP equity capital raise (Landmark Companies seeking $18.8MM of equity, retaining 10% and offering an 8% preferred return / 60% LP ownership), not a lender-facing loan solicitation; loanAmount here reflects the 'Construction Debt' ($75,202,479) already shown in the Sources & Uses, not the amount being solicited from the reader. No LTC%, interest rate/spread, term, DSCR, or debt-yield figures are stated anywhere in the digest, so those fields are null. stabilizedCapPct (5.5%) is the 'Base' scenario exit cap rate used for the Jun-29 sale in the LP Return Summary (Downside 6.0% / Upside 5.0% also given as a range, not used here); it is an exit-cap assumption, not a stabilized-value cap rate in the usual lender sense. Also stated but not captured by the JSON shape: Stabilized Yield on Cost 6.91%, Levered IRR 31.6%, Investor IRR 22.8%. No specific street address or OM date is given; company address (21500 Biscayne Blvd., Aventura, FL 33180) is Landmark Companies' office, not the property.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/FL, Miami - Landmark at North Miami.pdf"
  },
  {
   "sourceKey": "4dae3b30b3ca",
@@ -6088,7 +6206,8 @@
     "dscr": 1.27,
     "debtYieldPct": 0.0781
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - Elina Apartments.pdf"
  },
  {
   "sourceKey": "4e3b7b1f093d",
@@ -6129,7 +6248,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Dallas - 3700M.pdf (OM date 2025-02)",
   "notes": "Category evidence: 3700M is an existing, built (2014) high-rise multifamily asset already owned by the sponsor (acquired 03/2022), currently mid-renovation with club/amenities completed 08/2024 and 41% of units already renovated; it is not an unbuilt construction deal. The request is a preferred-equity recapitalization of existing owned assets, not construction financing.\nThis OM is a portfolio-level preferred equity offering by Vero Capital ('Us Living'), not a single-asset loan request: it seeks $88MM of preferred equity in aggregate across 4 Texas Class-A assets -- 3700M (Dallas, this file's namesake), Us Bayou Park (Houston), Us 1604 (San Antonio), and Us Cibolo (San Antonio) -- plus references owned land for future development (separate Houston sites, not part of this ask). No loan amount, LTV, LTC, rate, or DSCR/debt-yield figures are broken out per asset or for the $88MM ask itself; the deck's 'sample deal' capital-stack figures (e.g., $100M total cap, $60M debt, 5.00% going-in cap rate, 7.25% stabilized yield-on-cost) are explicitly generic/illustrative (400 hypothetical units at $250k/unit) and do not match 3700M's actual profile (381 units), so they were not used. 3700M-specific facts captured: High Rise, Value-Add risk profile, built 2014, 381 units, avg. 895 SF/unit, acquired 03/2022, currently 'under renovation'. Current occupancy not stated. OM date taken from the cover page ('VERO CAPITAL | FEBRUARY 2025'); no named third-party brokerage is identified -- Vero appears to be marketing this directly.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Dallas - 3700M.pdf"
  },
  {
   "sourceKey": "4f9b09c85a38",
@@ -6186,7 +6306,8 @@
     "dscr": 1.42,
     "debtYieldPct": 0.0853
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Mesa - Atlas Mesa.pdf"
  },
  {
   "sourceKey": "5065f1ab5f15",
@@ -6233,7 +6354,8 @@
     "dscr": null,
     "debtYieldPct": 0.0895
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/DC, Washington - Vermeer.pdf"
  },
  {
   "sourceKey": "50a417651329",
@@ -6305,7 +6427,8 @@
     "dscr": null,
     "debtYieldPct": 0.075
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - Bishop Momo.pdf"
  },
  {
   "sourceKey": "51b30dce61fd",
@@ -6352,7 +6475,8 @@
     "dscr": null,
     "debtYieldPct": 0.08
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NV, Las Vegas - North Park Living.pdf"
  },
  {
   "sourceKey": "524cee768788",
@@ -6399,7 +6523,8 @@
     "dscr": 1.02,
     "debtYieldPct": 0.0725
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NV, Las Vegas - Prosper 89.pdf"
  },
  {
   "sourceKey": "54d146f6d1f2",
@@ -6446,7 +6571,8 @@
     "dscr": null,
     "debtYieldPct": 0.0909
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Fulshear Lakes Construction Loan Request 75% LTC.pdf"
  },
  {
   "sourceKey": "55762152072a",
@@ -6498,7 +6624,8 @@
     "dscr": null,
     "debtYieldPct": 0.12
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NH, Portsmouth - Prescott Post.pdf"
  },
  {
   "sourceKey": "559e58983a4d",
@@ -6550,7 +6677,8 @@
     "dscr": null,
     "debtYieldPct": 0.0916
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Peoria - The Stately Mystic Apartments.pdf"
  },
  {
   "sourceKey": "55a232964171",
@@ -6597,7 +6725,8 @@
     "dscr": null,
     "debtYieldPct": 0.082
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA - The Gateway.pdf"
  },
  {
   "sourceKey": "565e704483c7",
@@ -6644,7 +6773,8 @@
     "dscr": null,
     "debtYieldPct": 0.0748
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA - The Landing.pdf"
  },
  {
   "sourceKey": "56ba34be1104",
@@ -6691,7 +6821,8 @@
     "dscr": 1.29,
     "debtYieldPct": 0.0877
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/DE, Dover - Eden Hill Apartments.pdf"
  },
  {
   "sourceKey": "578b16c438b8",
@@ -6732,7 +6863,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: UT, SLC - Jordan Valley Station.pdf",
   "notes": "Category evidence: Momentum is an existing, completed (2023) 243-unit Class-A apartment community; the OM describes seeking to recapitalize the existing partnership, indicating a built, operating asset rather than a to-be-built project (a separate 16.18-acre entitled parcel for future development is also included but is not itself the financed asset).\nDigest is OCR of an image-only PDF (first 14 pages only) per the source note, and is heavily garbled; most page text is unreadable noise. No loan amount, rate, LTV/LTC, DSCR, debt yield, occupancy percentage, street address, or OM date could be located in the readable text. This appears to be an equity recapitalization/partnership offering rather than a debt financing request, so most loan-specific fields are null. Remaining entitlements on the 16.18 acres: 676 residential units, 83,200 SF office/medical, 20,120 SF retail/restaurant (not part of the built asset's unit count).\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/UT, SLC - Jordan Valley Station.pdf"
  },
  {
   "sourceKey": "58043d9f9faf",
@@ -6773,7 +6905,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: OH, Columbus - 281 East Spring Street.pdf",
   "notes": "Category evidence: To-be-built project: site development scheduled to begin Q1 2025 (construction start March 2025) with delivery Q3 2026 (substantial completion/resident move-in September 2026), pre-leasing beginning July 2026, and project stabilization projected September 2027; no rent roll or in-place occupancy.\nThis is primarily an LP equity/preferred-equity offering memorandum presented directly by the sponsor (no third-party brokerage identified); the $26.0MM figure is labeled simply 'debt' in the capital stack graphic with no LTC/LTV, rate, term, or DSCR/debt yield stated. Development timeline notes a 'Senior Lender Loan Commitment' in October 2024 but no loan terms accompany it. Digest appears truncated at page 11 of the OM (table of contents lists Financial Summary and Sponsorship sections beginning page 16/27, which are not present in the extracted text), so financial-summary detail may exist in the source PDF but was not captured. Total GSF of 179,804 SF is stated (not NRSF), so sizeSf left null per spec's NRA/rentable-SF definition. No occupancy, cap rate, or OM date stated. Second-harvest addition: tpcPerUnit not stated in digest; computed as totalProjectCost ($46,500,000) / units (131) = $354,962, rounded to whole dollar (computed). No debt yield or NOI/loan-amount data found in digest.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/OH, Columbus - 281 East Spring Street.pdf"
  },
  {
   "sourceKey": "5841c9627fd0",
@@ -6825,7 +6958,8 @@
     "dscr": null,
     "debtYieldPct": 0.103
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Chicago - 220 W Chestnut.pdf"
  },
  {
   "sourceKey": "597a219098ba",
@@ -6882,7 +7016,8 @@
     "dscr": null,
     "debtYieldPct": 0.119
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Bellevue - The Perle.pdf"
  },
  {
   "sourceKey": "59f656f16136",
@@ -6974,7 +7109,8 @@
     "dscr": null,
     "debtYieldPct": 0.123
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - Wilson Tower.pdf"
  },
  {
   "sourceKey": "5a22a0c3baba",
@@ -7021,7 +7157,8 @@
     "dscr": 1.231,
     "debtYieldPct": 0.0769
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/ID, Boise - Cole.pdf"
  },
  {
   "sourceKey": "5c9e62ffae0f",
@@ -7068,7 +7205,8 @@
     "dscr": null,
     "debtYieldPct": 0.0889
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Stuebner Airline Apartments.pdf"
  },
  {
   "sourceKey": "5d8ab853d6a2",
@@ -7120,7 +7258,8 @@
     "dscr": null,
     "debtYieldPct": 0.083
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Seattle - Emerson Seattle.pdf"
  },
  {
   "sourceKey": "5dd157b6109e",
@@ -7182,7 +7321,8 @@
     "dscr": 1.657,
     "debtYieldPct": 0.112
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Chateaux Dijon.pdf"
  },
  {
   "sourceKey": "5eeb2afe4936",
@@ -7229,7 +7369,8 @@
     "dscr": null,
     "debtYieldPct": 0.123
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/SC, Columbia - Burnside Farms.pdf"
  },
  {
   "sourceKey": "5f33f0307779",
@@ -7276,7 +7417,8 @@
     "dscr": null,
     "debtYieldPct": 0.064
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, McKinney - Westcreek Ranch.pdf"
  },
  {
   "sourceKey": "602d639c1e4e",
@@ -7323,7 +7465,8 @@
     "dscr": 1.1,
     "debtYieldPct": 0.0776
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Euless - Edge at Glade Parks.pdf"
  },
  {
   "sourceKey": "60b3be2794ae",
@@ -7370,7 +7513,8 @@
     "dscr": null,
     "debtYieldPct": 0.097
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA - Hillcrest Apartments.pdf"
  },
  {
   "sourceKey": "60dc65b93f18",
@@ -7442,7 +7586,8 @@
     "dscr": null,
     "debtYieldPct": 0.076
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/VA, Falls Church - Alder.pdf"
  },
  {
   "sourceKey": "61b0467a3eaa",
@@ -7489,7 +7634,8 @@
     "dscr": null,
     "debtYieldPct": 0.0922
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/The Arcadia_Financing OM_07.22.2024.pdf"
  },
  {
   "sourceKey": "61e233d26f4a",
@@ -7536,7 +7682,8 @@
     "dscr": 1.23,
     "debtYieldPct": 0.0906
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Rasha at Audubon.pdf"
  },
  {
   "sourceKey": "653ac657c40c",
@@ -7583,7 +7730,8 @@
     "dscr": null,
     "debtYieldPct": 0.0746
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Various - Avanta Portfolio - Avendale Chisholm Trail Ranch.pdf"
  },
  {
   "sourceKey": "653bd1d1fa26",
@@ -7630,7 +7778,8 @@
     "dscr": null,
     "debtYieldPct": 0.077
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Miami - Metro Edgewater.pdf"
  },
  {
   "sourceKey": "6540b3635760",
@@ -7671,7 +7820,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Tampa - Crosswynde Apartments.pdf (OM date 2025-03)",
   "notes": "Category evidence: Existing, occupied fractured-condo apartment asset (built 2001) with a Feb-25 rent roll showing 93.4% physical occupancy; currently encumbered by a $70.2M loan (as of 2/28/2025) that the Sponsor is seeking to refinance.\nLoan rate requested as 'fixed or floating' (borrower open to either) -> rateType left null. Term shown as '4+1' (4-year initial term plus a 1-year extension option); termMonths reflects the 4-year initial term. Property is a fractured condo asset: Sponsor JV currently owns 361 of the condo units (80% of the total, acquired via an 85%/15% Osso/RMR JV) with 92 remaining unowned units the Sponsor has a ROFR/buyback plan for. Existing loan being refinanced is $70.2M as of 2/28/2025 (not the requested amount). No LTV, LTC, DSCR, or debt yield figures stated for the new loan request; document is a market/portfolio update deck rather than a full lender term sheet package; no third-party mortgage brokerage identified (Berkadia/Northmarq/RCA cited only as third-party data sources for basis comparisons, not as loan arrangers). No property address or zip code given.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/FL, Tampa - Crosswynde Apartments.pdf"
  },
  {
   "sourceKey": "66581e4f85e6",
@@ -7712,7 +7862,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: GA, Atlanta - Marq on Ponce.pdf",
   "notes": "Category evidence: Built 2003, existing 329-unit stabilized asset with an in-place rent roll (89.4% occupancy as of 4/17/2026); package is presented by CBRE's Debt & Structured Finance ('DSF') team, consistent with a financing (not construction) request on an existing property.\nThe extracted digest appears to be truncated -- the table of contents lists 'Property Description' (p.30) and 'Sponsor Overview' (p.42) sections, but the provided text cuts off mid-'Investment Highlights' around p.15/27, before reaching Property Description, Sponsor Overview, or any explicit loan request/sizing terms (Loan Amount, rate, LTV/LTC, DSCR, debt yield). No borrower/sponsor name or specific financing ask could be located in the available text. Property Summary block confirms Year Completed 2003, 329 units, 313,322 rentable SF, avg lease rent $1,603 ($1.68 PSF), and occupancy 89.4% as of 4/17/2026 rent roll. Confidence set to low given the missing financing-terms sections.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/GA, Atlanta - Marq on Ponce.pdf"
  },
  {
   "sourceKey": "66a118948a85",
@@ -7764,7 +7915,8 @@
     "dscr": null,
     "debtYieldPct": 0.0922
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Orlando - Paloma Flats.pdf"
  },
  {
   "sourceKey": "66f3c71d544d",
@@ -7831,7 +7983,8 @@
     "dscr": null,
     "debtYieldPct": 0.089
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Standard on the River.pdf"
  },
  {
   "sourceKey": "67a28d32803a",
@@ -7878,7 +8031,8 @@
     "dscr": null,
     "debtYieldPct": 0.0724
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Santa Ana - 4th & Mortimer.pdf"
  },
  {
   "sourceKey": "68b14fe45ea4",
@@ -7930,7 +8084,8 @@
     "dscr": 1.44,
     "debtYieldPct": 0.0884
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Atlanta - Grace Virginia Highlands.pdf"
  },
  {
   "sourceKey": "6a382997ff89",
@@ -7982,7 +8137,8 @@
     "dscr": null,
     "debtYieldPct": 0.0931
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/UT, Park City - Highline at Silver Creek.pdf"
  },
  {
   "sourceKey": "6b7f0470a304",
@@ -8029,7 +8185,8 @@
     "dscr": null,
     "debtYieldPct": 0.087
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX - Lakeshore Landing.pdf"
  },
  {
   "sourceKey": "6c3da8dadee1",
@@ -8081,7 +8238,8 @@
     "dscr": 1.34,
     "debtYieldPct": 0.1
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Phoenix - 19th Avenue.pdf"
  },
  {
   "sourceKey": "6ca76a99c9ff",
@@ -8128,7 +8286,8 @@
     "dscr": 1.23,
     "debtYieldPct": 0.1026
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - CSW Far West.pdf"
  },
  {
   "sourceKey": "6cdc89d4b268",
@@ -8205,7 +8364,8 @@
     "dscr": 2.02,
     "debtYieldPct": null
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Chicago - The Alfred.pdf"
  },
  {
   "sourceKey": "6cea34196025",
@@ -8252,7 +8412,8 @@
     "dscr": null,
     "debtYieldPct": 0.083
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Ion Aero.pdf"
  },
  {
   "sourceKey": "6d6f64d8bd55",
@@ -8299,7 +8460,8 @@
     "dscr": null,
     "debtYieldPct": 0.0813
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Orlando - Emi on 50.pdf"
  },
  {
   "sourceKey": "6e5ed39d35d2",
@@ -8340,7 +8502,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Copper Sky Mixed-Use North Loan Request Package.pdf (OM date 2023-04)",
   "notes": "Category evidence: To-be-built, 5-story, 400-unit Class A mixed-use development with a development budget/loan request, projected 28-month construction period, leasing to begin by month 14, and 'Year Built: 2025' listed as a future date; no rent roll, T-12, or in-place occupancy stated.\nNo DSCR, debt yield, or cap rate stated anywhere in the package. Building Area (486,600 SF) and Total Area including podium (676,500 SF) are given but neither is explicitly labeled NRA/rentable SF, so sizeSf left null. Ground-floor retail is cited as 21,184 SF in the executive summary and 21,000 SF in the property overview (minor internal inconsistency). Capital stack also includes $18,450,000 preferred equity, $23,370,000 LP equity, and $1,230,000 GP equity alongside the $79,950,000 mortgage loan. Second harvest: tpcPerUnit computed as totalProjectCost ($123,000,000) / units (400) = $307,500 (computed); no per-unit TPC figure stated in digest. No debt yield or NOI figures found anywhere in the digest to fill metricYears.\nExtraction confidence: high",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/Copper Sky Mixed-Use North Loan Request Package.pdf"
  },
  {
   "sourceKey": "6fdcd8218755",
@@ -8402,7 +8565,8 @@
     "dscr": null,
     "debtYieldPct": 0.132
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Orlando - SLX International.pdf"
  },
  {
   "sourceKey": "714fdc764970",
@@ -8443,7 +8607,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: OR, Portland - Pine Street Lofts.pdf",
   "notes": "Category evidence: To-be-built 144-unit, 7-story mid-rise construction financing opportunity; the prior single-story printing shop has been demolished/abated, land use approval obtained, vertical construction start May 2023 with completion Nov 2024 and stabilization Jun 2025; uses pro forma cash flow projections rather than in-place rent roll/T-12.\nSOURCE PDF IS IMAGE-ONLY / OCR'd for most pages per digest header, with substantial garbling on several key summary boxes (page 6/'Loan Summary' box renders as near-unreadable OCR noise). A separate, cleaner 'Loan Request Summary and Timeline' page confirms Loan Amount $28,714,241 (62.0% LTC, $199,404/unit), All-In Coupon Rate est. SOFR+350bps = 8.00%, Rate Type 3+1+1 Floating-Rate, Full-Term I/O, Non-Recourse with Completion Guarantee, Total Cost Basis $46,313,292 ($321,620/unit; one instance shows a typo'd $46,318,292), and stabilized value $63,297,763 ($440K/unit) at a 4.5% cap rate (stated separately in narrative text as $63.3MM/$439,568 per unit at 4.5% cap). A garbled OCR figure of '45.4% LTV' appears on the construction-loan summary box but is too unreliable to record given the OCR quality; a separately-labeled Perm (takeout) Loan shows Fixed 5.00% rate / 65.0% LTV / $41,143,546 amount, which is a future refinance, not the construction loan being marketed, so it was not used for the primary loan fields. No DSCR or debt-yield figures found in the readable text; only a stabilized trended Return-on-Cost of 5.89% is given. No street address or zip stated; general location given only as the Buckman neighborhood, Portland, OR.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/OR, Portland - Pine Street Lofts.pdf"
  },
  {
   "sourceKey": "71808f3d99fd",
@@ -8495,7 +8660,8 @@
     "dscr": null,
     "debtYieldPct": 0.097
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Chicago - 4600 Main Street.pdf"
  },
  {
   "sourceKey": "738eaa6f217c",
@@ -8547,7 +8713,8 @@
     "dscr": null,
     "debtYieldPct": 0.0825
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Tampa - Enclave on Ayers.pdf"
  },
  {
   "sourceKey": "7405cb5c4613",
@@ -8588,7 +8755,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: GA , Atlanta - Aqua Sandy Springs.pdf",
   "notes": "Category evidence: Built, existing 219-unit asset (Phase I built 1985, Phase II built 2000) with a detailed in-place unit-by-unit rent roll (4/1/2024), physical/economic occupancy figures, T-1 income, and 5 years of completed capex - clearly a stabilized, operating property rather than a construction project. Note: this document is actually a disposition/sale Offering Memorandum (property offered 'free and clear' for purchase, no asking price stated) rather than a debt/financing package like the other files in this batch; it contains no loan request or financing terms at all, so category reflects only the property's built status per the spec's decision rule.\nThis file is a sale/disposition OM, not a financing memorandum, so essentially all loan-related fields (loanAmount, rate, LTV/LTC, DSCR, debt yield, etc.) are inherently null - there is no debt request in the document. Two occupancy figures conflict: Property Profile page states Physical Occ. (4/1/24) 86.76% and Economic Occ. (2/29/24) 72.13%, while earlier marketing narrative (page 9) claims 'the property is 83.4% occupied today'; used the dated Physical Occupancy figure (86.76%) as the current in-place occupancy. No single yearBuilt given - property built in two phases: Phase I (60 units) in 1985, Phase II (159 units) in 2000. No 'stories' figure stated (buildings described only as '22 two- and three-story or split-story residential buildings'). A Proforma Exit Sensitivity table gives a range of hypothetical EXIT cap rates (5.50%-6.25%) against a constant Elite Proforma NOI of $2,703,206, not a single going-in or stabilized cap rate, so stabilizedCapPct was left null per the range-handling rule. No OM date stated; occupancy/rent-roll dates (4/1/2024, 2/29/2024) and recent home-sale comps through 9/7/2023 suggest the OM is from approximately mid-2024.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/GA , Atlanta - Aqua Sandy Springs.pdf"
  },
  {
   "sourceKey": "7474639ca475",
@@ -8655,7 +8823,8 @@
     "dscr": null,
     "debtYieldPct": 0.087
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MN, Minneapolis - Bessemer at Seward.pdf"
  },
  {
   "sourceKey": "748203d28501",
@@ -8717,7 +8886,8 @@
     "dscr": null,
     "debtYieldPct": 0.087
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Miami - Doral Parc.pdf"
  },
  {
   "sourceKey": "74f1336be1ee",
@@ -8769,7 +8939,8 @@
     "dscr": null,
     "debtYieldPct": 0.092
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Pflugerville (Austin MSA) - The Wylde.pdf"
  },
  {
   "sourceKey": "75efdb0f1a95",
@@ -8816,7 +8987,8 @@
     "dscr": null,
     "debtYieldPct": 0.131
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Spring - Cadence Creek.pdf"
  },
  {
   "sourceKey": "77186af37fb5",
@@ -8893,7 +9065,8 @@
     "dscr": null,
     "debtYieldPct": 0.0812
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - 1155 Barton Springs.pdf"
  },
  {
   "sourceKey": "776b669d496d",
@@ -8934,7 +9107,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: OR, Beaverton - West End District.pdf",
   "notes": "Category evidence: Property is completed new construction (delivered 2021/2022) with an in-place retail rent roll of individually executed leases (start/end dates, base rent, CAM) and a fully built residential unit mix; there is no construction cost budget, GC contract, entitlement timeline, or completion date to build toward, which rules out CONSTRUCTION even though the document itself is a stabilized-asset investment sale package rather than an explicit refinance request.\nNo financing request, loan amount, rate, term, LTV/LTC, DSCR, or debt yield figures appear anywhere in the digest -- this reads as a pure investment-sale (acquisition) OM, not a debt/financing package, despite a CBRE Debt & Structured Finance team listed on the cover. Year built is given as '2021 / 2022' (phased delivery across buildings) so left null rather than picking one year. No current/in-place residential occupancy percentage is stated; only stabilized pro forma underwriting assumptions (5.0% vacancy loss, 95.0% commercial occupancy assumption) are given, which are not in-place figures. No sponsor/seller entity is named (only the Architect 'Milbrandt' and General Contractor 'Taylor Morrison,' who are the original construction team, not an owner/sponsor). Expense notes reference 'T-2 (through May 2023)' and the 'current 2022-2023 tax year,' suggesting the OM was likely produced around mid-to-late 2023, but no explicit OM date is given.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/OR, Beaverton - West End District.pdf"
  },
  {
   "sourceKey": "7856eb16c587",
@@ -8986,7 +9160,8 @@
     "dscr": null,
     "debtYieldPct": 0.125
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/OH, Columbus - Horizon West.pdf"
  },
  {
   "sourceKey": "7b99944289e0",
@@ -9033,7 +9208,8 @@
     "dscr": null,
     "debtYieldPct": 0.085
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Prosper - Autry at Legacy Apartments.pdf"
  },
  {
   "sourceKey": "7d09d8df9528",
@@ -9074,7 +9250,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TN, Nashville - Residences at the Finery.pdf",
   "notes": "Category evidence: Property delivered April 2024, currently in lease-up at 69.2% occupied / 75.5% leased with an in-place rent roll; Sponsor seeks a bridge loan to pay off existing construction debt, not a construction/development loan.\nBridge loan term stated as a 3-5 year range (not a single value, so termMonths left null). Initial advance $113,509,000 plus future funding of $4,846,000 for commercial TI/LC (sums to total loan, but loanAmount is the stated total, not computed). No DSCR/debt yield or rate terms stated in digest. Occupancy 69.2% / leased 75.5% as of April 7, 2025.\nAddress/zip verified against OM 9/21/26 (fields corrected: address)\nExtraction confidence: high",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TN, Nashville - Residences at the Finery.pdf"
  },
  {
   "sourceKey": "7d37cb6eb499",
@@ -9121,7 +9298,8 @@
     "dscr": null,
     "debtYieldPct": 0.075
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/JLL Financing Memorandum - Railyard Modern Living.pdf"
  },
  {
   "sourceKey": "7e2d6c906440",
@@ -9168,7 +9346,8 @@
     "dscr": 1.3,
     "debtYieldPct": 0.096
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Katy - Jefferson Fort Bend.pdf"
  },
  {
   "sourceKey": "7ec8629c2a93",
@@ -9215,7 +9394,8 @@
     "dscr": null,
     "debtYieldPct": 0.0933
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, San Antonio - Tacara at O'Connor.pdf"
  },
  {
   "sourceKey": "7fd7b88b7856",
@@ -9267,7 +9447,8 @@
     "dscr": null,
     "debtYieldPct": 0.0802
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/VA, Alexandria - Oakville Triangle.pdf"
  },
  {
   "sourceKey": "80369053b030",
@@ -9344,7 +9525,8 @@
     "dscr": null,
     "debtYieldPct": 0.084
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/SC, Charleston - The Beacon at Navy Yards.pdf"
  },
  {
   "sourceKey": "8061897ed201",
@@ -9401,7 +9583,8 @@
     "dscr": null,
     "debtYieldPct": 0.058
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/The Fitz on Fairfax - JLL Financing Memorandum.pdf"
  },
  {
   "sourceKey": "80e23238fce9",
@@ -9453,7 +9636,8 @@
     "dscr": null,
     "debtYieldPct": 0.1289
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/JLL OM_Van Buren Residences.pdf"
  },
  {
   "sourceKey": "811aea8588f0",
@@ -9500,7 +9684,8 @@
     "dscr": 1.25,
     "debtYieldPct": 0.1067
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Katy (Houston) - Elyson Town Center.pdf"
  },
  {
   "sourceKey": "8189f37d1c3e",
@@ -9547,7 +9732,8 @@
     "dscr": 1.58,
     "debtYieldPct": 0.0902
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/2026.06.05 - 1345 Jefferson Loan Request Package.pdf"
  },
  {
   "sourceKey": "83ad41a8c5c9",
@@ -9594,7 +9780,8 @@
     "dscr": null,
     "debtYieldPct": 0.0866
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Various - Carlyle Alliance Portfolio.pdf"
  },
  {
   "sourceKey": "84022d3294e3",
@@ -9651,7 +9838,8 @@
     "dscr": 1.24,
     "debtYieldPct": 0.0773
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Palm Coast - Evolve Palm Coast.pdf"
  },
  {
   "sourceKey": "84ad3fb175bd",
@@ -9692,7 +9880,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Fort Worth - Waterchase Gardens.pdf (OM date 2023-01)",
   "notes": "Category evidence: Existing 79-unit townhome community built in 1983 with a January 2023 rent roll showing 94% leased occupancy and an existing assumable loan -- a built, operating property being marketed for sale/refinance, not a to-be-built project.\nThis is an investment-sales offering memorandum (property disposition), not a lender financing request; 'Price' is explicitly listed as 'To Be Determined by Market' and no new loan amount is stated. loanAmount reflects the existing assumable loan's outstanding balance ($8,487,838 as of January 2023) against an original principal of $8,818,000, fixed at 4.26%, maturing 9/1/2027 (Yield Maintenance Expiration 3/1/27). No DSCR or debt yield is disclosed. Occupancy (94%) and the rent roll are as of January 2023, which is also used as the omDate approximation since no separate publication date is given.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Fort Worth - Waterchase Gardens.pdf"
  },
  {
   "sourceKey": "853ff0a5f58f",
@@ -9744,7 +9933,8 @@
     "dscr": null,
     "debtYieldPct": 0.1125
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Riverside - La Sierra.pdf"
  },
  {
   "sourceKey": "86ddb1f4bd2a",
@@ -9816,7 +10006,8 @@
     "dscr": null,
     "debtYieldPct": 0.063
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Vancouver - Adera.pdf"
  },
  {
   "sourceKey": "8717ba59bfd6",
@@ -9868,7 +10059,8 @@
     "dscr": 1.36,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Denver - The Riv.pdf"
  },
  {
   "sourceKey": "87bfb5cf8b8a",
@@ -9915,7 +10107,8 @@
     "dscr": null,
     "debtYieldPct": 0.0769
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Prosper - Prosper Elms Phase II.pdf"
  },
  {
   "sourceKey": "8ac5635145d5",
@@ -9967,7 +10160,8 @@
     "dscr": null,
     "debtYieldPct": 0.132
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Panama City Beach - Residences at Long Beach.pdf"
  },
  {
   "sourceKey": "8d258620262e",
@@ -10019,7 +10213,8 @@
     "dscr": null,
     "debtYieldPct": 0.1209
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Bayview.pdf"
  },
  {
   "sourceKey": "8e835304fbe5",
@@ -10060,7 +10255,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: IL, Arlington Heights - The Heights.pdf",
   "notes": "Category evidence: Described as a '266-unit $99.9M new construction multifamily development'; Property Status listed as 'Under Contract / Municipal Approvals', with a full sources-and-uses construction budget (purchase price, hard/soft costs, developer fee) and no in-place rent roll \u2014 the rent-comp table lists the subject's Year Built as 2025 (future delivery).\nNo specific street address given; site is described as the corner of Arlington Heights Road (33,000 cars/day) and Golf Road (29,000 cars/day). Village of Arlington Heights providing $11.4M in TIF support; footnote states cost/unit nets to $332k netting out TIF and $315k netting out retail. Return on Cost given as 7.3% (trended) / 6.9% (untrended) \u2014 not labeled a cap rate, so not mapped to impliedCapPct/stabilizedCapPct. Leveraged IRR 27.8% (Deal Level), Investment Period 48 months (hold period, not loan term). No DSCR or debt yield figures stated. Market data presented as of Q4 2024; no explicit OM publish date given.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/IL, Arlington Heights - The Heights.pdf"
  },
  {
   "sourceKey": "8f72765e8288",
@@ -10112,7 +10308,8 @@
     "dscr": null,
     "debtYieldPct": 0.076
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/District 1860 - Financing Memorandum.pdf"
  },
  {
   "sourceKey": "8f78469617c8",
@@ -10153,7 +10350,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CA - Aldea.pdf (OM date 2025-01)",
   "notes": "Category evidence: Aldea is a to-be-built 387-unit garden community; the OM states 'Land Status: Closed' with the site fully entitled and 'currently processing Grading/Building Permits', Construction Start April 2025, a full project cost budget, and no current occupancy \u2014 the comp table lists the subject's occupancy as '-'.\nCBRE is marketing a JV equity partner, not a lender; loanAmount reflects the stated 'Construction Financing' figure of $79.86M already contemplated in the capital stack, but no LTC%, rate, or term was given for it. Untrended Return on Cost is 6.44% (not labeled a cap rate, so not mapped to impliedCapPct/stabilizedCapPct); no DSCR or debt yield figures appear in the digest. Total Project Costs shown 'as of 9/1/2024' ($145,200,000 / $375,194 per unit); OM date taken from footer stamp 'CMPM Aldea_OM 01/16/25'. Potential upside of \u00b1$1.9M in Solar Tax Credits noted. Comparable rental properties are almost entirely in lease-up (18%-41% occupied), reflecting a submarket with substantial recent new supply.\nExtraction confidence: high",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/CA - Aldea.pdf"
  },
  {
   "sourceKey": "8fe215da16b8",
@@ -10205,7 +10403,8 @@
     "dscr": 1.83,
     "debtYieldPct": 0.123
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, St. Petersburg - Musuem Tower.pdf"
  },
  {
   "sourceKey": "928adc425376",
@@ -10252,7 +10451,8 @@
     "dscr": null,
     "debtYieldPct": 0.076
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/UT, Salt Lake City - Sugar House.pdf"
  },
  {
   "sourceKey": "92c8d987272a",
@@ -10299,7 +10499,8 @@
     "dscr": 1.08,
     "debtYieldPct": 0.0943
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WI, Sheboygan - Malibu on the Lake.pdf"
  },
  {
   "sourceKey": "936c9ee61dda",
@@ -10340,7 +10541,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: WA, Bellingham - Manning.pdf",
   "notes": "Category evidence: Existing, fully built and stabilized 202-unit community (built 2001 & 2003) with an in-place unit mix, current finishes, and operating history; offered for sale free and clear of existing debt rather than as a to-be-built project.\nThis is an unpriced investment sale OM (Barkley Apartments), not a debt/financing request; the digest is truncated before the Financial Analysis and Rent Comparables sections listed in the table of contents, so no occupancy, NOI, or pricing data is available. Year Built stated as '2001 & 2003' (two buildings), so left as a range rather than a single year.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/WA, Bellingham - Manning.pdf"
  },
  {
   "sourceKey": "93f0ca9d7685",
@@ -10392,7 +10594,8 @@
     "dscr": null,
     "debtYieldPct": 0.1075
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MO, Kansas City - Waldo District and The Rocks.pdf"
  },
  {
   "sourceKey": "947b4436d388",
@@ -10439,7 +10642,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Dallas - 8119 Douglas.pdf"
  },
  {
   "sourceKey": "952143d826d8",
@@ -10491,7 +10695,8 @@
     "dscr": 1.31,
     "debtYieldPct": 0.0719
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Atlanta - The Strand at Lenox.pdf"
  },
  {
   "sourceKey": "954cb3c781fc",
@@ -10538,7 +10743,8 @@
     "dscr": null,
     "debtYieldPct": 0.091
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Bellevue - Brizio Apartments.pdf"
  },
  {
   "sourceKey": "96292dc9d5c1",
@@ -10579,7 +10785,8 @@
   "outcomeNote": "3.0 - Closed folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Caldwell BFR Community on Shaw OM (March 2023) - Revised.pdf (OM date 2023-03)",
   "notes": "Category evidence: To-be-formed LP developing 28.01 acres into a 204-unit build-for-rent community; only conceptual plans, conceptual unit mix/rent roll, an 18-month construction period, and forecasted stabilized rents are given, with no existing rent roll or in-place occupancy.\nThis is a private-placement equity OM (LP investment), not a debt financing package; no loan amount, rate, LTC/LTV, or DSCR/debt yield are stated anywhere in the digest. Total land cost is $4,100,000 (28.01 acres) but no total project cost or budget breakdown is given. Return on cost is stated as 6.5-7.0% (a range, so not captured as a discrete cap field) with a target equity multiple of 1.9-2.1x. omDate of 2023-03 is taken from the filename ('March 2023'), the closest verbatim date reference available; no in-body 'as of' date was found.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/Caldwell BFR Community on Shaw OM (March 2023) - Revised.pdf"
  },
  {
   "sourceKey": "96f82637b524",
@@ -10631,7 +10838,8 @@
     "dscr": 1.9,
     "debtYieldPct": 0.126
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Savannah - 1025 West Gwinnett.pdf"
  },
  {
   "sourceKey": "97dcde9df1ed",
@@ -10678,7 +10886,8 @@
     "dscr": null,
     "debtYieldPct": 0.0937
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/VA, Annandale - Eastgate Apartments.pdf"
  },
  {
   "sourceKey": "9ab4697c30a4",
@@ -10735,7 +10944,8 @@
     "dscr": null,
     "debtYieldPct": 0.073
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/OR, Portland - Rivage.pdf"
  },
  {
   "sourceKey": "9b3c7046450f",
@@ -10797,7 +11007,8 @@
     "dscr": null,
     "debtYieldPct": 0.0872
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Jacksonville - Rosemont St. Johns.pdf"
  },
  {
   "sourceKey": "9b73374facdd",
@@ -10854,7 +11065,8 @@
     "dscr": 1.27,
     "debtYieldPct": 0.0825
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NY, Westbury - Westbury TOD.pdf"
  },
  {
   "sourceKey": "9b9ff39e836d",
@@ -10901,7 +11113,8 @@
     "dscr": 1.47,
     "debtYieldPct": 0.0903
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - LOCAL Nashville.pdf"
  },
  {
   "sourceKey": "9e2c241b6916",
@@ -10973,7 +11186,8 @@
     "dscr": null,
     "debtYieldPct": 0.093
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Atlanta - Link Apartments Lake Park.pdf"
  },
  {
   "sourceKey": "9f43994e7124",
@@ -11020,7 +11234,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Village at Carver Mountain OM JLL.pdf"
  },
  {
   "sourceKey": "9f7e88325556",
@@ -11061,7 +11276,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Austin - The Hangar.pdf",
   "notes": "Category evidence: Shovel-ready, not-yet-built 249-unit Phase I development with an approved Site Development Permit and building permit, no rent roll or T-12; Newmark is retained to secure a capital partner for construction of the Development.\nThis digest appears to be missing the OM's financial/investment-request pages (Financial Analysis, Sources & Uses, Loan Request terms, unit mix/rent detail beyond avg unit size and projected rent). Content past page 8 degrades into garbled/OCR'd transit-map and bus-schedule material with no deal economics. No loan amount, LTC, LTV, rate, term, DSCR, debt yield, cap rate, or total project cost is stated anywhere in the available text, so those fields are null. Property-level facts (address, unit count, stories, site size, average unit size $842/2,459 projected rent) are clearly stated in the readable portion (pages 1-8) and are high-confidence; overall confidence is set to low because of the missing financial content that the credit-comp record is primarily meant to capture.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Austin - The Hangar.pdf"
  },
  {
   "sourceKey": "a14390fd7c35",
@@ -11108,7 +11324,8 @@
     "dscr": 1.21,
     "debtYieldPct": 0.0707
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NM, Santa Fe - Madera.pdf"
  },
  {
   "sourceKey": "a289e32eb3cf",
@@ -11155,7 +11372,8 @@
     "dscr": null,
     "debtYieldPct": 0.0734
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/The Landing - JLL Pref Equity Request.pdf"
  },
  {
   "sourceKey": "a3142364234c",
@@ -11196,7 +11414,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Dallas - McKinney + Boll.pdf",
   "notes": "Category evidence: OM is a preferred/structured equity request for the 'development' of a 265-unit high-rise; units are labeled 'Est. 2028', timeline includes Site Development Permit, Construction Commencement with GMP, First Move-Ins, and Construction Completion (28-month construction timeline) -- no rent roll, T-12, or in-place occupancy given, only untrended pro forma rents.\nCapital stack per Property Summary: Senior Loan $110,710,000 (60.0% LTC), Pref Equity Commitment $41,510,000 (22.5%), GP Equity $32,290,000 (17.5%) against Total Project Costs of $184,510,000; loanAmount/omRequest reflect the pref/structured equity being marketed, ltcPct (60%) reflects the senior loan only. No interest rate, spread, DSCR, or debt yield figures found anywhere in the OM for either the senior loan or the pref equity. Untrended Return on Cost 6.27% and Levered IRR 25.2% stated but are not debt-yield/DSCR metrics. termMonths (44) taken from the stated project timeline 'Disposition Aug-29 (Month 44)' from Pref Closing (Jan-26), not a formal pref-equity term. Sale-comps table separately shows a 'Cost' valuation of $176,360,000 ($665,509/unit) and a 'Stabilized' valuation of $231,950,000 ($875,283/unit) at a 4.75% cap rate (used as stabilizedCapPct); this cost-basis figure differs from the stated Total Project Costs and was not used for tpcPerUnit. No explicit OM issue date found; Pref Closing targeted Jan-26 and a land-sale comp for the subject is dated Q3 2025. [Second Harvest] tpcPerUnit computed as totalProjectCost (184510000) / units (265) = 696264 (no per-unit TPC figure stated in digest); computed per sanctioned Mason 9/21/26 rule. No debt yield found.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Dallas - McKinney + Boll.pdf"
  },
  {
   "sourceKey": "a317700ae057",
@@ -11237,7 +11456,8 @@
   "outcomeNote": "3.0 - Closed folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Asher Spring Cypress OM 05.07.2025.pdf (OM date 2025-05)",
   "notes": "Category evidence: OM is an investment offering to fund 'the development of 25.6 acres into a 330-unit Class A multifamily project'; site is shovel-ready with Construction Start Q3 2025 / Completion Q1 2027, financials are a development cost budget (land, hard costs, soft costs, developer fee, interest carry) with sensitivity cases, and no rent roll or in-place occupancy is given (only 95% stabilized occupancy projection).\nThis OM is a direct equity offering by the sponsor (Caldwell Companies), not a third-party brokered loan submission -- no brokerage identified (Cushman & Wakefield is listed only as property manager). loanAmount/ltcPct reflect the $41,760,000 Construction Loan (61% LTC) line in the capital stack; the actual investor ask is preferred/LP equity (see omRequest). termMonths (20) taken from stated 'Construction Period' rather than an explicitly labeled loan term. No DSCR or debt-yield figures stated anywhere; Stabilized Return on Cost (7.8% base case) and Equity IRR/Multiple figures given instead. Exit/Terminal Cap Rate of 5.25% (base case) used as stabilizedCapPct; sensitivity cases show cap rates from 5.00%-5.50%. OM date taken from source filename (05.07.2025); holding period stated as 4 years with projected sale in 2028 at $88,050,000 ($266,818/unit).\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/Asher Spring Cypress OM 05.07.2025.pdf"
  },
  {
   "sourceKey": "a33a16997f8e",
@@ -11289,7 +11509,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Winter Park - Seven41.pdf"
  },
  {
   "sourceKey": "a388b6334af4",
@@ -11330,7 +11551,8 @@
   "outcomeNote": "3.0 - Closed folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: The Collective_Financing Memorandum (1).pdf",
   "notes": "Category evidence: OM is explicitly a 'Construction Financing Request' for 'the development of The Collective'; deal includes a development budget (land, hard costs, soft costs, financing costs, operating deficit) and a Development Timeline with Loan Close/Construction Start/First Occupancy/Construction Complete dates -- no rent roll or in-place occupancy given, property does not yet exist.\nNo interest rate (stated only as 'Fixed or Floating'), spread, DSCR, debt yield, or cap rate figures found anywhere in the digest; the table of contents references a 'Financial Overview' section starting at page 31, but the digest text ends at page 21, so those pages were not available to extract from. Property sits on a 75-year ground lease with The Kuhn Foundation (commenced Nov-2021, matures Nov-2096, $60,000 initial annual payment, CPI-U annual increases, $15,000,000 purchase option) and is in an Opportunity Zone with a sponsor-stated minimum 10-year hold. Development Timeline: Loan Close/Construction Start June 2023, First Occupancy May 2025, Construction Complete November 2025, Stabilized Occupancy May 2026, Exit June 2033 -- yearBuilt (2025) taken from Construction Complete. Document's copyright footer reads '\u00a92022', which predates the stated June-2023 loan-close/construction-start timeline; no other explicit OM date found, so omDate left null.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/The Collective_Financing Memorandum (1).pdf"
  },
  {
   "sourceKey": "a39fefba4eb7",
@@ -11377,7 +11599,8 @@
     "dscr": 1.21,
     "debtYieldPct": 0.097
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Jefferson Northshore - Finance Offering - June 2026 (1).pdf"
  },
  {
   "sourceKey": "a3e4e8f2d3ac",
@@ -11449,7 +11672,8 @@
     "dscr": null,
     "debtYieldPct": 0.093
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/OR, Portland - Harbor Sky.pdf"
  },
  {
   "sourceKey": "a48edfd12ea0",
@@ -11501,7 +11725,8 @@
     "dscr": null,
     "debtYieldPct": 0.071
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Kissimmee - Muse at Winter Garden.pdf"
  },
  {
   "sourceKey": "a4a06d92217f",
@@ -11553,7 +11778,8 @@
     "dscr": 1.25,
     "debtYieldPct": 0.0847
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Denver - Enso Zen Apartments.pdf"
  },
  {
   "sourceKey": "a4bff36cf184",
@@ -11594,7 +11820,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: GA - Accent Sugarloaf.pdf",
   "notes": "Category evidence: Ground-up 330-unit development (322 multifamily units + 8 carriage homes); site is fully zoned/entitled with building permit approved but not yet under construction, with a cost budget (hard/soft costs), yield-on-cost metrics, and a construction timeline (closing June 2026, first unit delivery October 2027, final C/O June 2028) instead of a rent roll or in-place occupancy.\nThis is primarily a JV equity offering (Equity Request $31.9M / 95% of total equity, GP co-invest 5%) that also discloses anticipated senior construction loan terms, captured above as the debt facts. Stories field left null because the project mixes 4-story multifamily buildings and 2-story carriage homes with no single stated figure. 5.25% figure is the exit cap rate applied to forward 12-month NOI at a 36-month hold/exit (June 2029), used here as stabilizedCapPct; separate yield-on-cost metrics were also given (Untrended ROC 6.8%, Stabilized ROC 7.5%) but are not cap rates. Construction timeline: closing/construction start June 2026, first unit delivery October 2027, final C/O June 2028, stabilization May 2029.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/GA - Accent Sugarloaf.pdf"
  },
  {
   "sourceKey": "a539d35fa546",
@@ -11661,7 +11888,8 @@
     "dscr": null,
     "debtYieldPct": 0.114
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Ft. Myers - V3 Apartments.pdf"
  },
  {
   "sourceKey": "a64d7f63375f",
@@ -11702,7 +11930,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: WA, Seattle - Roosevelt Manor.pdf (OM date 2024-09)",
   "notes": "Category evidence: Private Placement Memorandum for a to-be-built 131-unit, eight-story building; the prior 30-unit building on site burned down in 2024, the project is still in entitlement (building permit expected late Sept 2024), and the OM presents a cost budget, yield-on-cost/exit cap rate scenarios, and only a 'preliminary commitment' for construction financing rather than a rent roll or in-place occupancy.\nThis is an equity PPM (accredited-investor membership units) rather than a lender OM; debt facts are secondary and stated only as approximations/ranges: construction loan budgeted 'in the $40 million range' at a target rate 'less than 6.5%', and a separate base-case reference to '~$25M of investor equity (60% LTC)' at a '6.0% assumption' interest rate -- neither pins down an exact loan amount or a single consistent rate, so loanAmount/ratePct are left null per the range rule. Building described as '131-unit, 100,000+ square foot eight-story apartment building' -- sizeSf left null since only an open-ended '100,000+' figure is given. Exit cap rate sensitivity scenarios (underperform 5.0%, as-predicted 4.5%, overperform 3.5-4.0%) are provided but are sale-scenario assumptions, not a single stated going-in/stabilized cap rate, so left out of the cap fields. OM is dated September 1, 2024 on its cover; construction is projected Jan 2025-July 2026, occupancy July 2026, permanent loan placement Dec 2026 (used as yearBuilt/delivery year basis). No third-party brokerage; Jenkins Properties itself offers the units on a best-efforts basis with no commission. [Second Harvest] totalProjectCost=$61,000,000 taken verbatim from 'Total Capitalization: Approximately $61 million' (Page 5 Basics table; figure is stated as approximate in the OM, no more precise total found). tpcPerUnit computed as totalProjectCost / units (131) = 465649 (no per-unit total capitalization figure stated); computed per sanctioned Mason 9/21/26 rule. No debt yield or loan amount stated anywhere in the OM.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/WA, Seattle - Roosevelt Manor.pdf"
  },
  {
   "sourceKey": "a6eebde311c0",
@@ -11743,7 +11972,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: KS, Kansas City - Villas at Galleria.pdf",
   "notes": "Category evidence: Ground-up 353-unit, six-story podium development; 100% design/construction drawings complete but construction has not started (construction start January 2025, first units delivered July 2027, last units delivered January 2028), with a full development cost budget, predevelopment spend, and GMP/permit milestones instead of a rent roll or in-place occupancy for the subject.\nDebt Requirement (62% of total project costs) of $72,595,759 is the senior construction loan implied by the stated 62% LTC senior construction loan structure; the JV equity ask itself is stated separately as $35,000,000 (assuming an 80/20 co-invest), distinct from the total Equity Requirement of $44,494,175 (38%) shown in the financial summary box. 'Untrended Return on Cost' of 6.39% is a yield-on-cost metric, not a cap rate, so left out of the cap-rate fields; 'Exit Cap Rate Assumption' of 5.50% is captured as stabilizedCapPct. No zip code, submarket name, or loan rate/term/DSCR/debt yield figures stated. Copyright line shows '\u00a92024' but no specific OM month/date is printed.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/KS, Kansas City - Villas at Galleria.pdf"
  },
  {
   "sourceKey": "a832e861a0b8",
@@ -11790,7 +12020,8 @@
     "dscr": 1.44,
     "debtYieldPct": 0.1067
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Marble Falls - 99 Main Street.pdf"
  },
  {
   "sourceKey": "a9036c3b8ba5",
@@ -11831,7 +12062,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Austin - The Grant.pdf",
   "notes": "Category evidence: Confidential Financing Memorandum seeking non-recourse construction financing for a to-be-built mixed-use multifamily/retail tower; building permits are secured but construction has not started (slated to begin June 2026, Fall 2028 completion), with a full development budget (land, hard costs, soft costs, financing costs) and no rent roll or in-place occupancy.\nsizeSf uses the Multifamily Rentable SF (183,595); total rentable SF including 8,235 SF of retail is 191,830-191,830/191,830 (also shown once as 'Total Rentable Square Feet 191,830'). Loan-per-unit is stated as $364,800/Unit in the Loan Request boxes but $364,845/Unit in the Sources & Uses table -- minor internal inconsistency in the OM; $364,800 used above. No index/spread/absolute rate given, only 'Floating Rate'; no DSCR, debt yield, or cap rate figures stated anywhere in the memorandum. No zip code given for the property (78703 appearing in the text is JLL's own Austin office address). Disclaimer boilerplate is copyrighted '\u00a92023' but the stated construction start (June 2026)/completion (Fall 2028) timeline implies the memorandum itself was circulated later; no explicit OM date given so left null.\nExtraction confidence: high",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Austin - The Grant.pdf"
  },
  {
   "sourceKey": "a99e8ca64f94",
@@ -11883,7 +12115,8 @@
     "dscr": 1.43,
     "debtYieldPct": 0.097
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MI, Ann Arbor - Paxton.pdf"
  },
  {
   "sourceKey": "ab015ff76ef8",
@@ -11935,7 +12168,8 @@
     "dscr": null,
     "debtYieldPct": 0.0678
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Ion Clairemont.pdf"
  },
  {
   "sourceKey": "ad3a78f97c04",
@@ -11982,7 +12216,8 @@
     "dscr": 1.59,
     "debtYieldPct": 0.103
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Raleigh - Rosewood.pdf"
  },
  {
   "sourceKey": "b02648063ba0",
@@ -12034,7 +12269,8 @@
     "dscr": null,
     "debtYieldPct": 0.1109
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Duarte - Crestfield & Central.pdf"
  },
  {
   "sourceKey": "b045582be4eb",
@@ -12075,7 +12311,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: NJ, Wayne - Riverside Park Apartments.pdf",
   "notes": "Category evidence: To-be-built four-story, 232-unit community on a 10.28-acre entitled site; sponsor is finalizing construction drawings and a GMP contract with a general contractor, and the timeline shows a future 'Construction Loan Closing' and 'First Units Delivered' in Q4 2026-Q1 2027 \u2014 no rent roll or in-place occupancy exists.\nThis is a JV equity marketing package ('Northeast Multifamily Development - Joint Venture Equity Opportunity'), not a debt/loan financing memorandum, so no loan amount, LTC, LTV, rate, term, DSCR, or debt yield figures appear anywhere in the document. Unit sizes are given only as a range (618-1,230 SF) and delivery/stabilization dates only as quarter ranges (e.g., 'Q4 2026 - Q1 2027'), so sizeSf and yearBuilt were left null per the range-to-null rule. The digest's OCR text is degraded/duplicated in places, interleaving boilerplate location copy that references a differently-named project ('Mountain View Crossing') alongside Riverside Park content \u2014 likely a templated marketing deck; this did not appear to affect the Riverside Park-specific facts captured above, but overall confidence is low given the missing financial terms and text quality.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/NJ, Wayne - Riverside Park Apartments.pdf"
  },
  {
   "sourceKey": "b14419bf6ddc",
@@ -12122,7 +12359,8 @@
     "dscr": 1.64,
     "debtYieldPct": 0.1214
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, St. Augustine - Marketplace North.pdf"
  },
  {
   "sourceKey": "b1e6374015ae",
@@ -12174,7 +12412,8 @@
     "dscr": null,
     "debtYieldPct": 0.0884
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Dallas - Arts Apartments.pdf"
  },
  {
   "sourceKey": "b2f2b0158318",
@@ -12226,7 +12465,8 @@
     "dscr": null,
     "debtYieldPct": 0.1045
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MO, Kansas City - The Henning.pdf"
  },
  {
   "sourceKey": "b375b4445262",
@@ -12283,7 +12523,8 @@
     "dscr": 1.03,
     "debtYieldPct": 0.077
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Sarasota - Alloro at University Groves.pdf"
  },
  {
   "sourceKey": "b54eb73189e5",
@@ -12330,7 +12571,8 @@
     "dscr": 1.61,
     "debtYieldPct": 0.0103
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Sherman - Hickory Hill.pdf"
  },
  {
   "sourceKey": "b8554faf8f10",
@@ -12382,7 +12624,8 @@
     "dscr": null,
     "debtYieldPct": 0.0745
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Goodyear - Atlas at Canyon Trails.pdf"
  },
  {
   "sourceKey": "b8605f8d9a0a",
@@ -12429,7 +12672,8 @@
     "dscr": null,
     "debtYieldPct": 0.091
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MN, Chanhassen - 591 W 78th St.pdf"
  },
  {
   "sourceKey": "b88be7e15d7c",
@@ -12481,7 +12725,8 @@
     "dscr": null,
     "debtYieldPct": 0.0802
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - The Maris.pdf"
  },
  {
   "sourceKey": "b9c3a6deabe7",
@@ -12528,7 +12773,8 @@
     "dscr": 2.0,
     "debtYieldPct": 0.149
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Mansfield - The Grove at La Frontera.pdf"
  },
  {
   "sourceKey": "ba2117b76cd1",
@@ -12575,7 +12821,8 @@
     "dscr": null,
     "debtYieldPct": 0.1251
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Spring - The Vales at Rhodes.pdf"
  },
  {
   "sourceKey": "bacd3a91ea92",
@@ -12652,7 +12899,8 @@
     "dscr": null,
     "debtYieldPct": 0.074
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Los Angeles - Jasper.pdf"
  },
  {
   "sourceKey": "bd9a47ec61f1",
@@ -12699,7 +12947,8 @@
     "dscr": null,
     "debtYieldPct": 0.079
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Various - Avanta Portfolio - Avendale at the Colony.pdf"
  },
  {
   "sourceKey": "be28cb5dfa28",
@@ -12756,7 +13005,8 @@
     "dscr": null,
     "debtYieldPct": 0.1031
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/JLL - Academy Village Multifamily - Debt OM.pdf"
  },
  {
   "sourceKey": "bf0df8faef96",
@@ -12823,7 +13073,8 @@
     "dscr": 1.18,
     "debtYieldPct": 0.0814
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Palm Beach - Villas at Tuttle Royale.pdf"
  },
  {
   "sourceKey": "bf30a7cb5f40",
@@ -12870,7 +13121,8 @@
     "dscr": null,
     "debtYieldPct": 0.1
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Port St. Lucie - Regatta.pdf"
  },
  {
   "sourceKey": "bf4a717717b6",
@@ -12927,7 +13179,8 @@
     "dscr": null,
     "debtYieldPct": 0.1
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Fort Worth - Double Eagle BTR.pdf"
  },
  {
   "sourceKey": "bf4c5beb727d",
@@ -12989,7 +13242,8 @@
     "dscr": null,
     "debtYieldPct": 0.0751
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Atlanta - Newbergh ATL.pdf"
  },
  {
   "sourceKey": "bfbe861fe0e4",
@@ -13030,7 +13284,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: SC, North Charleston Uptown at Centre Point.pdf",
   "notes": "Category evidence: Property is described throughout as 'being developed' and as 'Multifamily Residential (in a Master Development)' with no rent roll, no in-place occupancy, and no operating financial statements; the surrounding master-planned site elements (Topgolf, parking decks, hotel) are described in a mix of completed/future terms, consistent with a still-in-development project rather than a built, stabilized asset.\nThis document is a general RealtyLink 'Investment Package' / marketing overview, not a typical debt offering memorandum -- it contains no loan amount, rate, term, LTV/LTC, cost budget, or DSCR/debt-yield figures of any kind, so nearly all financing-related fields are null and metricYears is empty. RealtyLink is listed as the developer/preparer of the package and its own staff are the listed contacts, so it functions as both developer and marketer here rather than a clearly independent third-party brokerage; used as brokerage with this caveat. Cover page and filename spell the property 'Centre Point' while the body/project-summary table spell it 'Centre Pointe' -- 'Centre Pointe' used since it recurs more often in the body text. sizeSf uses the stated Rentable SF (269,611); a separate Gross SF of 340,864 is also given but not used for this field. No year-built or delivery date is stated anywhere. Document copyright reads '\u00a9 2023 RealtyLink, LLC' but no month is given, so omDate (which requires YYYY-MM) was left null rather than using year-only.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/SC, North Charleston Uptown at Centre Point.pdf"
  },
  {
   "sourceKey": "bfdbce05605f",
@@ -13071,7 +13326,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Sarasota - 1991 Main.pdf (OM date 2020-10)",
   "notes": "Category evidence: OM explicitly states 1991 Main is 'a to-be-built, 418 unit multifamily community' located in a designated Opportunity Zone, with JLL arranging construction financing of approximately $194.04 million; the text describes ongoing land assembly/parcel purchases and a future delivery (two buildings), with no rent roll or in-place occupancy anywhere in the captured text.\nThis digest is truncated at page 14 of a document whose own table of contents lists a Financial Overview section starting at page 64 and Sponsorship at page 70 -- those sections are not present in the captured text, so loan term, rate structure/index, LTV, LTC, per-unit loan metrics, DSCR, and debt-yield figures could not be extracted even though the full OM likely states them; fields left null reflect the excerpt actually reviewed, not necessarily the full document. Confidence downgraded to medium for this reason despite the figures that were found being explicit and unambiguous. Cover page states the document date as '10.14.2020' (used for omDate) while the footer copyright reads '\u00a9 Jones Lang LaSalle IP, Inc. 2021' -- both noted. sizeSf uses the stated 'Total Multi SF' (601,742 SF); a separate 'Total SF' of 652,842 SF (including the 51,100 SF of ground-floor retail) is also given but not used here. 'Return on Cost (Untrended)' of 6.13% used for impliedCapPct; no stabilized cap rate is stated in the captured pages. Second Harvest (9/21/26): tpcPerUnit computed as totalProjectCost ($298,518,415) \u00f7 units (418) = $714,159 (computed) -- no stated per-unit development cost found in the captured digest. No debt yield, NOI, or loan-metrics language found in the digest (consistent with the truncation noted above); left null.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/FL, Sarasota - 1991 Main.pdf"
  },
  {
   "sourceKey": "c07dbbe39866",
@@ -13112,7 +13368,8 @@
   "outcomeNote": "In Process folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Investment Memo_Newfield.pdf",
   "notes": "Category evidence: Mast Capital is under contract to purchase a 45-acre raw site (phased closing Dec-2026/Dec-2028) to develop from the ground up; OM discusses development cost PSF/per-unit, GC/design/consultant team, yield on cost, and shows a 2029 delivery year in rent comps with no in-place rent roll or occupancy.\nSite purchase price stated as $19.3M / $43,000 per unit (land, not loan amount). Development basis given as $263 PSF ($374,408/unit); no total project cost figure stated so tpcPerUnit only. '6.9% untrended yield on cost' is stated but not labeled a cap rate, so left out of impliedCapPct/stabilizedCapPct per verbatim rule. No specific city named for the site (only 'Martin County, FL' and the Newfield master-planned community); market inferred from OM's own description of the Port St. Lucie MSA. Units = 449 total across Phase I (275) + Phase II (174); yearBuilt=2029 reflects Phase I delivery per rent-comp table. No rate, term, loan amount, DSCR, or debt yield figures given.\nAddress/zip verified against OM 9/21/26 (fields corrected: city)\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "1.0 - In Process/Investment Memo_Newfield.pdf"
  },
  {
   "sourceKey": "c275375d1386",
@@ -13164,7 +13421,8 @@
     "dscr": 1.18,
     "debtYieldPct": 0.0725
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/DSF Finance Request_Solara.pdf"
  },
  {
   "sourceKey": "c35b977311f5",
@@ -13216,7 +13474,8 @@
     "dscr": 1.2,
     "debtYieldPct": 0.0752
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Monroe North Park.pdf"
  },
  {
   "sourceKey": "c3cf0dbaae8c",
@@ -13288,7 +13547,8 @@
     "dscr": null,
     "debtYieldPct": 0.086
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Atlanta - Project Augusta.pdf"
  },
  {
   "sourceKey": "c48cd0a1c553",
@@ -13335,7 +13595,8 @@
     "dscr": null,
     "debtYieldPct": 0.09
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Durham - Westside Bottling.pdf"
  },
  {
   "sourceKey": "c4f5f36c0e2a",
@@ -13387,7 +13648,8 @@
     "dscr": null,
     "debtYieldPct": 0.0856
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CBRE Apartments at Brayden Financing Request - 3.4.26.pdf"
  },
  {
   "sourceKey": "c5846bda7662",
@@ -13434,7 +13696,8 @@
     "dscr": null,
     "debtYieldPct": 0.0725
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Tampa - The Pearl.pdf"
  },
  {
   "sourceKey": "c5b3a232cc38",
@@ -13486,7 +13749,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Fort Worth - Crystal Springs.pdf"
  },
  {
   "sourceKey": "c5e94f3a6a3a",
@@ -13538,7 +13802,8 @@
     "dscr": 1.31,
     "debtYieldPct": 0.0789
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - Elle West Ave.pdf"
  },
  {
   "sourceKey": "c6a0463479e8",
@@ -13585,7 +13850,8 @@
     "dscr": 1.54,
     "debtYieldPct": 0.117
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - Cohaven.pdf"
  },
  {
   "sourceKey": "c7e4dedb987c",
@@ -13637,7 +13903,8 @@
     "dscr": 1.21,
     "debtYieldPct": 0.0759
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - Pearl Springdale.pdf"
  },
  {
   "sourceKey": "c851ed539b96",
@@ -13709,7 +13976,8 @@
     "dscr": null,
     "debtYieldPct": 0.093
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Atlanta - Marchon Apartments.pdf"
  },
  {
   "sourceKey": "c8cc4b48faca",
@@ -13761,7 +14029,8 @@
     "dscr": 1.14,
     "debtYieldPct": 0.0776
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/UT, Lehi - Terra Vista Apartments.pdf"
  },
  {
   "sourceKey": "c8cf7c3b57de",
@@ -13802,7 +14071,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Austin - Menchaca Garden.pdf",
   "notes": "Category evidence: To-be-built 360-unit community on a ~12.975-acre vacant land site in Austin's ETJ; the OM explicitly frames this as a '360 Unit Construction Financing Opportunity' with GC/GMP hard costs, land cost, soft costs, a Traffic Impact Analysis and utility Service Extension Request (entitlement items), and no rent roll or in-place operations.\nThe financing request in this OM is fully-accruing preferred equity (up to 80% LTC 'last dollar' leverage), not a conventional mortgage loan; loanAmount/loanPerUnit/ltcPct capture this preferred-equity tranche. The capital stack separately includes a Senior Financing Request (construction loan) of $53,578,430 at 60% LTC ($148,829/unit), plus Sponsor GP equity ($1,989,911), LP equity ($7,981,866), and a land contribution ($7,887,700) - not modeled in the single-loan schema. Interest Rate listed only as 'Best Available'; Loan Term listed as 'Matching Senior Loan' with no stated duration, so termMonths/ioMonths are null. No DSCR or Debt Yield figures appear anywhere in the document (preferred-equity/ROC-focused underwriting instead), so metricYears is empty. Untrended Yield-on-Cost is stated at 6.68% against a 'conservative 5.00% exit cap assumption' (168 bps spread); the 5.00% exit cap was recorded as stabilizedCapPct since yield-on-cost (NOI/cost) is a distinct metric from a capitalization rate (NOI/value) and was not substituted for it. Total Project Cost and per-unit figure taken from the Sources & Uses table. No zip code, building stories (mix of 3- and 4-story buildings), total rentable SF, or OM issuance date are stated; only average unit size (964 SF), land contribution value, and a financing timeline (proposals due 3/10/26, target closing 10/1/26) are given.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Austin - Menchaca Garden.pdf"
  },
  {
   "sourceKey": "c8e418519e0d",
@@ -13854,7 +14124,8 @@
     "dscr": null,
     "debtYieldPct": 0.0745
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/JLL Financing Memorandum - Atlas at Canyon Trails.pdf"
  },
  {
   "sourceKey": "c95b794c8337",
@@ -13901,7 +14172,8 @@
     "dscr": null,
     "debtYieldPct": 0.0926
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Various - Avanta Portfolio - Avendale Painted Tree.pdf"
  },
  {
   "sourceKey": "c963597c285e",
@@ -13948,7 +14220,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL - Straits Row.pdf"
  },
  {
   "sourceKey": "c9f883bfd60e",
@@ -13995,7 +14268,8 @@
     "dscr": null,
     "debtYieldPct": 0.0945
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Shoreline - Leeway.pdf"
  },
  {
   "sourceKey": "ca11c60b2a6d",
@@ -14067,7 +14341,8 @@
     "dscr": null,
     "debtYieldPct": 0.0794
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/JLL Financing Memorandum - Marlowe Peoria Place.pdf"
  },
  {
   "sourceKey": "caba0de9a476",
@@ -14119,7 +14394,8 @@
     "dscr": 1.26,
     "debtYieldPct": 0.0883
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Denver - Exodus Green Valley Ranch.pdf"
  },
  {
   "sourceKey": "cb27d155f24e",
@@ -14166,7 +14442,8 @@
     "dscr": null,
     "debtYieldPct": 0.099
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/MN, Chanhassen - 570 Market St.pdf"
  },
  {
   "sourceKey": "cd246e17ae65",
@@ -14223,7 +14500,8 @@
     "dscr": 1.06,
     "debtYieldPct": 0.0932
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Drewery Place.pdf"
  },
  {
   "sourceKey": "cd8fcd2769dc",
@@ -14264,7 +14542,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: JLL Investment Flyer - Fitzroy Grove.pdf (OM date 2023-03)",
   "notes": "Category evidence: Property was delivered in January 2022, is fully built (4 buildings/4 stories), and has an in-place, in-lease-up rent roll dated 3/6/2023 showing 74.4% physical occupancy (79.2% leased); it is not a to-be-built construction deal.\nThis digest is framed as a JLL 'Investment Flyer' / acquisition opportunity, not a debt financing request - no loan amount, rate, LTC/LTV, DSCR, or debt yield appears anywhere in the text, so all loan-specific fields are null. Disclaimer footer boilerplate reads '(c)2022' and references generic 'Confidential Loan Submission' language, but the rent roll is dated 3/6/2023 and submarket data is 'as of March 2023', so omDate is set to 2023-03 based on the rent-roll/market-data date rather than the stale copyright year.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/JLL Investment Flyer - Fitzroy Grove.pdf"
  },
  {
   "sourceKey": "ce7ffcdcb3c4",
@@ -14316,7 +14595,8 @@
     "dscr": 1.03,
     "debtYieldPct": 0.0751
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Durham - Ellis Station.pdf"
  },
  {
   "sourceKey": "cf436b5e68d6",
@@ -14363,7 +14643,8 @@
     "dscr": 1.07,
     "debtYieldPct": 0.112
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - Mission Gorge.pdf"
  },
  {
   "sourceKey": "cff5bec75883",
@@ -14415,7 +14696,8 @@
     "dscr": null,
     "debtYieldPct": 0.0794
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Phoenix - Marlowe Peoria Place.pdf"
  },
  {
   "sourceKey": "d1129a1f81ae",
@@ -14487,7 +14769,8 @@
     "dscr": null,
     "debtYieldPct": 0.0808
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, San Antonio - Laurel Mountain Apartments.pdf"
  },
  {
   "sourceKey": "d22d2d21a069",
@@ -14534,7 +14817,8 @@
     "dscr": null,
     "debtYieldPct": 0.088
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Jacksonville - Royal Palms Main Street.pdf"
  },
  {
   "sourceKey": "d3d93b6f29f1",
@@ -14601,7 +14885,8 @@
     "dscr": null,
     "debtYieldPct": 0.0824
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Fort Myers - The Winslow Residences.pdf"
  },
  {
   "sourceKey": "d4f3792acd5c",
@@ -14658,7 +14943,8 @@
     "dscr": null,
     "debtYieldPct": 0.123
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Bellevue - The V.pdf"
  },
  {
   "sourceKey": "d53cf4f13c8b",
@@ -14705,7 +14991,8 @@
     "dscr": null,
     "debtYieldPct": 0.098
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - 5th and Juniper.pdf"
  },
  {
   "sourceKey": "d551b51a60e9",
@@ -14752,7 +15039,8 @@
     "dscr": 1.13,
     "debtYieldPct": 0.0811
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NM, Santa Fe - Madera Apartments.pdf"
  },
  {
   "sourceKey": "d6f965e46511",
@@ -14804,7 +15092,8 @@
     "dscr": null,
     "debtYieldPct": 0.0917
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Fontana - Citrus & Summit.pdf"
  },
  {
   "sourceKey": "d7ec2f9ae119",
@@ -14851,7 +15140,8 @@
     "dscr": null,
     "debtYieldPct": 0.0797
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Canvas at Frisco Financing Memorandum.pdf"
  },
  {
   "sourceKey": "d9039dff6239",
@@ -14892,7 +15182,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: IL, Chicago - Parkway Residences.pdf",
   "notes": "Category evidence: BWE engaged 'to arrange construction financing for the development of Parkway Residences'; project is 'currently fully entitled' with permit application still pending City approval, and the timeline describes ~13 months of construction followed by ~12 months to stabilization - no rent roll or in-place occupancy exists.\nNo loan rate, index/spread, term, DSCR, or debt yield figures are stated anywhere in the memo. impliedCapPct (6.00%) is BWE's underwriting cap rate used to derive a $62,810,000 ($628,100/unit) valuation for comp purposes, not a loan-metric cap rate. Building SF of 114,570 SF is residential only; an additional 38,400 SF underground garage is excluded. Total Project Costs ($45,868,190) includes a $3,177,519 construction interest reserve on top of the $42,690,672 'Total Project Cost Before Finance Cost'. Permit approval anticipated summer 2026; no explicit OM date stated.\nExtraction confidence: high",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/IL, Chicago - Parkway Residences.pdf"
  },
  {
   "sourceKey": "d92af1576627",
@@ -14933,7 +15224,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, San Antonio - GreenGate Village.pdf",
   "notes": "Category evidence: Developer overview deck for a project 'to be built': lists a 'Desired Start Date: Q2 - 2025' and 'Const. Schedule: 24 months'; no rent roll, C of O, or in-place occupancy is present anywhere in the materials.\nThis digest is a developer marketing/project-overview deck (18.3 acres, 50% 2-story 'BigHouse' / 50% 3-story 'eUrban' buildings, ~$6-10M in tax savings referenced) rather than a lender financing memorandum - no loan amount, cost budget, rate, LTC/LTV, or DSCR/debt yield figures appear anywhere in the OCR'd text. No broker/placement agent is named. Units (318) and construction timing ('Desired Start Date Q2-2025', '24 months') are the only hard facts stated.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, San Antonio - GreenGate Village.pdf"
  },
  {
   "sourceKey": "db707f00fce5",
@@ -14985,7 +15277,8 @@
     "dscr": 1.07,
     "debtYieldPct": 0.08
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/SC, Charleston - The Porter.pdf"
  },
  {
   "sourceKey": "dc48a0c0f964",
@@ -15042,7 +15335,8 @@
     "dscr": null,
     "debtYieldPct": 0.0787
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Mountain View - Revela.pdf"
  },
  {
   "sourceKey": "dda5fca4d66f",
@@ -15094,7 +15388,8 @@
     "dscr": null,
     "debtYieldPct": 0.1109
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Crestfield & Central - JLL Financing Memorandum.pdf"
  },
  {
   "sourceKey": "df1c97da25d0",
@@ -15146,7 +15441,8 @@
     "dscr": 1.25,
     "debtYieldPct": 0.0798
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WI, Madison - The Irwin.pdf"
  },
  {
   "sourceKey": "df85c0accb34",
@@ -15187,7 +15483,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: CO, Denver - Viceroy Observatory Park.pdf",
   "notes": "Category evidence: Property was delivered in 2017 and acquired by Bascom in 2018; OM cites current leased %, rent comps, existing senior mortgage maturing August 2026 with a current UPB of $68,000,000 \u2014 a built, operating asset seeking refinance ahead of loan maturity.\nNo explicit new loan amount requested is stated \u2014 only the existing debt UPB of $68,000,000 (maturing Aug 2026) is given; per VERBATIM-OR-NULL rule this is not used as loanAmount. Property summary box states '% Leased 91.3% (as of 6.8.26)' which is used as occupancyPct, though this as-of date is later than most other data in the OM (which references 2025 figures) and may be an OCR/typo artifact. Submarket is called both 'Glendale University Area' (market overview) and 'University Garden Area' (sales comps table) in the source; 'Glendale University Area' used as primary. Original acquisition price by Bascom in 2018 was $92,500,000 ($336,363/unit), not a loan amount. Document is a JLL 'Confidential Loan Submission,' copyright dated 2025.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/CO, Denver - Viceroy Observatory Park.pdf"
  },
  {
   "sourceKey": "e01c4defe27a",
@@ -15244,7 +15541,8 @@
     "dscr": null,
     "debtYieldPct": 0.1219
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Charlotte - greenhouse University.pdf"
  },
  {
   "sourceKey": "e03c5859e6e2",
@@ -15291,7 +15589,8 @@
     "dscr": null,
     "debtYieldPct": 0.07
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Mesa - The ONE @ Signal Butte.pdf"
  },
  {
   "sourceKey": "e0c8e7afe3c0",
@@ -15363,7 +15662,8 @@
     "dscr": null,
     "debtYieldPct": 0.071
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Denver - Cortland Westminster.pdf"
  },
  {
   "sourceKey": "e22919c1b1be",
@@ -15420,7 +15720,8 @@
     "dscr": null,
     "debtYieldPct": 0.091
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Francisco - Hanover Soma West.pdf"
  },
  {
   "sourceKey": "e2b69149d28f",
@@ -15467,7 +15768,8 @@
     "dscr": 1.11,
     "debtYieldPct": 0.0785
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/UT, Salt Lake City - The Izzy.pdf"
  },
  {
   "sourceKey": "e35e97c5807e",
@@ -15534,7 +15836,8 @@
     "dscr": null,
     "debtYieldPct": 0.098
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Fort Meyers - Cobblestone on the Lake.pdf"
  },
  {
   "sourceKey": "e459aafce51f",
@@ -15611,7 +15914,8 @@
     "dscr": 1.13,
     "debtYieldPct": null
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Circa at Fishhawk Ranch - Preferred Equity FM - July 2024.pdf"
  },
  {
   "sourceKey": "e45ca92cd688",
@@ -15658,7 +15962,8 @@
     "dscr": 1.34,
     "debtYieldPct": 0.1
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/Finance Request - 19th Avenue - 65%.pdf"
  },
  {
   "sourceKey": "e4cee8e36d44",
@@ -15725,7 +16030,8 @@
     "dscr": 1.13,
     "debtYieldPct": 0.0735
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Charlotte - J Optimist Park.pdf"
  },
  {
   "sourceKey": "e62aa035dd99",
@@ -15772,7 +16078,8 @@
     "dscr": null,
     "debtYieldPct": 0.066
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - Merle on Howard.pdf"
  },
  {
   "sourceKey": "e78b4221fac4",
@@ -15819,7 +16126,8 @@
     "dscr": null,
     "debtYieldPct": 0.1183
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Charlotte - Mira.pdf"
  },
  {
   "sourceKey": "e7ff789f46ab",
@@ -15871,7 +16179,8 @@
     "dscr": null,
     "debtYieldPct": 0.086
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Denver - Flight at Lowry.pdf"
  },
  {
   "sourceKey": "e8f152324090",
@@ -15918,7 +16227,8 @@
     "dscr": 0.45,
     "debtYieldPct": 0.0425
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - Orem Circle Apartments.pdf"
  },
  {
   "sourceKey": "e999507f09bf",
@@ -15985,7 +16295,8 @@
     "dscr": null,
     "debtYieldPct": 0.0775
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AR, Harrison - Rock Springs.pdf"
  },
  {
   "sourceKey": "e9a8052d94f6",
@@ -16032,7 +16343,8 @@
     "dscr": null,
     "debtYieldPct": 0.1022
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NC, Charlotte - 1817 Central.pdf"
  },
  {
   "sourceKey": "ea4a0c0b3fcc",
@@ -16073,7 +16385,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, San Antonio - The Continental.pdf",
   "notes": "Category evidence: Shovel-ready, not-yet-built mixed-use development; construction loan closing June 2023, GMP contracts pending, site/foundation permits approved, no rent roll/T-12, delivery Aug 2025.\nOM is a preferred-equity request ($15,517,000) sitting between construction debt (Amegy Bank, $68,120,000) and GP/LP equity ($50,000,000) within a $133,637,000 total-cost capital stack (Total Costs = 100% of stack, financing tiers stated as %-of-stack rather than LTC/LTV). No rate, term, LTV/LTC label, or DSCR/debt yield stated. 318 total units = 290 new multifamily units + 28 furnished units in renovated Continental/Arana buildings; average unit size 724 SF given for the 290 new units only. Second Harvest (9/21/26): tpcPerUnit not separately stated; computed as TPC ($133,637,000) \u00f7 units (318) = $420,242 (computed). No NOI, loan-metrics, or debt-yield language found in the digest (this is a preferred-equity teaser with only the capital stack / financing request shown), so debt yield left null.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, San Antonio - The Continental.pdf"
  },
  {
   "sourceKey": "eaaf17bbd205",
@@ -16114,7 +16427,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Encanto Estates - Pref Request Package Feb-23.pdf (OM date 2023-02)",
   "notes": "Category evidence: To-be-built development with construction start April 2023, construction end April 2025, a cost budget/sources & uses, and projected (untrended) pro forma rents and stabilization date; no rent roll or in-place occupancy.\nPreferred equity request of $19,000,000 sits within Sources of Funds: Debt $55,876,687 (60%), Preferred Equity $19,000,000 (51% of equity), GP Equity $18,251,125 (49% of equity); Total Sources/Uses $93,128,000 (labeled 'Construction Costs' $93M on the summary page, 'Total Uses' $93,128,000 on the sources & uses page - used the latter, more precise figure). Untrended Return on Cost 6.30%-6.31% (stabilized yield-on-cost, not a cap rate on value) reported separately from Terminal/exit cap rate of 5.50% (used here as stabilizedCapPct). Hold period 36 months is the investment hold, not a loan term (no loan term/rate/DSCR stated for the debt piece - interest reserve references forward SOFR curve implying floating-rate construction debt, but no spread or all-in rate given). Deal-level IRR 23.50%, EM 1.83x not captured (not in JSON shape). [Harvest2] tpcPerUnit computed = totalProjectCost ($93,128,000, Total Uses) / units (299) = $311,465 (computed).\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/Encanto Estates - Pref Request Package Feb-23.pdf"
  },
  {
   "sourceKey": "eadb7d040869",
@@ -16176,7 +16490,8 @@
     "dscr": 1.367,
     "debtYieldPct": 0.082
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - 805 Lea.pdf"
  },
  {
   "sourceKey": "ed250615f716",
@@ -16228,7 +16543,8 @@
     "dscr": 1.37,
     "debtYieldPct": 0.0956
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Chicago - 1628 W Division Street (Vision II).pdf"
  },
  {
   "sourceKey": "ed67478c729a",
@@ -16269,7 +16585,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Austin - Wilder.pdf",
   "notes": "Category evidence: Built and completed in 2020, currently operating with a rent roll/unit mix and 95% occupancy shown in the rent comparables table; the cover page is explicitly titled 'Refinance Loan Request'.\nDigest is titled 'Refinance Loan Request' and includes Property Description, Market Overview, and Sales & Rent Comparables sections, but the captured text has no Loan Request Summary / financial-terms page (the Executive Summary pages 4-5 and pages 19-22 appear to be graphics-only with no extracted text) - no loan amount, rate, term, LTV/LTC, DSCR, sponsor name, or OM date could be found in the digest, so most fields are null and confidence is low. A sale-comparables table lists an 'UW Value' for Wilder itself of $72,000,000 ($188,976/unit, $236/SF) but this appears to be a valuation benchmark, not a stated loan amount, so it was not used. Occupancy (95%) and unit-level rent roll data came from the rent comparables table. Footer disclaimer shows a 2026 copyright year but no explicit OM date is stated.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Austin - Wilder.pdf"
  },
  {
   "sourceKey": "ed7ec3b55aca",
@@ -16310,7 +16627,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Dallas - Ambassador.pdf",
   "notes": "Category evidence: To-be-built, Qualified Opportunity Zone project on 2.427 acres with estimated vertical closing Q3 2023, first units Q2 2025, and anticipated completion Q1 2026; cost budget and per-unit project cost given, no rent roll or in-place occupancy.\nDeck is a project overview / Opportunity Zone offering prospectus (references a 'Partnership,' 'Offering,' and generic 'Risk of Leverage' language) rather than a lender quote request - no loan amount, rate, term, LTV/LTC, or DSCR/debt yield appears in the captured text, and no brokerage/placement agent is named. Product Type described as '5-Story Wood Frame Construction over 2-Story Concrete Podium'; a rent-comp table separately lists Ambassador as a '5-story Podium' delivering 2026, consistent with stories=5 and yearBuilt=2026 used here. Zip code not stated. Estimated Total Project Cost ($104,200,000) and per-unit figure ($348,495) are both explicitly stated, not computed.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Dallas - Ambassador.pdf"
  },
  {
   "sourceKey": "ed90e8188830",
@@ -16357,7 +16675,8 @@
     "dscr": null,
     "debtYieldPct": 0.0777
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NV, Las Vegas - The Hendrix.pdf"
  },
  {
   "sourceKey": "ed932c82114a",
@@ -16404,7 +16723,8 @@
     "dscr": null,
     "debtYieldPct": 0.075
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - Monterra Apartments.pdf"
  },
  {
   "sourceKey": "ed97bef64056",
@@ -16466,7 +16786,8 @@
     "dscr": null,
     "debtYieldPct": 0.081
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Matheson Mill_Loan Request - $53 MM.pdf"
  },
  {
   "sourceKey": "eee4614da8a2",
@@ -16513,7 +16834,8 @@
     "dscr": null,
     "debtYieldPct": 0.084
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - The Mill Residences.pdf"
  },
  {
   "sourceKey": "ef870e3c32e2",
@@ -16565,7 +16887,8 @@
     "dscr": null,
     "debtYieldPct": 0.1369
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - The Travis.pdf"
  },
  {
   "sourceKey": "ef9bbf2c49fe",
@@ -16617,7 +16940,8 @@
     "dscr": null,
     "debtYieldPct": 0.118
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/PA, Pittsburgh - Dalian Lawrenceville.pdf"
  },
  {
   "sourceKey": "efab28688feb",
@@ -16664,7 +16988,8 @@
     "dscr": 1.44,
     "debtYieldPct": 0.0863
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/UT, Salt Lake City - Utopia Apartments.pdf"
  },
  {
   "sourceKey": "f057a6f407b5",
@@ -16716,7 +17041,8 @@
     "dscr": 1.63,
     "debtYieldPct": 0.0857
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Gainesville - G3 Portfolio.pdf"
  },
  {
   "sourceKey": "f0b7c690d027",
@@ -16768,7 +17094,8 @@
     "dscr": null,
     "debtYieldPct": 0.085
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, San Diego - State & Laurel.pdf"
  },
  {
   "sourceKey": "f0da4b245a69",
@@ -16835,7 +17162,8 @@
     "dscr": null,
     "debtYieldPct": 0.087
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/AZ, Phoenix - Happy Valley Apartments.pdf"
  },
  {
   "sourceKey": "f18edbd09cc6",
@@ -16882,7 +17210,8 @@
     "dscr": 1.27,
     "debtYieldPct": 0.0937
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Davie - Saddlebridge at Davie.pdf"
  },
  {
   "sourceKey": "f1ed33b9b912",
@@ -16929,7 +17258,8 @@
     "dscr": null,
     "debtYieldPct": 0.116
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/GA, Covington - Sinclair at Callaway Park.pdf"
  },
  {
   "sourceKey": "f249657926ed",
@@ -16976,7 +17306,8 @@
     "dscr": null,
     "debtYieldPct": 0.096
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Estero - Coconut Pointe.pdf"
  },
  {
   "sourceKey": "f33b999c3c48",
@@ -17038,7 +17369,8 @@
     "dscr": null,
     "debtYieldPct": 0.0715
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Lake Worth - Elan Palm Reserve.pdf"
  },
  {
   "sourceKey": "f36cf4a17a26",
@@ -17090,7 +17422,8 @@
     "dscr": null,
     "debtYieldPct": 0.0781
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Denver - Airie.pdf"
  },
  {
   "sourceKey": "f38d5a88ffac",
@@ -17142,7 +17475,8 @@
     "dscr": null,
     "debtYieldPct": 0.1005
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Rosalina - Request for Construction Financing.pdf"
  },
  {
   "sourceKey": "f4801029d4a9",
@@ -17183,7 +17517,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: Aldea Offering Memorandum.pdf (OM date 2025-01)",
   "notes": "Category evidence: Fully entitled site currently processing Grading/Building Permits, with construction start April 2025, first homes completion July 2026 and stabilization September 2027 on the project timeline, plus a full development cost budget \u2014 property not yet built. This is a JV development-equity offering (not a straight debt request), pairing an equity request with a stated construction financing amount.\nThis OM primarily markets a JV equity opportunity (Equity Request $65.34M) rather than a debt financing request; a 'Construction Financing' figure of $79.86M is stated as part of the sources but with no LTC, LTV, rate, index, spread, term, DSCR or debt yield disclosed anywhere in the document, so those fields are null and loanPerUnit/loanPerSf were left null rather than computed. Only an 'Untrended Return on Cost' of 6.44% is given, which is not a cap rate or debt yield, so metricYears is empty. Contractor is Lennar Homes (Quarterra's parent company affiliate), Architect is AO Architects. omDate taken from the disclaimer footer control code 'CMPM Aldea_OM 01/16/25'; a separate 'Project Cost Summary (AS OF 9/1/2024)' table uses an earlier cost-data date. sizeSf (352,581) is the 'Total Net' square footage shown in the projected rent roll table.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/Aldea Offering Memorandum.pdf"
  },
  {
   "sourceKey": "f57b1657e0f3",
@@ -17235,7 +17570,8 @@
     "dscr": null,
     "debtYieldPct": 0.071
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Belltown - Liv Belltown.pdf"
  },
  {
   "sourceKey": "f5b72abca2cd",
@@ -17276,7 +17612,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Houston - The Vic at Interpose.pdf",
   "notes": "Category evidence: Property received final Certificate of Occupancy Dec 6, 2024, leasing began Nov 2023, and it is reported '80% leased in 1st 8 months' with an in-place unit rent roll and stabilized proforma; no construction budget, GC/contract, or completion timeline for future work is presented, indicating the asset is built and operating.\nDigest contains no loan amount, rate, term, LTV/LTC, DSCR, or debt yield figures anywhere in the text -- it reads as a property/investment marketing package (site plan, rent comps, cash flow, market overview, developer bio) rather than a financing request, so all deal-term fields are null. Occupancy (0.80) is taken from the bullet '80% leased in 1st 8 months' (an achieved leasing milestone), not from a dated rent-roll snapshot, so treat as approximate/current-as-of-package. The FILE header says 'The Vic at Interpose.pdf' but all body content (site plan, unit mix, comps, cash flow, demographics) describes 'The Vic on Park Row' at 18210 Park Row, Houston -- 'The Vic at Interpose' appears only as a separate prior project in the sponsor's portfolio slide (page 15); propertyName was set from body content, not the filename. Hunington Properties is described as both the developer and a 'development & brokerage firm', so it is listed as both borrower/sponsor and brokerage; no distinct third-party brokerage is named.\nAddress normalized to street-only 9/21/26 second verification pass (address)\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/TX, Houston - The Vic at Interpose.pdf"
  },
  {
   "sourceKey": "f79f2dfe03c9",
@@ -17328,7 +17665,8 @@
     "dscr": 1.34,
     "debtYieldPct": 0.118
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO, Denver - Oxford Englewood.pdf"
  },
  {
   "sourceKey": "f7cb063686c9",
@@ -17385,7 +17723,8 @@
     "dscr": null,
     "debtYieldPct": 0.093
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Austin - 2545 Brockton.pdf"
  },
  {
   "sourceKey": "f89ac61b48cc",
@@ -17432,7 +17771,8 @@
     "dscr": null,
     "debtYieldPct": 0.0903
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/WA, Vancouver - VIC Phase I.pdf"
  },
  {
   "sourceKey": "f92587a061b8",
@@ -17479,7 +17819,8 @@
     "dscr": null,
     "debtYieldPct": 0.0902
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TN, Nashville - Meeting House Lofts.pdf"
  },
  {
   "sourceKey": "f941d1137111",
@@ -17531,7 +17872,8 @@
     "dscr": 1.1,
     "debtYieldPct": 0.084
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Houston - 3520 Center Street.pdf"
  },
  {
   "sourceKey": "f961232e4a94",
@@ -17598,7 +17940,8 @@
     "dscr": null,
     "debtYieldPct": 0.0878
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Los Angeles - The Eden.pdf"
  },
  {
   "sourceKey": "f9e1f519f275",
@@ -17650,7 +17993,8 @@
     "dscr": null,
     "debtYieldPct": 0.124
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/NJ, Jersey City - Scholars Village.pdf"
  },
  {
   "sourceKey": "fb5e367e8d7f",
@@ -17691,7 +18035,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Fort Lauderdale - Avery Cypress Creek.pdf",
   "notes": "Category evidence: Land under contract with site plan approved, ground-breaking and 20-month construction period scheduled, cost budget (land/hard/soft/carry costs) and yield-on-cost metrics presented; no rent roll or in-place occupancy - property not yet built.\nDocument is a JV equity offering memorandum, not a debt financing request; no loan rate, LTV/LTC%, or term stated. Construction loan of $60,034,520 shown as 70% of total sources in Sources & Uses table, but not explicitly labeled 'LTC' so ltcPct left null. Cap Rate / Market Cap Rate of 5.00% used as exit/valuation assumption, captured as stabilizedCapPct. Exec summary rounds project cost to '$85MM'; exact S&U total of $85,325,523 used instead.\nExtraction confidence: medium",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/FL, Fort Lauderdale - Avery Cypress Creek.pdf"
  },
  {
   "sourceKey": "fbae80393eb3",
@@ -17743,7 +18088,8 @@
     "dscr": 1.49,
     "debtYieldPct": 0.0773
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CO - Araceli.pdf"
  },
  {
   "sourceKey": "fbbd3436508c",
@@ -17815,7 +18161,8 @@
     "dscr": null,
     "debtYieldPct": 0.0976
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/CA, Culver City - 10505 Washington.pdf"
  },
  {
   "sourceKey": "fc10baa12a4c",
@@ -17867,7 +18214,8 @@
     "dscr": null,
     "debtYieldPct": 0.115
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Sarasota - Calypso Apartments.pdf"
  },
  {
   "sourceKey": "fc4a4cc615f3",
@@ -17914,7 +18262,8 @@
     "dscr": null,
     "debtYieldPct": 0.0713
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/The Marlow - JLL FM - Email.pdf"
  },
  {
   "sourceKey": "fcc50832f565",
@@ -17961,7 +18310,8 @@
     "dscr": 1.52,
     "debtYieldPct": 0.1021
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Boerne - Oaks at Cibolo Creek.pdf"
  },
  {
   "sourceKey": "fd37cb3f643b",
@@ -18013,7 +18363,8 @@
     "dscr": null,
     "debtYieldPct": 0.0717
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/JLL Financing Memorandum - Azur (Phoenix, AZ).pdf"
  },
  {
   "sourceKey": "fd8288822d1b",
@@ -18054,7 +18405,8 @@
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: GA, Atlanta - Milton Avenue Apartments.pdf",
   "notes": "Category evidence: Site is vacant land acquired by the Sponsor (IADC) in December 2021 along the Atlanta Beltline's Southside East Trail; the OM is a construction financing request (senior debt and/or preferred equity) with a ~$67MM development budget and no rent roll or in-place occupancy - the project has not been built.\nThis digest is missing most quantitative financing detail: the 'Development Budget and Sources & Uses' page (p.23) appears to have been an image/graphic that was not OCR'd into text, so no specific loan amount, LTC/LTV, rate, term, or cap rate could be extracted even though the OM text references a financing request 'for both Preferred equity and the construction loan.' No full street address, zip, square footage, stories, or year-built figure is stated anywhere in the extracted text - only the street name 'Milton Avenue, Atlanta, GA' is given. Total budget of '$67mm' and cost basis of '$293k per unit' are both stated directly in the executive summary (not derived from each other). No project name other than the site's street location is given in the OM; the file name was used as propertyName.\nExtraction confidence: low",
-  "metricYears": []
+  "metricYears": [],
+  "omPath": "2.0 - Dead/GA, Atlanta - Milton Avenue Apartments.pdf"
  },
  {
   "sourceKey": "fe172dceb0b1",
@@ -18106,7 +18458,8 @@
     "dscr": null,
     "debtYieldPct": 0.085
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/FL, Orlando - Alvista West Vue.pdf"
  },
  {
   "sourceKey": "fe30ea1bd5b1",
@@ -18158,7 +18511,8 @@
     "dscr": null,
     "debtYieldPct": 0.1098
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/IL, Evanston - 605 Davis.pdf"
  },
  {
   "sourceKey": "ff11a2a15f79",
@@ -18210,7 +18564,8 @@
     "dscr": null,
     "debtYieldPct": 0.1144
    }
-  ]
+  ],
+  "omPath": "1.0 - In Process/Vista Fish Creek Equity IM 5.5.26.pdf"
  },
  {
   "sourceKey": "ff1f38654fa7",
@@ -18257,6 +18612,7 @@
     "dscr": null,
     "debtYieldPct": 0.1123
    }
-  ]
+  ],
+  "omPath": "2.0 - Dead/TX, Fredricksburg - The Lucile.pdf"
  }
 ]

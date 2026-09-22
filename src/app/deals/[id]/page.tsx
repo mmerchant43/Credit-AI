@@ -238,6 +238,11 @@ export default async function DealAnalysisPage({
           <span>Stories: <b>{s.stories ?? DASH}</b></span>
           <span>Vintage: <b>{s.yearBuilt ?? DASH}</b></span>
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
+          {s.omLink && (
+            <a href={s.omLink} target="_blank" rel="noopener noreferrer" className="text-accent underline font-medium">
+              Open OM ↗
+            </a>
+          )}
         </div>
         {savedSnap.writeupSections ? (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
@@ -361,7 +366,7 @@ export default async function DealAnalysisPage({
                 </tr>
               </thead>
               <tbody>
-                {view.stats.map((row) => {
+                {view.stats.filter((row) => row.key !== "impliedCapPct").map((row) => {
                   const values = orderedMatched
                     .map((c) => (c as unknown as Record<string, number | null>)[row.key])
                     .filter((v): v is number => typeof v === "number" && isFinite(v));
@@ -420,12 +425,18 @@ export default async function DealAnalysisPage({
                 {(() => {
                   const comps = savedSnap.omRentComps!.filter((r) => !r.isSubject);
                   const subj = savedSnap.omRentComps!.find((r) => r.isSubject);
+                  // Averages ROUNDED TO DISPLAY PRECISION before the deltas are
+                  // computed, so the % row always agrees with the numbers shown
+                  // (Mason, 9/22/26).
+                  const round2 = (v: number | null) => (v == null ? null : Math.round(v * 100) / 100);
+                  const round1 = (v: number | null) => (v == null ? null : Math.round(v * 10) / 10);
+                  const round0 = (v: number | null) => (v == null ? null : Math.round(v));
                   const a = {
-                    units: avgOf(comps.map((r) => r.units)),
-                    yearBuilt: avgOf(comps.map((r) => r.yearBuilt)),
-                    occ: avgOf(comps.map((r) => r.occupancyPct)),
-                    rent: wavgOf(comps.map((r) => [r.avgRent, r.units])), // unit-weighted
-                    psf: wavgOf(comps.map((r) => [r.rentPsf, r.units])), // unit-weighted
+                    units: round0(avgOf(comps.map((r) => r.units))),
+                    yearBuilt: round0(avgOf(comps.map((r) => r.yearBuilt))),
+                    occ: round1(avgOf(comps.map((r) => r.occupancyPct))),
+                    rent: round0(wavgOf(comps.map((r) => [r.avgRent, r.units]))), // unit-weighted
+                    psf: round2(wavgOf(comps.map((r) => [r.rentPsf, r.units]))), // unit-weighted
                   };
                   if (comps.length === 0) return null;
                   return (
@@ -508,12 +519,14 @@ export default async function DealAnalysisPage({
                 {(() => {
                   const comps = savedSnap.omSalesComps!.filter((r) => !r.isSubject);
                   const subj = savedSnap.omSalesComps!.find((r) => r.isSubject);
+                  const roundS2 = (v: number | null) => (v == null ? null : Math.round(v * 100) / 100);
+                  const roundS0 = (v: number | null) => (v == null ? null : Math.round(v));
                   const a = {
-                    units: avgOf(comps.map((r) => r.units)),
-                    yearBuilt: avgOf(comps.map((r) => r.yearBuilt)),
-                    price: avgOf(comps.map((r) => r.salePrice)),
-                    ppu: wavgOf(comps.map((r) => [r.pricePerUnit, r.units])), // unit-weighted
-                    cap: avgOf(comps.map((r) => r.capRate)),
+                    units: roundS0(avgOf(comps.map((r) => r.units))),
+                    yearBuilt: roundS0(avgOf(comps.map((r) => r.yearBuilt))),
+                    price: roundS0(avgOf(comps.map((r) => r.salePrice))),
+                    ppu: roundS0(wavgOf(comps.map((r) => [r.pricePerUnit, r.units]))), // unit-weighted
+                    cap: roundS2(avgOf(comps.map((r) => r.capRate))),
                   };
                   if (comps.length === 0) return null;
                   return (

@@ -232,7 +232,8 @@ export const STAT_METRICS: { key: string; label: string; kind: StatRow["kind"] }
   { key: "debtYieldPct", label: "Debt Yield", kind: "pct" },
   { key: "totalProjectCost", label: "Total Project Cost", kind: "usd" },
   { key: "tpcPerUnit", label: "Total Project Cost / Unit", kind: "usd" },
-  { key: "impliedCapPct", label: "Implied / Stabilized Cap Rate", kind: "pct" },
+  // Cap rate removed from the stats section per Mason, 9/22/26 (still shown
+  // in the comp detail popup).
 ];
 
 const median = (v: number[]) => {
