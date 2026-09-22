@@ -66,12 +66,12 @@ const yrsVs = (subject: number | null | undefined, average: number | null): stri
   const d = subject - Math.round(average);
   return `${d >= 0 ? "+" : "−"}${Math.abs(d)} yrs`;
 };
-/** "+0.14 pts" — POINT difference for rate metrics (cap rate, occupancy),
- *  where a relative % of a % reads wrong (Mason, 9/22/26). */
+/** "+0.14%" — percentage-POINT difference for rate metrics (cap rate,
+ *  occupancy), displayed with a % sign per Mason (9/22/26). */
 const ptsVs = (subject: number | null | undefined, average: number | null, decimals: number): string => {
   if (subject == null || average == null) return DASH;
   const d = subject - average;
-  return `${d >= 0 ? "+" : "−"}${Math.abs(d).toFixed(decimals)} pts`;
+  return `${d >= 0 ? "+" : "−"}${Math.abs(d).toFixed(decimals)}%`;
 };
 
 type Params = { [k: string]: string | string[] | undefined };
@@ -324,7 +324,13 @@ export default async function DealAnalysisPage({
                       {isSubject ? "S" : i}
                     </span>
                   </td>
-                  <td className="px-3 py-2">{isSubject ? "▸ " : ""}{r.propertyName ?? r.dealName ?? DASH}{isSubject ? " (Subject)" : ""}</td>
+                  <td className="px-3 py-2">
+                    {r.propertyName ?? r.dealName ?? DASH}{isSubject ? " (Subject)" : ""}
+                    {r.omLink && (
+                      <a href={r.omLink} target="_blank" rel="noopener noreferrer"
+                        className="ml-1.5 text-slate-300 hover:text-accent" title="Open the OM in a new tab">↗</a>
+                    )}
+                  </td>
                   <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ")}{r.zip ? ` ${r.zip}` : ""}</td>
                   <td className="px-3 py-2 text-center text-xs text-slate-500">{r.category ? CATEGORY_LABELS[r.category] ?? DASH : DASH}</td>
                   <td className="px-3 py-2 text-center tabular-nums">{r.yearBuilt ?? DASH}</td>
@@ -420,7 +426,7 @@ export default async function DealAnalysisPage({
               <tbody>
                 {savedSnap.omRentComps!.map((r, i) => (
                   <tr key={i} className={`border-b border-slate-100 ${r.isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
-                    <td className="px-3 py-2">{r.isSubject ? "▸ " : ""}{r.name}{r.isSubject ? " (Subject)" : ""}</td>
+                    <td className="px-3 py-2">{r.name}{r.isSubject ? " (Subject)" : ""}</td>
                     <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ") || DASH}</td>
                     <td className="px-3 py-2 text-center tabular-nums">{r.units ?? DASH}</td>
                     <td className="px-3 py-2 text-center tabular-nums">{r.yearBuilt ?? DASH}</td>
@@ -460,7 +466,7 @@ export default async function DealAnalysisPage({
                       {subj && (
                         <>
                           <tr className="human font-medium border-b border-slate-200">
-                            <td className="px-3 py-2">▸ {subj.name} (Subject)</td>
+                            <td className="px-3 py-2">{subj.name} (Subject)</td>
                             <td className="px-3 py-2" />
                             <td className="px-3 py-2 text-center tabular-nums">{subj.units ?? DASH}</td>
                             <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt ?? DASH}</td>
@@ -468,7 +474,7 @@ export default async function DealAnalysisPage({
                             <td className="px-3 py-2 text-right tabular-nums">{subj.avgRent != null ? fmtMoney(subj.avgRent) : DASH}</td>
                             <td className="px-3 py-2 text-right tabular-nums">{subj.rentPsf != null ? `$${subj.rentPsf.toFixed(2)}` : DASH}</td>
                           </tr>
-                          <tr className="font-medium text-accent">
+                          <tr className="bg-accent/10 font-medium text-accent">
                             <td className="px-3 py-2 text-xs uppercase tracking-wide">vs. Comp Average</td>
                             <td className="px-3 py-2" />
                             <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.units, a.units)}</td>
@@ -513,7 +519,7 @@ export default async function DealAnalysisPage({
               <tbody>
                 {savedSnap.omSalesComps!.map((r, i) => (
                   <tr key={i} className={`border-b border-slate-100 ${r.isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
-                    <td className="px-3 py-2">{r.isSubject ? "▸ " : ""}{r.name}{r.isSubject ? " (Subject)" : ""}</td>
+                    <td className="px-3 py-2">{r.name}{r.isSubject ? " (Subject)" : ""}</td>
                     <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ") || DASH}</td>
                     <td className="px-3 py-2 text-center tabular-nums">{r.units ?? DASH}</td>
                     <td className="px-3 py-2 text-center tabular-nums">{r.yearBuilt ?? DASH}</td>
@@ -551,7 +557,7 @@ export default async function DealAnalysisPage({
                       {subj && (
                         <>
                           <tr className="human font-medium border-b border-slate-200">
-                            <td className="px-3 py-2">▸ {subj.name} (Subject)</td>
+                            <td className="px-3 py-2">{subj.name} (Subject)</td>
                             <td className="px-3 py-2" />
                             <td className="px-3 py-2 text-center tabular-nums">{subj.units ?? DASH}</td>
                             <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt ?? DASH}</td>
@@ -560,7 +566,7 @@ export default async function DealAnalysisPage({
                             <td className="px-3 py-2 text-center tabular-nums">{subj.capRate != null ? `${subj.capRate.toFixed(2)}%` : DASH}</td>
                             <td className="px-3 py-2" />
                           </tr>
-                          <tr className="font-medium text-accent">
+                          <tr className="bg-accent/10 font-medium text-accent">
                             <td className="px-3 py-2 text-xs uppercase tracking-wide">vs. Comp Average</td>
                             <td className="px-3 py-2" />
                             <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.units, a.units)}</td>
