@@ -87,6 +87,11 @@ export async function POST(req: Request) {
     const omSalesComps = sanitizeOmComps(raw.omSalesComps, SALE_KEYS);
     const sponsorDescription =
       typeof raw.sponsorDescription === "string" ? raw.sponsorDescription.trim().slice(0, 600) : null;
+    // In-place coverage from the OM (Mason, 9/22/26: debt yield in the stats
+    // means the IN-PLACE figure). Percent in → fraction stored.
+    const num = (v: unknown) => (typeof v === "number" && isFinite(v) ? v : null);
+    const dscrInPlace = num(raw.dscrInPlace);
+    const dyInPlace = num(raw.dyInPlace) != null ? (num(raw.dyInPlace) as number) / 100 : null;
     const parsed = compInputSchema.safeParse(raw);
     if (!parsed.success) {
       return NextResponse.json(
@@ -102,6 +107,12 @@ export async function POST(req: Request) {
     }
 
     const { data, metricYears } = toCompData(parsed.data);
+    if (dscrInPlace != null || dyInPlace != null) {
+      metricYears.unshift({ yearLabel: "In-Place", dscr: dscrInPlace, debtYieldPct: dyInPlace });
+      // The scalar (used by the stats section) prefers in-place.
+      if (dyInPlace != null) data.debtYieldPct = dyInPlace;
+      if (dscrInPlace != null) data.dscr = dscrInPlace;
+    }
 
     // Subject-only exception to verbatim-or-null (Mason, 9/21/26): when the
     // OM doesn't state loan/unit or loan PSF, derive them for the SUBJECT so

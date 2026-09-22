@@ -229,7 +229,7 @@ export const STAT_METRICS: { key: string; label: string; kind: StatRow["kind"] }
   { key: "loanPerSf", label: "Loan Amount PSF", kind: "usd" },
   { key: "ltcPct", label: "Loan to Cost", kind: "pct" },
   { key: "ltvPct", label: "Loan to Value", kind: "pct" },
-  { key: "debtYieldPct", label: "Debt Yield", kind: "pct" },
+  { key: "debtYieldPct", label: "Debt Yield (In-Place)", kind: "pct" },
   { key: "totalProjectCost", label: "Total Project Cost", kind: "usd" },
   { key: "tpcPerUnit", label: "Total Project Cost / Unit", kind: "usd" },
   // Cap rate removed from the stats section per Mason, 9/22/26 (still shown
