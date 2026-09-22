@@ -88,6 +88,9 @@ export default function DealMap({
   radiusMiles: number | null;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  // Remember where the user left the map so re-screens (radius drags, comp
+  // removals) never yank the view back to an auto-fit — no more "snapping".
+  const viewRef = useRef<{ lat: number; lng: number; zoom: number } | null>(null);
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -109,7 +112,20 @@ export default function DealMap({
     (async () => {
       const L = (await import("leaflet")).default;
       if (cancelled || !containerRef.current) return;
-      map = L.map(containerRef.current, { scrollWheelZoom: false });
+      // Smooth mouse-wheel zoom (Mason, 9/22/26): fine-grained fractional
+      // zoom steps instead of full-level jumps.
+      map = L.map(containerRef.current, {
+        scrollWheelZoom: true,
+        zoomSnap: 0.25,
+        zoomDelta: 0.5,
+        wheelPxPerZoomLevel: 90,
+        wheelDebounceTime: 20,
+      });
+      map.on("moveend zoomend", () => {
+        if (!map) return;
+        const c = map.getCenter();
+        viewRef.current = { lat: c.lat, lng: c.lng, zoom: map.getZoom() };
+      });
       // Basemap: Stadia "Alidade Smooth" when a (free) key is configured —
       // the cleanest modern look — else Esri Light Gray Canvas, the cleanest
       // keyless option (minimal gray base + labels; pins pop).
@@ -188,11 +204,15 @@ export default function DealMap({
         });
         handle.on("dragend", () => {
           const p = handle.getLatLng();
-          const mi = Math.round(haversineMi(subject.lat, subject.lon, p.lat, p.lng) * 10) / 10;
+          // Exact to a hundredth of a mile — no coarse snapping.
+          const mi = Math.round(haversineMi(subject.lat, subject.lon, p.lat, p.lng) * 100) / 100;
           pushRadius(mi);
         });
       }
-      if (bounds.length > 0) {
+      if (viewRef.current) {
+        // The user has positioned the map — keep their view across re-screens.
+        map.setView([viewRef.current.lat, viewRef.current.lng], viewRef.current.zoom, { animate: false });
+      } else if (bounds.length > 0) {
         map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
       } else {
         map.setView([39.5, -98.35], 4); // continental US
@@ -224,7 +244,7 @@ export default function DealMap({
                 <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Radius</span>
                 <input
                   className="field !w-16 text-center !py-1"
-                  type="number" min={0.5} max={25} step={0.5}
+                  type="number" min={0.5} max={25} step="any"
                   key={`r-${radiusMiles ?? 1}`}
                   defaultValue={radiusMiles ?? 1}
                   onBlur={(e) => pushRadius(e.target.value === "" ? null : Number(e.target.value))}

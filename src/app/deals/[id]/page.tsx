@@ -54,13 +54,17 @@ const wavgOf = (pairs: [number | null | undefined, number | null | undefined][])
   const totW = usable.reduce((a, [, w]) => a + w, 0);
   return usable.reduce((a, [v, w]) => a + v * w, 0) / totW;
 };
-/** "value (+4.2%)" — subject vs. comp average, red-tinted when above/below is meaningless to color. */
-const vsAvg = (subject: number | null | undefined, average: number | null, fmt: (n: number) => string): string => {
-  if (subject == null) return DASH;
-  if (average == null || average === 0) return fmt(subject);
+/** "+4.2%" / "−8.0%" — the subject's percentage difference vs. the comp average. */
+const pctVs = (subject: number | null | undefined, average: number | null): string => {
+  if (subject == null || average == null || average === 0) return DASH;
   const d = ((subject - average) / Math.abs(average)) * 100;
-  const sign = d >= 0 ? "+" : "−";
-  return `${fmt(subject)} (${sign}${Math.abs(d).toFixed(1)}%)`;
+  return `${d >= 0 ? "+" : "−"}${Math.abs(d).toFixed(1)}%`;
+};
+/** "+5 yrs" / "−3 yrs" — vintage difference vs. the (rounded) comp average. */
+const yrsVs = (subject: number | null | undefined, average: number | null): string => {
+  if (subject == null || average == null) return DASH;
+  const d = subject - Math.round(average);
+  return `${d >= 0 ? "+" : "−"}${Math.abs(d)} yrs`;
 };
 
 type Params = { [k: string]: string | string[] | undefined };
@@ -436,15 +440,26 @@ export default async function DealAnalysisPage({
                         <td className="px-3 py-2 text-right tabular-nums">{a.psf != null ? `$${a.psf.toFixed(2)}` : DASH}</td>
                       </tr>
                       {subj && (
-                        <tr className="human font-medium">
-                          <td className="px-3 py-2">▸ {subj.name} vs. Average</td>
-                          <td className="px-3 py-2" />
-                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.units, a.units, (n) => String(Math.round(n)))}</td>
-                          <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt != null ? `${subj.yearBuilt}${a.yearBuilt != null ? ` (${subj.yearBuilt - Math.round(a.yearBuilt) >= 0 ? "+" : ""}${subj.yearBuilt - Math.round(a.yearBuilt)} yrs)` : ""}` : DASH}</td>
-                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.occupancyPct, a.occ, (n) => `${n.toFixed(1)}%`)}</td>
-                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.avgRent, a.rent, (n) => fmtMoney(n))}</td>
-                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.rentPsf, a.psf, (n) => `$${n.toFixed(2)}`)}</td>
-                        </tr>
+                        <>
+                          <tr className="human font-medium border-b border-slate-200">
+                            <td className="px-3 py-2">▸ {subj.name} (Subject)</td>
+                            <td className="px-3 py-2" />
+                            <td className="px-3 py-2 text-center tabular-nums">{subj.units ?? DASH}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt ?? DASH}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{subj.occupancyPct != null ? `${subj.occupancyPct.toFixed(1)}%` : DASH}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{subj.avgRent != null ? fmtMoney(subj.avgRent) : DASH}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{subj.rentPsf != null ? `$${subj.rentPsf.toFixed(2)}` : DASH}</td>
+                          </tr>
+                          <tr className="font-medium text-accent">
+                            <td className="px-3 py-2 text-xs uppercase tracking-wide">vs. Comp Average</td>
+                            <td className="px-3 py-2" />
+                            <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.units, a.units)}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{yrsVs(subj.yearBuilt, a.yearBuilt)}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.occupancyPct, a.occ)}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{pctVs(subj.avgRent, a.rent)}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{pctVs(subj.rentPsf, a.psf)}</td>
+                          </tr>
+                        </>
                       )}
                     </>
                   );
@@ -514,16 +529,28 @@ export default async function DealAnalysisPage({
                         <td className="px-3 py-2" />
                       </tr>
                       {subj && (
-                        <tr className="human font-medium">
-                          <td className="px-3 py-2">▸ {subj.name} vs. Average</td>
-                          <td className="px-3 py-2" />
-                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.units, a.units, (n) => String(Math.round(n)))}</td>
-                          <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt != null ? `${subj.yearBuilt}${a.yearBuilt != null ? ` (${subj.yearBuilt - Math.round(a.yearBuilt) >= 0 ? "+" : ""}${subj.yearBuilt - Math.round(a.yearBuilt)} yrs)` : ""}` : DASH}</td>
-                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.salePrice, a.price, (n) => fmtMoney(n))}</td>
-                          <td className="px-3 py-2 text-right tabular-nums">{vsAvg(subj.pricePerUnit, a.ppu, (n) => fmtMoney(n))}</td>
-                          <td className="px-3 py-2 text-center tabular-nums">{vsAvg(subj.capRate, a.cap, (n) => `${n.toFixed(2)}%`)}</td>
-                          <td className="px-3 py-2" />
-                        </tr>
+                        <>
+                          <tr className="human font-medium border-b border-slate-200">
+                            <td className="px-3 py-2">▸ {subj.name} (Subject)</td>
+                            <td className="px-3 py-2" />
+                            <td className="px-3 py-2 text-center tabular-nums">{subj.units ?? DASH}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{subj.yearBuilt ?? DASH}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{subj.salePrice != null ? fmtMoney(subj.salePrice) : DASH}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{subj.pricePerUnit != null ? fmtMoney(subj.pricePerUnit) : DASH}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{subj.capRate != null ? `${subj.capRate.toFixed(2)}%` : DASH}</td>
+                            <td className="px-3 py-2 text-center">{subj.saleDate ?? DASH}</td>
+                          </tr>
+                          <tr className="font-medium text-accent">
+                            <td className="px-3 py-2 text-xs uppercase tracking-wide">vs. Comp Average</td>
+                            <td className="px-3 py-2" />
+                            <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.units, a.units)}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{yrsVs(subj.yearBuilt, a.yearBuilt)}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{pctVs(subj.salePrice, a.price)}</td>
+                            <td className="px-3 py-2 text-right tabular-nums">{pctVs(subj.pricePerUnit, a.ppu)}</td>
+                            <td className="px-3 py-2 text-center tabular-nums">{pctVs(subj.capRate, a.cap)}</td>
+                            <td className="px-3 py-2" />
+                          </tr>
+                        </>
                       )}
                     </>
                   );
