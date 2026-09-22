@@ -9,12 +9,13 @@
 export const VINTAGE_TOLERANCE = 3; // default: subject year built ± 3
 export const OCCUPANCY_TOLERANCE_PTS = 10; // default: ± 10 percentage points
 
-export type LocationMode = "zip" | "city" | "radius" | "off" | "none";
+export type LocationMode = "zip" | "city" | "radius" | "polygon" | "off" | "none";
 
 /** The five criteria. null / false / "off" = filter not applied. */
 export interface Criteria {
-  location: "auto" | "radius" | "off"; // auto = same zip → same city ladder
+  location: "auto" | "radius" | "polygon" | "off"; // auto = same zip → same city ladder
   radiusMiles: number | null; // used when location === "radius"
+  polygon?: [number, number][] | null; // [lat, lon] vertices, when location === "polygon" (Mason, 9/22/26)
   propertyType: boolean;
   vintageYears: number | null; // ± years
   occupancyPts: number | null; // ± percentage points
@@ -24,6 +25,7 @@ export interface Criteria {
 export const DEFAULT_CRITERIA: Criteria = {
   location: "auto",
   radiusMiles: null,
+  polygon: null,
   propertyType: true,
   vintageYears: VINTAGE_TOLERANCE,
   occupancyPts: OCCUPANCY_TOLERANCE_PTS,
@@ -73,8 +75,33 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
 
 const F1 = "1. Location", F2 = "2. Property type", F3 = "3. Vintage", F4 = "4. Occupancy", F5 = "5. Category";
 
-function fLocation(subject: Screenable, comp: Screenable, mode: LocationMode, radiusMiles: number | null): Check {
+/** Ray-casting point-in-polygon on [lat, lon] vertices — exact enough at
+ *  metro scale, where the drawn boundaries live (Mason, 9/22/26). */
+export function pointInPolygon(lat: number, lon: number, poly: [number, number][]): boolean {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [latI, lonI] = poly[i];
+    const [latJ, lonJ] = poly[j];
+    const crosses =
+      (latI > lat) !== (latJ > lat) &&
+      lon < ((lonJ - lonI) * (lat - latI)) / (latJ - latI) + lonI;
+    if (crosses) inside = !inside;
+  }
+  return inside;
+}
+
+function fLocation(subject: Screenable, comp: Screenable, mode: LocationMode, crit: Criteria): Check {
+  const radiusMiles = crit.radiusMiles;
   if (mode === "off") return na(F1, "filter off");
+  if (mode === "polygon") {
+    // Drawn boundary — like radius, a hard geographic gate: a comp whose
+    // whereabouts are unknown cannot be inside the boundary.
+    if (!crit.polygon || crit.polygon.length < 3) return na(F1, "no boundary drawn — not applied");
+    if (comp.lat == null || comp.lon == null)
+      return { filter: F1, passed: false, reason: "no coordinates on record (zip missing or unknown)" };
+    const inside = pointInPolygon(comp.lat, comp.lon, crit.polygon);
+    return { filter: F1, passed: inside, reason: inside ? "inside the drawn boundary" : "outside the drawn boundary" };
+  }
   if (mode === "radius") {
     if (radiusMiles == null || radiusMiles <= 0) return na(F1, "no radius set — not applied");
     if (subject.lat == null || subject.lon == null)
@@ -146,7 +173,7 @@ function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode
     const checks: Check[] = [];
     let failedAt: string | null = null;
     for (const fn of [
-      () => fLocation(subject, comp, mode, c.radiusMiles),
+      () => fLocation(subject, comp, mode, c),
       () => fPropertyType(subject, comp, c.propertyType),
       () => fVintage(subject, comp, c.vintageYears),
       () => fOccupancy(subject, comp, c.occupancyPts),
@@ -187,10 +214,13 @@ export function runScreen(subject: Screenable, comps: Screenable[], criteria?: P
       ? { ...DEFAULT_CRITERIA, location: "radius", radiusMiles: criteria }
       : { ...DEFAULT_CRITERIA, ...(criteria ?? {}) };
 
-  if (c.location === "radius" || c.location === "off") {
-    // Radius mode without a committed radius value applies no location filter.
+  if (c.location === "radius" || c.location === "polygon" || c.location === "off") {
+    // Radius mode without a committed radius value — or polygon mode without
+    // a drawn boundary — applies no location filter.
     const mode: LocationMode =
-      c.location === "radius" && (c.radiusMiles ?? 0) > 0 ? "radius" : "off";
+      c.location === "polygon"
+        ? ((c.polygon?.length ?? 0) >= 3 ? "polygon" : "off")
+        : c.location === "radius" && (c.radiusMiles ?? 0) > 0 ? "radius" : "off";
     const { matched, trace } = screenPass(subject, comps, mode, c);
     return { matched, trace, locationMode: mode, candidatesScreened: comps.length, criteria: c };
   }

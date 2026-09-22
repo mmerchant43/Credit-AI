@@ -25,7 +25,7 @@ export default function RadiusSlider() {
       <input
         type="range"
         min={0}
-        max={25}
+        max={100}
         step={0.5}
         value={value}
         onChange={(e) => setValue(Number(e.target.value))}

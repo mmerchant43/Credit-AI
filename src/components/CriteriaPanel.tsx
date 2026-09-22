@@ -37,6 +37,7 @@ export default function CriteriaPanel({ avail }: { avail: SubjectAvailability })
 
   const c = {
     radius: params.get("radius") ?? "",
+    poly: params.get("poly") ?? "",
     vin: params.get("vin") ?? "3",
     occ: params.get("occ") ?? "10",
     cat: params.get("cat") ?? "on",
@@ -68,7 +69,7 @@ export default function CriteriaPanel({ avail }: { avail: SubjectAvailability })
         <div className="flex-1 border-t border-accent/30" />
         <span className={hint}>{isPending ? "re-screening…" : "changes apply instantly"}</span>
         <button type="button" className="btn text-xs"
-          onClick={() => push({ radius: "", loc: "", vin: "", occ: "", cat: "", typ: "", x: "" })}>
+          onClick={() => push({ radius: "", loc: "", poly: "", vin: "", occ: "", cat: "", typ: "", x: "" })}>
           Reset
         </button>
       </div>
@@ -76,7 +77,9 @@ export default function CriteriaPanel({ avail }: { avail: SubjectAvailability })
       <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-4">
         <div>
           <div className={colTitle}>Location</div>
-          <div className="text-sm font-medium">{Number(c.radius) > 0 ? `${c.radius} mi radius` : "1 mi radius"}</div>
+          <div className="text-sm font-medium">
+            {c.poly ? "drawn boundary" : Number(c.radius) > 0 ? `${c.radius} mi radius` : "1 mi radius"}
+          </div>
           <div className={hint}>adjust on the map</div>
         </div>
 

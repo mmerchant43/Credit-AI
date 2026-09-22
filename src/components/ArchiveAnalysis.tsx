@@ -16,7 +16,12 @@ export default function ArchiveAnalysis({ id, name }: { id: string; name: string
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
+      // A failed remove must be VISIBLE — a silent no-op reads as "delete
+      // doesn't stick" (Mason, 9/22/26).
       if (res.ok) router.refresh();
+      else alert(`Could not remove ${name} — please try again.`);
+    } catch {
+      alert(`Could not remove ${name} — please try again.`);
     } finally {
       setBusy(false);
     }

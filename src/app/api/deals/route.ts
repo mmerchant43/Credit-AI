@@ -233,6 +233,14 @@ export async function POST(req: Request) {
     );
 
     // 4. Snapshot the analysis so it re-renders exactly as computed today.
+    // A fresh analysis SUPERSEDES older analyses of the same subject — they
+    // are auto-archived so the homepage never piles up duplicate rows, and a
+    // row the user ✕'d can't reappear as a lookalike (Mason, 9/22/26).
+    // Archived, never hard-deleted, per the standing rule.
+    await prisma.dealAnalysis.updateMany({
+      where: { subjectId: subject.id, archived: false },
+      data: { archived: true, pinned: false },
+    });
     const analysis = await prisma.dealAnalysis.create({
       data: {
         subjectId: subject.id,

@@ -84,12 +84,21 @@ function parseCriteria(p: Params): { criteria: Criteria; anySet: boolean } {
   const occ = one(p, "occ");
   const cat = one(p, "cat");
   const typ = one(p, "typ");
+  // Drawn boundary (Mason, 9/22/26): "lat,lon;lat,lon;..." vertices.
+  const polygon = (one(p, "poly") ?? "")
+    .split(";")
+    .map((pair) => pair.split(",").map(Number))
+    .filter((c): c is number[] => c.length === 2 && c.every((n) => Number.isFinite(n)))
+    .map((c) => [c[0], c[1]] as [number, number]);
+  const hasPoly = polygon.length >= 3;
 
-  const anySet = Boolean(loc || radius > 0 || vin || occ || cat || typ);
-  // Default location screen is a 1-mile radius (Mason, 9/22/26).
+  const anySet = Boolean(loc || radius > 0 || hasPoly || vin || occ || cat || typ);
+  // Default location screen is a 1-mile radius (Mason, 9/22/26); a drawn
+  // boundary replaces the circle when present.
   const criteria: Criteria = {
-    location: loc === "off" ? "off" : "radius",
-    radiusMiles: radius > 0 ? Math.min(radius, 25) : 1,
+    location: loc === "off" ? "off" : hasPoly ? "polygon" : "radius",
+    radiusMiles: radius > 0 ? Math.min(radius, 100) : 1,
+    polygon: hasPoly ? polygon : null,
     propertyType: typ !== "off",
     vintageYears: vin === "off" ? null : vin != null && vin !== "" ? Math.max(0, Number(vin) || 0) : DEFAULT_CRITERIA.vintageYears,
     occupancyPts: occ === "off" ? null : occ != null && occ !== "" ? Math.max(0, Number(occ) || 0) : DEFAULT_CRITERIA.occupancyPts,
@@ -149,7 +158,8 @@ export default async function DealAnalysisPage({
         where: { archived: false, id: { not: s.id } },
       })) as unknown as (Screenable & { id: string })[]
     ) as unknown as Awaited<ReturnType<typeof prisma.creditComp.findMany>>;
-    if (criteria.location === "radius" && criteria.radiusMiles) await ensureCoords([s, ...comps]);
+    if ((criteria.location === "radius" && criteria.radiusMiles) || criteria.location === "polygon")
+      await ensureCoords([s, ...comps]);
     const screen = runScreen(s as unknown as Screenable, comps as unknown as Screenable[], criteria);
     const kept = screen.matched.filter((m) => !excluded.has(m.id));
     const keptSet = new Set(kept.map((m) => m.id));
@@ -161,6 +171,7 @@ export default async function DealAnalysisPage({
     const modeLabel =
       criteria.location === "off" || (criteria.location === "radius" && !criteria.radiusMiles)
         ? "custom criteria (location off, live)"
+      : criteria.location === "polygon" ? "drawn boundary (live)"
       : criteria.location === "radius" ? `${criteria.radiusMiles}-mile radius (live)`
       : { zip: "same zip (live)", city: "same city (live)", none: "no database comps (live)" }[screen.locationMode] ?? "live";
     view = {
@@ -198,15 +209,18 @@ export default async function DealAnalysisPage({
     category: Boolean(s.category),
   };
 
-  // ── Map data: subject + matched comps, upgraded to address-level pins
-  //    where a street address exists; zip centroids otherwise. ──
+  // ── Map data: subject + matched comps. Comps get a pin ONLY at exact,
+  //    address-level precision — a city/zip centroid is not a location, so
+  //    no dot (Mason, 9/22/26); those comps are flagged below the map with
+  //    an address box instead. The subject keeps its pin at any precision
+  //    (it anchors the radius/boundary tools; its popup says "approximate"). ──
   const mapRows = [s, ...orderedMatched];
   await ensureCoords(mapRows);
   await ensureAddressCoords(mapRows);
   // Pin labels match the Comparison table: S = subject, 1..N = comp order.
   const numById = new Map<string, string>(orderedMatched.map((m, i) => [m.id, String(i + 1)]));
   const mapPoints: MapPoint[] = mapRows
-    .filter((r) => r.lat != null && r.lon != null)
+    .filter((r) => r.lat != null && r.lon != null && (r.id === s.id || r.geoPrecision === "address"))
     .map((r) => ({
       id: r.id,
       name: r.propertyName ?? r.dealName ?? "—",
@@ -217,8 +231,10 @@ export default async function DealAnalysisPage({
       detail: [[r.city, r.state].filter(Boolean).join(", "), r.zip, fmtMoney(r.loanAmount)].filter(Boolean).join(" · "),
       label: r.id === s.id ? "S" : numById.get(r.id) ?? "•",
     }));
+  // Everything not on the map gets flagged with an inline address box —
+  // save an address and the pin appears (Mason, 9/22/26).
   const unmapped: UnmappedComp[] = mapRows
-    .filter((r) => r.lat == null || r.lon == null || !r.address)
+    .filter((r) => r.lat == null || r.lon == null || !r.address || r.geoPrecision !== "address")
     .map((r) => ({
       id: r.id,
       name: (r.propertyName ?? r.dealName ?? "—") + (r.id === s.id ? " (Subject)" : ""),
@@ -286,6 +302,7 @@ export default async function DealAnalysisPage({
               ? (criteria.location === "radius" ? criteria.radiusMiles : null)
               : (analysis.locationMode === "radius" ? criteria.radiusMiles : null)
           }
+          polygon={view.live && criteria.location === "polygon" ? criteria.polygon ?? null : null}
         />
       </Suspense>
 
@@ -424,7 +441,7 @@ export default async function DealAnalysisPage({
                 </tr>
               </thead>
               <tbody>
-                {savedSnap.omRentComps!.map((r, i) => (
+                {savedSnap.omRentComps!.filter((r) => !r.isSubject).map((r, i) => (
                   <tr key={i} className={`border-b border-slate-100 ${r.isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
                     <td className="px-3 py-2">{r.name}{r.isSubject ? " (Subject)" : ""}</td>
                     <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ") || DASH}</td>
@@ -517,7 +534,7 @@ export default async function DealAnalysisPage({
                 </tr>
               </thead>
               <tbody>
-                {savedSnap.omSalesComps!.map((r, i) => (
+                {savedSnap.omSalesComps!.filter((r) => !r.isSubject).map((r, i) => (
                   <tr key={i} className={`border-b border-slate-100 ${r.isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
                     <td className="px-3 py-2">{r.name}{r.isSubject ? " (Subject)" : ""}</td>
                     <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ") || DASH}</td>

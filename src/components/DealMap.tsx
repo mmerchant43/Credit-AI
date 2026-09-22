@@ -1,9 +1,11 @@
 "use client";
 
-// The comp map (Mason, 9/22/26): subject in gold, matched comps in navy,
-// radius circle when a radius screen is active. Leaflet + OpenStreetMap —
-// no API key. Comps without a mappable location are flagged below the map
-// with an inline address box; saving geocodes it and the map updates.
+// The comp map (Mason, 9/22/26): subject in gold, matched comps in navy —
+// but a comp gets a pin ONLY at exact address-level precision; a city/zip
+// centroid is never shown as a dot. Everything unpinned is flagged below
+// the map with an inline address box; saving geocodes it and the pin
+// appears. Location screen is a draggable radius circle OR a hand-drawn
+// boundary (toggle on the map).
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import "leaflet/dist/leaflet.css";
@@ -81,11 +83,12 @@ function AddressFixRow({ c }: { c: UnmappedComp }) {
 }
 
 export default function DealMap({
-  points, unmapped, radiusMiles,
+  points, unmapped, radiusMiles, polygon,
 }: {
   points: MapPoint[];
   unmapped: UnmappedComp[];
   radiusMiles: number | null;
+  polygon: [number, number][] | null;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   // Remember where the user left the map so re-screens (radius drags, comp
@@ -94,16 +97,37 @@ export default function DealMap({
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
-  const dataKey = JSON.stringify([points.map((p) => [p.id, p.lat, p.lon]), radiusMiles]);
+  const dataKey = JSON.stringify([points.map((p) => [p.id, p.lat, p.lon]), radiusMiles, polygon]);
   const hasSubjectPin = points.some((p) => p.isSubject);
 
+  // Boundary drawing (Mason, 9/22/26): click corners, Apply closes the
+  // shape and re-screens to comps inside it. The imperative bits live on
+  // the Leaflet map, exposed to the buttons through drawApi.
+  const [drawing, setDrawing] = useState(false);
+  const [vertCount, setVertCount] = useState(0);
+  const drawingRef = useRef(false);
+  const drawApi = useRef<{ start: () => void; cancel: () => void; finish: () => void } | null>(null);
+  const boundaryMode = drawing || Boolean(polygon);
+
+  // Read the URL live (window.location) so a handler wired up inside the
+  // map effect never replays stale params over criteria toggled since.
   function pushRadius(v: number | null) {
-    const q = new URLSearchParams(params.toString());
+    const q = new URLSearchParams(window.location.search);
     q.delete("new");
     q.delete("loc");
-    if (v && v > 0) q.set("radius", String(Math.min(Math.max(v, 0.5), 25)));
+    q.delete("poly");
+    if (v && v > 0) q.set("radius", String(Math.min(Math.max(v, 0.5), 100)));
     else q.delete("radius");
     router.replace(`${pathname}${q.toString() ? `?${q}` : ""}`, { scroll: false });
+  }
+
+  function pushPoly(verts: [number, number][]) {
+    const q = new URLSearchParams(window.location.search);
+    q.delete("new");
+    q.delete("loc");
+    q.delete("radius");
+    q.set("poly", verts.map((v) => `${v[0].toFixed(5)},${v[1].toFixed(5)}`).join(";"));
+    router.replace(`${pathname}?${q}`, { scroll: false });
   }
 
   useEffect(() => {
@@ -125,6 +149,51 @@ export default function DealMap({
         if (!map) return;
         const c = map.getCenter();
         viewRef.current = { lat: c.lat, lng: c.lng, zoom: map.getZoom() };
+      });
+
+      // ── Boundary drawing wiring ──
+      const sketch = {
+        line: null as import("leaflet").Polyline | null,
+        dots: [] as import("leaflet").CircleMarker[],
+      };
+      let verts: [number, number][] = [];
+      const clearSketch = () => {
+        sketch.line?.remove();
+        sketch.dots.forEach((d) => d.remove());
+        sketch.line = null;
+        sketch.dots = [];
+        verts = [];
+        setVertCount(0);
+      };
+      drawApi.current = {
+        start: () => {
+          if (!map) return;
+          clearSketch();
+          sketch.line = L.polyline([], { color: "#A78C52", weight: 2, dashArray: "6 4" }).addTo(map);
+          drawingRef.current = true;
+          setDrawing(true);
+          map.doubleClickZoom.disable();
+        },
+        cancel: () => {
+          clearSketch();
+          drawingRef.current = false;
+          setDrawing(false);
+          map?.doubleClickZoom.enable();
+        },
+        finish: () => {
+          const done = [...verts];
+          drawApi.current?.cancel();
+          if (done.length >= 3) pushPoly(done);
+        },
+      };
+      map.on("click", (e: import("leaflet").LeafletMouseEvent) => {
+        if (!drawingRef.current || !sketch.line || !map) return;
+        verts.push([e.latlng.lat, e.latlng.lng]);
+        sketch.line.setLatLngs(verts);
+        sketch.dots.push(
+          L.circleMarker(e.latlng, { radius: 4, color: "#A78C52", fillColor: "#fff", fillOpacity: 1, weight: 2 }).addTo(map)
+        );
+        setVertCount(verts.length);
       });
       // Basemap: Stadia "Alidade Smooth" when a (free) key is configured —
       // the cleanest modern look — else Esri Light Gray Canvas, the cleanest
@@ -173,6 +242,16 @@ export default function DealMap({
         );
         bounds.push([p.lat, p.lon]);
       }
+      if (polygon && polygon.length >= 3) {
+        // The applied boundary, in the same gold as the radius ring.
+        L.polygon(polygon, {
+          color: "#A78C52",
+          weight: 1.5,
+          fillColor: "#A78C52",
+          fillOpacity: 0.08,
+        }).addTo(map);
+        for (const v of polygon) bounds.push(v);
+      }
       if (subject && radiusMiles && radiusMiles > 0) {
         const circle = L.circle([subject.lat, subject.lon], {
           radius: radiusMiles * 1609.34,
@@ -199,8 +278,8 @@ export default function DealMap({
         handle.on("drag", () => {
           const p = handle.getLatLng();
           const mi = haversineMi(subject.lat, subject.lon, p.lat, p.lng);
-          circle.setRadius(Math.min(Math.max(mi, 0.5), 25) * 1609.34);
-          handle.setTooltipContent(`${Math.min(Math.max(mi, 0.5), 25).toFixed(1)} mi`);
+          circle.setRadius(Math.min(Math.max(mi, 0.5), 100) * 1609.34);
+          handle.setTooltipContent(`${Math.min(Math.max(mi, 0.5), 100).toFixed(1)} mi`);
         });
         handle.on("dragend", () => {
           const p = handle.getLatLng();
@@ -220,6 +299,11 @@ export default function DealMap({
     })();
     return () => {
       cancelled = true;
+      // A re-render tears the map down — any half-drawn boundary goes with it.
+      drawApi.current = null;
+      drawingRef.current = false;
+      setDrawing(false);
+      setVertCount(0);
       map?.remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -230,7 +314,7 @@ export default function DealMap({
       <div className="section-head">
         <h2>Map</h2>
         <div className="rule" />
-        <span className="text-xs text-slate-400 whitespace-nowrap">subject (gold) · comps (navy){radiusMiles ? " · radius shown" : ""}</span>
+        <span className="text-xs text-slate-400 whitespace-nowrap">subject (gold) · comps (navy){radiusMiles ? " · radius shown" : polygon ? " · boundary shown" : ""}</span>
       </div>
       <div className="card overflow-hidden">
         {/* relative z-0 isolates Leaflet's internal z-indexes so the map can
@@ -241,16 +325,58 @@ export default function DealMap({
           <div className="absolute top-2 right-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
             {hasSubjectPin ? (
               <>
-                <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Radius</span>
-                <input
-                  className="field !w-16 text-center !py-1"
-                  type="number" min={0.5} max={25} step="any"
-                  key={`r-${radiusMiles ?? 1}`}
-                  defaultValue={radiusMiles ?? 1}
-                  onBlur={(e) => pushRadius(e.target.value === "" ? null : Number(e.target.value))}
-                  onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
-                />
-                <span className="text-xs text-slate-400">mi · drag the ring&apos;s edge to resize</span>
+                {/* Circle ↔ drawn boundary toggle (Mason, 9/22/26) */}
+                <div className="flex rounded-md overflow-hidden border border-slate-300">
+                  <button
+                    type="button"
+                    className={`px-2.5 py-1 text-xs font-semibold ${!boundaryMode ? "bg-accent text-white" : "bg-white text-slate-500 hover:text-slate-700"}`}
+                    onClick={() => { if (boundaryMode) { drawApi.current?.cancel(); pushRadius(1); } }}
+                  >
+                    Circle
+                  </button>
+                  <button
+                    type="button"
+                    className={`px-2.5 py-1 text-xs font-semibold border-l border-slate-300 ${boundaryMode ? "bg-accent text-white" : "bg-white text-slate-500 hover:text-slate-700"}`}
+                    onClick={() => { if (!drawing) drawApi.current?.start(); }}
+                  >
+                    Boundary
+                  </button>
+                </div>
+                {drawing ? (
+                  <>
+                    <span className="text-xs text-slate-500">
+                      click the map to add corners{vertCount > 0 ? ` (${vertCount})` : ""}
+                    </span>
+                    <button type="button" className="btn text-xs" disabled={vertCount < 3}
+                      onClick={() => drawApi.current?.finish()}>
+                      Apply
+                    </button>
+                    <button type="button" className="btn text-xs"
+                      onClick={() => drawApi.current?.cancel()}>
+                      Cancel
+                    </button>
+                  </>
+                ) : boundaryMode ? (
+                  <>
+                    <span className="text-xs text-slate-400">screening inside the drawn boundary</span>
+                    <button type="button" className="btn text-xs" onClick={() => drawApi.current?.start()}>
+                      Redraw
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Radius</span>
+                    <input
+                      className="field !w-16 text-center !py-1"
+                      type="number" min={0.5} max={100} step="any"
+                      key={`r-${radiusMiles ?? 1}`}
+                      defaultValue={radiusMiles ?? 1}
+                      onBlur={(e) => pushRadius(e.target.value === "" ? null : Number(e.target.value))}
+                      onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+                    />
+                    <span className="text-xs text-slate-400">mi · drag the ring&apos;s edge to resize</span>
+                  </>
+                )}
               </>
             ) : (
               <span className="text-xs text-slate-400">subject has no pin — radius unavailable</span>
@@ -259,6 +385,9 @@ export default function DealMap({
         </div>
         {unmapped.length > 0 && (
           <div className="border-t border-slate-200">
+            <div className="px-3 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+              Not on the map — add an exact address to pin
+            </div>
             {unmapped.map((c) => (
               <div key={c.id}>
                 <AddressFixRow c={c} />
