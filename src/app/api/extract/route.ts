@@ -50,20 +50,50 @@ export async function POST(req: Request) {
       );
     }
 
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-5",
-        max_tokens: 14000, // full field set + two comp tables, with generous headroom
-        messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, 180000) }],
-      }),
-      signal: AbortSignal.timeout(280000),
-    });
+    // Extraction is transcription, not reasoning — disable thinking so the
+    // whole token budget goes to the JSON (a long OM can otherwise burn the
+    // budget on internal reasoning and truncate). Fallback: retry without the
+    // thinking param if the API rejects it, and retry once terser if the
+    // response still hits the length ceiling.
+    const call = async (promptSuffix: string, withThinking: boolean) =>
+      fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "x-api-key": apiKey,
+          "anthropic-version": "2023-06-01",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-5",
+          max_tokens: 28000,
+          ...(withThinking ? { thinking: { type: "disabled" } } : {}),
+          messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, 180000) + promptSuffix }],
+        }),
+        signal: AbortSignal.timeout(280000),
+      });
+
+    let thinkingOk = true;
+    let res = await call("", thinkingOk);
+    if (res.status === 400) {
+      const detail = await res.text().catch(() => "");
+      if (/thinking/i.test(detail)) {
+        thinkingOk = false;
+        res = await call("", thinkingOk); // param unsupported — retry plain
+      } else {
+        console.error("anthropic 400", detail.slice(0, 300));
+        return NextResponse.json({ error: "Extraction service rejected the request. Try again, or enter the deal manually." }, { status: 502 });
+      }
+    }
+    if (res.ok) {
+      // One automatic terser retry if the response still hit its length cap.
+      const probe = (await res.clone().json().catch(() => null)) as { stop_reason?: string } | null;
+      if (probe?.stop_reason === "max_tokens") {
+        res = await call(
+          "\n\nIMPORTANT: your previous attempt exceeded the length limit. Same JSON, maximally terse: omit ALL null keys, cap each comp table at 8 rows, one short sentence for notes and classificationEvidence.",
+          thinkingOk
+        );
+      }
+    }
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
       console.error("anthropic error", res.status, detail.slice(0, 300));
