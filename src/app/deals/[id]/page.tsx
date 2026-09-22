@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { Suspense } from "react";
+import { Fragment, Suspense } from "react";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { DASH, fmtMoney, fmtPct, fmtX, CATEGORY_LABELS } from "@/lib/format";
 import {
-  runScreen, summarize, excludeSameName, DEFAULT_CRITERIA,
+  runScreen, summarize, excludeSameName, statValue, DEFAULT_CRITERIA,
   type Criteria, type Screenable, type StatRow, type TraceRow,
 } from "@/lib/screen";
 import { ensureCoords, ensureAddressCoords } from "@/lib/geo";
@@ -398,10 +398,19 @@ export default async function DealAnalysisPage({
               <tbody>
                 {view.stats.filter((row) => row.key !== "impliedCapPct").map((row) => {
                   const values = orderedMatched
-                    .map((c) => (c as unknown as Record<string, number | null>)[row.key])
-                    .filter((v): v is number => typeof v === "number" && isFinite(v));
+                    .map((c) => statValue(c as unknown as Record<string, unknown>, row.key))
+                    .filter((v): v is number => v != null);
                   return (
-                    <tr key={row.key} className="border-b border-slate-100">
+                    <Fragment key={row.key}>
+                    {/* Two parts per Mason (9/22/26): Cost Basis, then Loan Amount. */}
+                    {(row.key === "totalProjectCost" || row.key === "loanAmount") && (
+                      <tr className="bg-slate-50 border-b border-slate-200">
+                        <td colSpan={6} className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                          {row.key === "totalProjectCost" ? "Cost Basis" : "Loan Amount"}
+                        </td>
+                      </tr>
+                    )}
+                    <tr className="border-b border-slate-100">
                       <td className="px-3 py-2">{row.label}{
                         // Range flag (Mason, 9/22/26): every metric with a
                         // subject value and a comp range gets one — green
@@ -422,6 +431,7 @@ export default async function DealAnalysisPage({
                         <MetricStrip kind={row.kind} values={values} subject={row.subject} median={row.median} />
                       </td>
                     </tr>
+                    </Fragment>
                   );
                 })}
               </tbody>

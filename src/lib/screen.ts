@@ -253,18 +253,34 @@ export interface StatRow {
   outside: boolean;
 }
 
+// Two parts per Mason (9/22/26): Cost Basis first, then Loan Amount.
+// LTC / LTV / Debt Yield dropped from this section per the same spec (cap
+// rate went earlier; all still show in the comp detail popup).
 export const STAT_METRICS: { key: string; label: string; kind: StatRow["kind"] }[] = [
-  { key: "loanAmount", label: "Loan Amount (Total)", kind: "usd" },
-  { key: "loanPerUnit", label: "Loan Amount / Unit", kind: "usd" },
-  { key: "loanPerSf", label: "Loan Amount PSF", kind: "usd" },
-  { key: "ltcPct", label: "Loan to Cost", kind: "pct" },
-  { key: "ltvPct", label: "Loan to Value", kind: "pct" },
-  { key: "debtYieldPct", label: "Debt Yield (In-Place)", kind: "pct" },
-  { key: "totalProjectCost", label: "Total Project Cost", kind: "usd" },
-  { key: "tpcPerUnit", label: "Total Project Cost / Unit", kind: "usd" },
-  // Cap rate removed from the stats section per Mason, 9/22/26 (still shown
-  // in the comp detail popup).
+  { key: "totalProjectCost", label: "Total Cost Basis", kind: "usd" },
+  { key: "tpcPerUnit", label: "Cost Basis per Unit", kind: "usd" },
+  { key: "tpcPerSf", label: "Cost Basis per SF", kind: "usd" },
+  { key: "loanAmount", label: "Total Loan Amount", kind: "usd" },
+  { key: "loanPerUnit", label: "Loan Amount per Unit", kind: "usd" },
+  { key: "loanPerSf", label: "Loan Amount per SF", kind: "usd" },
 ];
+
+/** Stat value for a record — the stored column, or the sanctioned
+ *  derivation for virtual metrics. "tpcPerSf" is TPC ÷ SF (same math as the
+ *  other backed-into metrics), computed here so every row — seeded, user-
+ *  added, old or new — gets a value whenever both inputs are stated. */
+export const statValue = (rec: Record<string, unknown>, key: string): number | null => {
+  const direct = rec[key];
+  if (typeof direct === "number" && isFinite(direct)) return direct;
+  if (key === "tpcPerSf") {
+    const tpc = rec["totalProjectCost"], sf = rec["sizeSf"];
+    if (
+      typeof tpc === "number" && isFinite(tpc) && tpc > 0 &&
+      typeof sf === "number" && isFinite(sf) && sf > 0
+    ) return Math.round((tpc / sf) * 100) / 100;
+  }
+  return null;
+};
 
 const median = (v: number[]) => {
   const s = [...v].sort((a, b) => a - b);
@@ -278,9 +294,9 @@ export function summarize(subject: Record<string, unknown>, matched: Record<stri
     .filter((m) => !(m.key === "debtYieldPct" && subject.category === "CONSTRUCTION"))
     .map((m) => {
       const vals = matched
-        .map((c) => c[m.key])
-        .filter((v): v is number => typeof v === "number" && isFinite(v));
-      const sv = typeof subject[m.key] === "number" ? (subject[m.key] as number) : null;
+        .map((c) => statValue(c, m.key))
+        .filter((v): v is number => v != null);
+      const sv = statValue(subject, m.key);
       const row: StatRow = {
         key: m.key, label: m.label, kind: m.kind, subject: sv,
         min: null, max: null, median: null, mean: null,
