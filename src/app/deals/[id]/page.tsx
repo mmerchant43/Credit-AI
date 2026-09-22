@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { DASH, fmtMoney, fmtPct, fmtX, CATEGORY_LABELS } from "@/lib/format";
 import {
-  runScreen, summarize, DEFAULT_CRITERIA,
+  runScreen, summarize, excludeSameName, DEFAULT_CRITERIA,
   type Criteria, type Screenable, type StatRow, type TraceRow,
 } from "@/lib/screen";
 import { ensureCoords } from "@/lib/geo";
@@ -80,6 +80,16 @@ export default async function DealAnalysisPage({
     candidatesScreened: number;
     classificationEvidence?: string;
     writeup?: string;
+    omRentComps?: {
+      name: string; city: string | null; state: string | null; units: number | null;
+      yearBuilt: number | null; occupancyPct: number | null; avgRent: number | null;
+      rentPsf: number | null; isSubject: boolean | null;
+    }[];
+    omSalesComps?: {
+      name: string; city: string | null; state: string | null; units: number | null;
+      yearBuilt: number | null; salePrice: number | null; pricePerUnit: number | null;
+      capRate: number | null; saleDate: string | null; isSubject: boolean | null;
+    }[];
   };
 
   let view: {
@@ -88,9 +98,12 @@ export default async function DealAnalysisPage({
   };
 
   if (anySet) {
-    const comps = await prisma.creditComp.findMany({
-      where: { archived: false, id: { not: s.id } },
-    });
+    const comps = excludeSameName(
+      s as unknown as Screenable,
+      (await prisma.creditComp.findMany({
+        where: { archived: false, id: { not: s.id } },
+      })) as unknown as (Screenable & { id: string })[]
+    ) as unknown as Awaited<ReturnType<typeof prisma.creditComp.findMany>>;
     if (criteria.location === "radius" && criteria.radiusMiles) await ensureCoords([s, ...comps]);
     const screen = runScreen(s as unknown as Screenable, comps as unknown as Screenable[], criteria);
     const kept = screen.matched.filter((m) => !excluded.has(m.id));
@@ -156,7 +169,7 @@ export default async function DealAnalysisPage({
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
         </div>
         {savedSnap.writeup && (
-          <p className="font-display text-[15px] leading-relaxed text-ink/90 mt-3">{savedSnap.writeup}</p>
+          <p className="font-display text-lg leading-relaxed text-ink/90 mt-3">{savedSnap.writeup}</p>
         )}
       </section>
 
@@ -255,6 +268,86 @@ export default async function DealAnalysisPage({
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {/* OM lease comps — display-only, straight from the subject's OM, never in the database */}
+      {(savedSnap.omRentComps?.length ?? 0) > 0 && (
+        <section>
+          <div className="section-head">
+            <h2>Lease Comps</h2>
+            <div className="rule" />
+            <span className="text-xs text-slate-400 whitespace-nowrap">from the subject&apos;s OM · not stored as database comps</span>
+          </div>
+          <div className="card overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
+                  <th className="px-3 py-2 text-left">Property</th>
+                  <th className="px-3 py-2 text-left">Location</th>
+                  <th className="px-3 py-2 text-center">Units</th>
+                  <th className="px-3 py-2 text-center">Vintage</th>
+                  <th className="px-3 py-2 text-center">Occupancy</th>
+                  <th className="px-3 py-2 text-right">Avg Rent</th>
+                  <th className="px-3 py-2 text-right">Rent PSF</th>
+                </tr>
+              </thead>
+              <tbody>
+                {savedSnap.omRentComps!.map((r, i) => (
+                  <tr key={i} className={`border-b border-slate-100 ${r.isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
+                    <td className="px-3 py-2">{r.isSubject ? "▸ " : ""}{r.name}{r.isSubject ? " (Subject)" : ""}</td>
+                    <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ") || DASH}</td>
+                    <td className="px-3 py-2 text-center tabular-nums">{r.units ?? DASH}</td>
+                    <td className="px-3 py-2 text-center tabular-nums">{r.yearBuilt ?? DASH}</td>
+                    <td className="px-3 py-2 text-center tabular-nums">{r.occupancyPct != null ? `${r.occupancyPct.toFixed(1)}%` : DASH}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{r.avgRent != null ? fmtMoney(r.avgRent) : DASH}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{r.rentPsf != null ? `$${r.rentPsf.toFixed(2)}` : DASH}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {/* OM sales comps — display-only, straight from the subject's OM, never in the database */}
+      {(savedSnap.omSalesComps?.length ?? 0) > 0 && (
+        <section>
+          <div className="section-head">
+            <h2>Sales Comps</h2>
+            <div className="rule" />
+            <span className="text-xs text-slate-400 whitespace-nowrap">from the subject&apos;s OM · not stored as database comps</span>
+          </div>
+          <div className="card overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
+                  <th className="px-3 py-2 text-left">Property</th>
+                  <th className="px-3 py-2 text-left">Location</th>
+                  <th className="px-3 py-2 text-center">Units</th>
+                  <th className="px-3 py-2 text-center">Vintage</th>
+                  <th className="px-3 py-2 text-right">Sale Price</th>
+                  <th className="px-3 py-2 text-right">$/Unit</th>
+                  <th className="px-3 py-2 text-center">Cap Rate</th>
+                  <th className="px-3 py-2 text-center">Sale Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {savedSnap.omSalesComps!.map((r, i) => (
+                  <tr key={i} className={`border-b border-slate-100 ${r.isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
+                    <td className="px-3 py-2">{r.isSubject ? "▸ " : ""}{r.name}{r.isSubject ? " (Subject)" : ""}</td>
+                    <td className="px-3 py-2 text-xs text-slate-600">{[r.city, r.state].filter(Boolean).join(", ") || DASH}</td>
+                    <td className="px-3 py-2 text-center tabular-nums">{r.units ?? DASH}</td>
+                    <td className="px-3 py-2 text-center tabular-nums">{r.yearBuilt ?? DASH}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{r.salePrice != null ? fmtMoney(r.salePrice) : DASH}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{r.pricePerUnit != null ? fmtMoney(r.pricePerUnit) : DASH}</td>
+                    <td className="px-3 py-2 text-center tabular-nums">{r.capRate != null ? `${r.capRate.toFixed(2)}%` : DASH}</td>
+                    <td className="px-3 py-2 text-center">{r.saleDate ?? DASH}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

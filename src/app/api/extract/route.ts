@@ -18,8 +18,13 @@ IRON RULES:
 - ALL PERCENT VALUES AS PERCENTS (65 not 0.65): occupancyPct, ratePct, ltvPct, ltcPct, impliedCapPct, stabilizedCapPct, dy0-dy3. DSCR as a plain multiple (1.25).
 - dscr0/dy0 = Year 1 (or the OM's single/UW figure), dscr1/dy1 = Year 2, dscr2/dy2 = Year 3, dscr3/dy3 = Stabilized. Only years the OM states.
 - Dollar amounts as plain numbers ("$53.0M" => 53000000).
+- TOTAL PROJECT COST: hunt hard for it under any of its names — total project cost, total development cost, total capitalization, total uses, total deal cost, sponsor's total cost/basis (purchase price + capex for existing assets), or the stated total valuation of the deal. Use the total the OM itself presents; say in "notes" which label you used. tpcPerUnit: use the stated figure, or DIVIDE totalProjectCost by units (mark "computed" in notes) — this division is sanctioned.
+- DEBT YIELD: most OMs state it somewhere — loan-metrics tables, sensitivity grids, sources-and-uses commentary, or a "NOI / Loan" row. Search the whole text before giving up. If the OM states NOI and the loan amount for the same year but no debt yield, you may compute NOI ÷ loan (mark "computed" in notes).
 
-Respond with ONLY a JSON object (no markdown fence, no commentary) with exactly these keys (null when not stated): propertyName, address, city, state (2-letter), zip, market ("City, ST" metro), submarket, units, stories, sizeSf, yearBuilt, occupancyPct, category, classificationEvidence, loanAmount, loanPerUnit, loanPerSf, rateType ("FIXED"|"FLOATING"|null), indexName, spreadBps, ratePct, termMonths, ioMonths, ltvPct, ltcPct, totalProjectCost, tpcPerUnit, impliedCapPct, stabilizedCapPct, dscr0, dy0, dscr1, dy1, dscr2, dy2, dscr3, dy3, borrowerSponsor, brokerage, sourceNote (e.g. "OM dated Jun-26"), notes (ranges, ambiguities, caveats).
+Respond with ONLY a JSON object (no markdown fence, no commentary) with exactly these keys (null when not stated): propertyName, address, city, state (2-letter), zip, market ("City, ST" metro), submarket, units, stories, sizeSf, yearBuilt, occupancyPct, category, classificationEvidence, loanAmount, loanPerUnit, loanPerSf, rateType ("FIXED"|"FLOATING"|null), indexName, spreadBps, ratePct, termMonths, ioMonths, ltvPct, ltcPct, totalProjectCost, tpcPerUnit, impliedCapPct, stabilizedCapPct, dscr0, dy0, dscr1, dy1, dscr2, dy2, dscr3, dy3, borrowerSponsor, brokerage, sourceNote (e.g. "OM dated Jun-26"), notes (ranges, ambiguities, caveats), omRentComps, omSalesComps.
+
+omRentComps: the OM's rent/lease comparables table as an array (max 20), each {"name","city","state","units","yearBuilt","occupancyPct","avgRent","rentPsf","isSubject"} — avgRent = average monthly rent per unit in dollars, rentPsf in dollars, occupancyPct AS PERCENT. When the table includes the subject property's own row, include it with "isSubject": true. null if the OM has no such table.
+omSalesComps: the OM's sales comparables table as an array (max 20), each {"name","city","state","units","yearBuilt","salePrice","pricePerUnit","capRate","saleDate","isSubject"} — capRate AS PERCENT, saleDate as the OM states it ("Mar-25"). null if none. These arrays are display-only and must be verbatim from the OM's own comp tables.
 
 OM TEXT:
 `;
@@ -51,7 +56,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-5",
-        max_tokens: 2000,
+        max_tokens: 6000, // full field set + two 20-row OM comp tables needs headroom
         messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, 180000) }],
       }),
       signal: AbortSignal.timeout(55000),
@@ -61,7 +66,13 @@ export async function POST(req: Request) {
       console.error("anthropic error", res.status, detail.slice(0, 300));
       return NextResponse.json({ error: `Extraction service error (${res.status}). Try again, or enter the deal manually.` }, { status: 502 });
     }
-    const body = (await res.json()) as { content?: { type: string; text?: string }[] };
+    const body = (await res.json()) as { content?: { type: string; text?: string }[]; stop_reason?: string };
+    if (body.stop_reason === "max_tokens") {
+      return NextResponse.json(
+        { error: "The OM's comp tables were too large to extract in full — try again, or enter the deal manually." },
+        { status: 502 }
+      );
+    }
     const raw = body.content?.find((c) => c.type === "text")?.text ?? "";
     const jsonText = raw.slice(raw.indexOf("{"), raw.lastIndexOf("}") + 1);
     let fields: Record<string, unknown>;

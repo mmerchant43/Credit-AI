@@ -40,8 +40,8 @@ export function UndoRemoveButton() {
   const { excluded, setExcluded } = useExcluded();
   if (excluded.length === 0) return null;
   return (
-    <button type="button" className="btn text-xs" onClick={() => setExcluded(excluded.slice(0, -1))}>
-      ↩ Undo remove ({excluded.length})
+    <button type="button" className="btn text-xs font-bold" onClick={() => setExcluded(excluded.slice(0, -1))}>
+      Undo
     </button>
   );
 }

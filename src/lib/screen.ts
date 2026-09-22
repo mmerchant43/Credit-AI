@@ -168,6 +168,14 @@ function screenPass(subject: Screenable, comps: Screenable[], mode: LocationMode
   return { matched, trace };
 }
 
+/** A comp with EXACTLY the subject's name is the same asset (an earlier
+ *  analysis or a duplicate OM) — never a comparable (Mason, 9/21/26). */
+export function excludeSameName<T extends Screenable>(subject: Screenable, comps: T[]): T[] {
+  const sn = norm(subject.propertyName);
+  if (!sn) return comps;
+  return comps.filter((c) => norm(c.propertyName) !== sn);
+}
+
 /** Screen with the given criteria (defaults = the original doctrine).
  *  location "auto": zip first; only if that yields nothing, same city+state;
  *  if that is also empty, stop. "radius": hard distance cutoff. "off": all

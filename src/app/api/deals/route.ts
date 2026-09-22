@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { currentUser } from "@/lib/auth";
 import { compInputSchema, toCompData } from "@/lib/compInput";
-import { runScreen, summarize, type Screenable } from "@/lib/screen";
+import { runScreen, summarize, excludeSameName, type Screenable } from "@/lib/screen";
 
 export const maxDuration = 60;
 
@@ -41,10 +41,34 @@ async function generateWriteup(fields: Record<string, unknown>, evidence: string
 // New Deal Analysis: save the subject deal (AUTO-ADDED to the comp database —
 // Mason, 9/21/26), screen it against every other comp with the five filters,
 // snapshot the result, and return the analysis id.
+// OM lease/sales comps ride along for DISPLAY ONLY — they live in the
+// analysis snapshot and are never written to the comp database (Mason, 9/21/26).
+function sanitizeOmComps(raw: unknown, keys: string[]): Record<string, unknown>[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.slice(0, 30).flatMap((row) => {
+    if (typeof row !== "object" || row === null) return [];
+    const r = row as Record<string, unknown>;
+    const out: Record<string, unknown> = {};
+    for (const k of keys) {
+      const v = r[k];
+      if (typeof v === "string") out[k] = v.slice(0, 200);
+      else if (typeof v === "number" && isFinite(v)) out[k] = v;
+      else if (typeof v === "boolean") out[k] = v;
+      else out[k] = null;
+    }
+    return out.name ? [out] : [];
+  });
+}
+const RENT_KEYS = ["name", "city", "state", "units", "yearBuilt", "occupancyPct", "avgRent", "rentPsf", "isSubject"];
+const SALE_KEYS = ["name", "city", "state", "units", "yearBuilt", "salePrice", "pricePerUnit", "capRate", "saleDate", "isSubject"];
+
 export async function POST(req: Request) {
   try {
     const user = await currentUser();
-    const parsed = compInputSchema.safeParse(await req.json());
+    const raw = (await req.json()) as Record<string, unknown>;
+    const omRentComps = sanitizeOmComps(raw.omRentComps, RENT_KEYS);
+    const omSalesComps = sanitizeOmComps(raw.omSalesComps, SALE_KEYS);
+    const parsed = compInputSchema.safeParse(raw);
     if (!parsed.success) {
       return NextResponse.json(
         { error: parsed.error.issues[0]?.message ?? "Invalid input." },
@@ -72,27 +96,75 @@ export async function POST(req: Request) {
       data.loanPerSf = Math.round((data.loanAmount / data.sizeSf) * 100) / 100;
       derived.push(`Loan PSF $${data.loanPerSf.toLocaleString()} computed (loan ÷ NRA)`);
     }
+    if (data.tpcPerUnit == null && data.totalProjectCost != null && data.units != null && data.units > 0) {
+      data.tpcPerUnit = Math.round(data.totalProjectCost / data.units);
+      derived.push(`TPC/Unit $${data.tpcPerUnit.toLocaleString()} computed (total cost ÷ units)`);
+    }
     if (derived.length) {
       data.notes = [data.notes, `Derived for subject (not OM-stated): ${derived.join("; ")}`]
         .filter(Boolean).join("\n");
     }
 
-    // 1. Auto-add the subject to the comp database (outcome: Screened).
-    const subject = await prisma.creditComp.create({
-      data: {
-        ...data,
-        outcome: "SCREENED",
-        notes: [data.notes, `Classification evidence: ${parsed.data.classificationEvidence}`]
-          .filter(Boolean).join("\n"),
-        enteredById: user.id,
-        metricYears: { create: metricYears },
+    // 1. Auto-add the subject to the comp database (outcome: Screened) —
+    //    WITHOUT creating duplicates (Mason, 9/21/26): re-analyzing a deal
+    //    with exactly the same property name + city updates the existing row
+    //    in place (newer stated values win; nothing is blanked out).
+    const notesFinal = [data.notes, `Classification evidence: ${parsed.data.classificationEvidence}`]
+      .filter(Boolean).join("\n");
+    const existing = await prisma.creditComp.findFirst({
+      where: {
+        archived: false,
+        propertyName: { equals: data.propertyName, mode: "insensitive" },
+        city: { equals: data.city ?? "", mode: "insensitive" },
       },
+      orderBy: { createdAt: "desc" },
     });
 
-    // 2. Screen it against every other active comp.
-    const comps = await prisma.creditComp.findMany({
-      where: { archived: false, id: { not: subject.id } },
-    });
+    let subject;
+    if (existing) {
+      // Never clobber workflow state the analysis flow doesn't know about:
+      // outcome (QUOTED/CLOSED/... set via Add-a-Comp) and a hand-curated
+      // market label survive a re-analysis untouched.
+      const freshValues = Object.fromEntries(
+        Object.entries(data).filter(
+          ([k, v]) => v != null && k !== "notes" && k !== "outcome" && k !== "market"
+        )
+      );
+      subject = await prisma.creditComp.update({
+        where: { id: existing.id },
+        data: {
+          ...freshValues,
+          notes: [existing.notes, `Re-analyzed (values refreshed, no duplicate created): ${notesFinal}`]
+            .filter(Boolean).join("\n").slice(0, 8000),
+          enteredById: user.id,
+        },
+      });
+      if (metricYears.length) {
+        await prisma.compMetricYear.deleteMany({ where: { compId: subject.id } });
+        await prisma.compMetricYear.createMany({
+          data: metricYears.map((m) => ({ compId: subject.id, ...m })),
+        });
+      }
+    } else {
+      subject = await prisma.creditComp.create({
+        data: {
+          ...data,
+          outcome: "SCREENED",
+          notes: notesFinal,
+          enteredById: user.id,
+          metricYears: { create: metricYears },
+        },
+      });
+    }
+
+    // 2. Screen it against every other active comp — never against a comp
+    //    with exactly the subject's own name (same asset).
+    const comps = excludeSameName(
+      subject as unknown as Screenable,
+      await prisma.creditComp.findMany({
+        where: { archived: false, id: { not: subject.id } },
+      }) as unknown as Screenable[]
+    );
     const screen = runScreen(subject as unknown as Screenable, comps as unknown as Screenable[]);
     const matchedFull = comps.filter((c) => screen.matched.some((m) => m.id === c.id));
     const stats = summarize(
@@ -119,6 +191,8 @@ export async function POST(req: Request) {
           candidatesScreened: screen.candidatesScreened,
           classificationEvidence: parsed.data.classificationEvidence,
           writeup,
+          omRentComps,
+          omSalesComps,
         })),
         createdBy: user.name,
       },
