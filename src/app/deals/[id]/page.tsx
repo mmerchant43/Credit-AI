@@ -186,7 +186,7 @@ export default async function DealAnalysisPage({
       matchedIds: savedSnap.matchedIds ?? [], trace: savedSnap.trace ?? [], stats: savedSnap.stats ?? [],
       candidatesScreened: savedSnap.candidatesScreened ?? 0,
       modeLabel:
-        { zip: "same zip", city: "same city (fallback)", none: "no database comps", radius: "radius" }[analysis.locationMode] ?? analysis.locationMode,
+        { zip: "same zip", city: "same city (fallback)", none: "no database comps", radius: "radius", "hand-picked": "hand-picked comps" }[analysis.locationMode] ?? analysis.locationMode,
       matchedCount: analysis.matchedCount, live: false,
     };
   }
@@ -262,16 +262,7 @@ export default async function DealAnalysisPage({
           <span>Stories: <b>{s.stories ?? DASH}</b></span>
           <span>Vintage: <b>{s.yearBuilt ?? DASH}</b></span>
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
-          {savedSnap.projectedRents && (
-            // Projected / pro-forma rents from the OM (Mason, 9/23/26) —
-            // labeled as projections, never mixed into in-place fields.
-            <span>Projected Rent: <b>
-              {[
-                savedSnap.projectedRents.avgRent != null ? `${fmtMoney(savedSnap.projectedRents.avgRent)}/mo` : null,
-                savedSnap.projectedRents.rentPsf != null ? `$${savedSnap.projectedRents.rentPsf.toFixed(2)} PSF` : null,
-              ].filter(Boolean).join(" · ")}
-            </b></span>
-          )}
+          {/* Projected rents live in the Lease Comps subject row, not here (Mason, 9/23/26). */}
           {s.omLink && (
             <a href={s.omLink} target="_blank" rel="noopener noreferrer" className="text-accent underline font-medium">
               Open OM ↗
@@ -493,7 +484,25 @@ export default async function DealAnalysisPage({
                 ))}
                 {(() => {
                   const comps = savedSnap.omRentComps!.filter((r) => !r.isSubject);
-                  const subj = savedSnap.omRentComps!.find((r) => r.isSubject);
+                  // Projected / pro-forma rents from the OM fill the SUBJECT
+                  // row here (Mason, 9/23/26) — construction subjects have no
+                  // in-place rent, so the projection is the rent that belongs
+                  // in this comparison. If the OM's comp table had no subject
+                  // row at all, one is synthesized from the deal record.
+                  const proj = savedSnap.projectedRents;
+                  const subjRow = savedSnap.omRentComps!.find((r) => r.isSubject);
+                  const subj = subjRow
+                    ? { ...subjRow, avgRent: subjRow.avgRent ?? proj?.avgRent ?? null, rentPsf: subjRow.rentPsf ?? proj?.rentPsf ?? null }
+                    : proj
+                      ? {
+                          name: s.propertyName ?? s.dealName ?? "Subject",
+                          city: s.city, state: s.state,
+                          units: s.units, yearBuilt: s.yearBuilt,
+                          // omRentComps occupancy is AS PERCENT; the deal record stores a fraction.
+                          occupancyPct: s.category === "CONSTRUCTION" || s.occupancyPct == null ? null : s.occupancyPct * 100,
+                          avgRent: proj.avgRent, rentPsf: proj.rentPsf, isSubject: true,
+                        }
+                      : undefined;
                   // Averages ROUNDED TO DISPLAY PRECISION before the deltas are
                   // computed, so the % row always agrees with the numbers shown
                   // (Mason, 9/22/26).

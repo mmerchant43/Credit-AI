@@ -9,6 +9,7 @@ import CompFilters from "@/components/CompFilters";
 import DuplicateAlert, { DupBadge, type DupRow } from "@/components/DuplicateAlert";
 import CompDetail, { type CompFull } from "@/components/CompDetail";
 import ArchiveComp from "@/components/ArchiveComp";
+import { SelectComp, AnalyzeSelectedBar } from "@/components/CompSelect";
 
 export const dynamic = "force-dynamic";
 
@@ -157,10 +158,14 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
 
       <DuplicateAlert groups={dupGroups} />
 
+      {/* Select comps -> full deal analysis (Mason, 9/23/26) */}
+      <AnalyzeSelectedBar />
+
       <div className="card overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
+              <th className="pl-3 pr-1 py-2" aria-label="select" />
               <th className="px-3 py-2 text-left">Property</th>
               <th className="px-3 py-2 text-left">Location</th>
               <th className="px-3 py-2 text-center">Category</th>
@@ -184,6 +189,9 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
               const dyShown = c.debtYieldPct ?? firstYear?.debtYieldPct ?? null;
               return (
                 <tr key={c.id} className="border-b border-slate-100 hover:bg-slate-50">
+                  <td className="pl-3 pr-1 py-2">
+                    <SelectComp id={c.id} name={c.propertyName ?? c.dealName ?? "comp"} />
+                  </td>
                   <td className="px-3 py-2">
                     <CompDetail comp={toFull(c)} />
                     {c.omLink && (
@@ -219,7 +227,7 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
             })}
             {comps.length === 0 && (
               <tr>
-                <td colSpan={14} className="px-3 py-8 text-center text-slate-400">
+                <td colSpan={15} className="px-3 py-8 text-center text-slate-400">
                   {filtered
                     ? "No comps match these filters. Blanks drop out of filtered views — try widening a range."
                     : "No comps yet — they arrive automatically with the next deploy, or add one now."}
