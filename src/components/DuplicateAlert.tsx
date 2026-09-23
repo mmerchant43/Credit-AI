@@ -14,6 +14,9 @@ export interface DupRow {
   loan: string;
   source: string;
   created: string;
+  /** Pre-formatted metric list, identical labels/order across a group —
+   *  the popup lays copies out side by side (Mason, 9/23/26). */
+  metrics: { label: string; value: string }[];
 }
 
 function useResolver() {
@@ -60,21 +63,43 @@ function GroupCard({ rows, gi, busy, act, onResolved }: {
           {busy === `a${gi}` ? "Saving…" : "Not duplicates — keep all"}
         </button>
       </div>
-      {rows.map((r) => (
-        <div key={r.id} className="flex items-center gap-3 px-3 py-2 border-b border-slate-100 last:border-0 text-sm">
-          <span className="flex-1">{r.source}</span>
-          <span className="tabular-nums text-slate-600">{r.loan}</span>
-          <span className="text-xs text-slate-400">{r.created}</span>
-          <button
-            type="button"
-            className="btn btn-danger text-xs"
-            disabled={busy !== null}
-            onClick={() => act("archive", [r.id], r.id)}
-          >
-            {busy === r.id ? "Removing…" : "Remove"}
-          </button>
-        </div>
-      ))}
+      {/* Side-by-side comparison: metric labels down the left, one column
+          per copy, vertical rules between columns (Mason, 9/23/26). */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-slate-200 align-bottom">
+              <th className="px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap">Metric</th>
+              {rows.map((r) => (
+                <th key={r.id} className="px-3 py-2 text-left border-l border-slate-200 min-w-[160px]">
+                  <div className="text-xs font-medium">{r.source}</div>
+                  <div className="text-[11px] text-slate-400 font-normal mb-1.5">added {r.created}</div>
+                  <button
+                    type="button"
+                    className="btn btn-danger text-xs"
+                    disabled={busy !== null}
+                    onClick={() => act("archive", [r.id], r.id)}
+                  >
+                    {busy === r.id ? "Removing…" : "Remove this copy"}
+                  </button>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {(rows[0]?.metrics ?? []).map((m, mi) => (
+              <tr key={m.label} className="border-b border-slate-100 last:border-0">
+                <td className="px-3 py-1.5 text-xs text-slate-500 whitespace-nowrap">{m.label}</td>
+                {rows.map((r) => (
+                  <td key={r.id} className="px-3 py-1.5 tabular-nums border-l border-slate-200">
+                    {r.metrics[mi]?.value ?? "—"}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -95,7 +120,7 @@ export function DupBadge({ group }: { group: DupRow[] }) {
       </button>
       {open && (
         <div className="fixed inset-0 z-[1200] flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
-          <div className="card bg-white p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto space-y-4" onClick={(e) => e.stopPropagation()}>
+          <div className="card bg-white p-6 w-full max-w-4xl max-h-[85vh] overflow-y-auto space-y-4" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="font-display text-xl">Duplicates — {group[0]?.name}</h3>
               <button type="button" className="btn btn-primary text-sm" onClick={() => setOpen(false)}>Done</button>
@@ -130,7 +155,7 @@ export default function DuplicateAlert({ groups }: { groups: DupRow[][] }) {
 
       {open && (
         <div className="fixed inset-0 z-[1200] flex items-center justify-center bg-navy/40 p-4" onClick={() => setOpen(false)}>
-          <div className="card bg-white p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto space-y-5" onClick={(e) => e.stopPropagation()}>
+          <div className="card bg-white p-6 w-full max-w-4xl max-h-[85vh] overflow-y-auto space-y-5" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="font-display text-xl">Possible Duplicates</h3>
               <button type="button" className="btn btn-primary text-sm" onClick={() => setOpen(false)}>Done</button>

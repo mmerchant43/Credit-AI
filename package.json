@@ -1,6 +1,6 @@
 {
   "name": "credit-comp-platform",
-  "version": "29.0.0",
+  "version": "31.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

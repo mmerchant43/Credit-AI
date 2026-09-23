@@ -110,7 +110,7 @@ export default function CriteriaPanel({ avail }: { avail: SubjectAvailability })
                   key={`occ-${c.occ}`} defaultValue={c.occ}
                   onBlur={(e) => push({ occ: e.target.value === "" ? "off" : e.target.value })}
                   onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }} />
-                <span className={hint}>± pts</span>
+                <span className={hint}>± %</span>
               </>
             )}
           </div>

@@ -144,6 +144,7 @@ export default async function DealAnalysisPage({
       capRate: number | null; saleDate: string | null; isSubject: boolean | null;
     }[];
     fromOmUpload?: boolean;
+    projectedRents?: { avgRent: number | null; rentPsf: number | null } | null;
   };
 
   let view: {
@@ -261,6 +262,16 @@ export default async function DealAnalysisPage({
           <span>Stories: <b>{s.stories ?? DASH}</b></span>
           <span>Vintage: <b>{s.yearBuilt ?? DASH}</b></span>
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
+          {savedSnap.projectedRents && (
+            // Projected / pro-forma rents from the OM (Mason, 9/23/26) —
+            // labeled as projections, never mixed into in-place fields.
+            <span>Projected Rent: <b>
+              {[
+                savedSnap.projectedRents.avgRent != null ? `${fmtMoney(savedSnap.projectedRents.avgRent)}/mo` : null,
+                savedSnap.projectedRents.rentPsf != null ? `$${savedSnap.projectedRents.rentPsf.toFixed(2)} PSF` : null,
+              ].filter(Boolean).join(" · ")}
+            </b></span>
+          )}
           {s.omLink && (
             <a href={s.omLink} target="_blank" rel="noopener noreferrer" className="text-accent underline font-medium">
               Open OM ↗
@@ -406,7 +417,7 @@ export default async function DealAnalysisPage({
                     {(row.key === "totalProjectCost" || row.key === "loanAmount") && (
                       <tr className="bg-slate-50 border-b border-slate-200">
                         <td colSpan={6} className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                          {row.key === "totalProjectCost" ? "Cost Basis" : "Loan Amount"}
+                          {row.key === "totalProjectCost" ? "Total Cost Basis" : "Loan Amount"}
                         </td>
                       </tr>
                     )}
@@ -440,14 +451,21 @@ export default async function DealAnalysisPage({
         </section>
       )}
 
-      {/* OM lease comps — display-only, straight from the subject's OM, never in the database */}
-      {(savedSnap.omRentComps?.length ?? 0) > 0 && (
+      {/* OM lease comps — display-only, straight from the subject's OM, never
+          in the database. On an OM-uploaded deal the section ALWAYS shows,
+          with an honest empty note when the OM had no such table (Mason, 9/23/26). */}
+      {((savedSnap.omRentComps?.length ?? 0) > 0 || savedSnap.fromOmUpload) && (
         <section>
           <div className="section-head">
             <h2>Lease Comps</h2>
             <div className="rule" />
             <span className="text-xs text-slate-400 whitespace-nowrap">from the subject&apos;s OM · not stored as database comps</span>
           </div>
+          {(savedSnap.omRentComps?.length ?? 0) === 0 ? (
+            <div className="card p-4 text-sm text-slate-500">
+              No lease comparables were found in this OM.
+            </div>
+          ) : (
           <div className="card overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -529,17 +547,23 @@ export default async function DealAnalysisPage({
               </tbody>
             </table>
           </div>
+          )}
         </section>
       )}
 
-      {/* OM sales comps — display-only, straight from the subject's OM, never in the database */}
-      {(savedSnap.omSalesComps?.length ?? 0) > 0 && (
+      {/* OM sales comps — same always-show rule as Lease Comps (Mason, 9/23/26) */}
+      {((savedSnap.omSalesComps?.length ?? 0) > 0 || savedSnap.fromOmUpload) && (
         <section>
           <div className="section-head">
             <h2>Sales Comps</h2>
             <div className="rule" />
             <span className="text-xs text-slate-400 whitespace-nowrap">from the subject&apos;s OM · not stored as database comps</span>
           </div>
+          {(savedSnap.omSalesComps?.length ?? 0) === 0 ? (
+            <div className="card p-4 text-sm text-slate-500">
+              No sales comparables were found in this OM.
+            </div>
+          ) : (
           <div className="card overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -622,18 +646,9 @@ export default async function DealAnalysisPage({
               </tbody>
             </table>
           </div>
+          )}
         </section>
       )}
-
-      {/* Honest silence-breaker: OM was read but had no comp tables */}
-      {savedSnap.fromOmUpload &&
-        (savedSnap.omRentComps?.length ?? 0) === 0 &&
-        (savedSnap.omSalesComps?.length ?? 0) === 0 && (
-          <p className="text-xs text-slate-400">
-            No rent or sales comparables tables were found in this OM, so there are no Lease Comps /
-            Sales Comps sections for this deal.
-          </p>
-        )}
 
       {/* Screening trace — failed candidates stay out of the way unless opened */}
       <section>

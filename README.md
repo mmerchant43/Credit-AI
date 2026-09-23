@@ -1,4 +1,4 @@
-# Credit Comp Platform ("Credit Team") — Version 29.0
+# Credit Comp Platform ("Credit Team") — Version 31.0
 
 Crow Holdings internal credit comp database. Past underwritten deals ("comps")
 compared against new opportunities. Sister site to the Industrial Comp

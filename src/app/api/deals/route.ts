@@ -92,6 +92,11 @@ export async function POST(req: Request) {
     const num = (v: unknown) => (typeof v === "number" && isFinite(v) ? v : null);
     const dscrInPlace = num(raw.dscrInPlace);
     const dyInPlace = num(raw.dyInPlace) != null ? (num(raw.dyInPlace) as number) / 100 : null;
+    // Projected / pro-forma subject rents (Mason, 9/23/26): construction OMs
+    // usually quote ONLY these — captured verbatim, snapshot-only (never a
+    // database column), displayed on the subject card.
+    const projectedAvgRent = num(raw.projectedAvgRent);
+    const projectedRentPsf = num(raw.projectedRentPsf);
     const parsed = compInputSchema.safeParse(raw);
     if (!parsed.success) {
       return NextResponse.json(
@@ -252,6 +257,10 @@ export async function POST(req: Request) {
           stats,
           candidatesScreened: screen.candidatesScreened,
           classificationEvidence: parsed.data.classificationEvidence,
+          projectedRents:
+            projectedAvgRent != null || projectedRentPsf != null
+              ? { avgRent: projectedAvgRent, rentPsf: projectedRentPsf }
+              : null,
           writeup: writeup ? [writeup.deal, writeup.sponsor, writeup.ask].join(" ") : null,
           writeupSections: writeup,
           omRentComps,

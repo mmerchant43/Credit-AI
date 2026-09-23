@@ -67,8 +67,9 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
     }),
     prisma.creditComp.count({ where: { archived: false } }),
     prisma.creditComp.findMany({
+      // Full rows: the resolver popup shows every metric side by side
+      // (Mason, 9/23/26), so the thin select is gone.
       where: { archived: false, dupApproved: false },
-      select: { id: true, propertyName: true, city: true, state: true, loanAmount: true, sourceNote: true, createdAt: true },
     }),
   ]);
 
@@ -91,6 +92,29 @@ export default async function CompsPage({ searchParams }: { searchParams: Params
         loan: fmtMoney(r.loanAmount),
         source: r.sourceNote ?? "manual / analysis entry",
         created: r.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+        // Every metric, per copy — the resolver popup lays these out side by
+        // side so the copies can actually be compared (Mason, 9/23/26).
+        metrics: [
+          { label: "Category", value: r.category ? CATEGORY_LABELS[r.category] ?? r.category : DASH },
+          { label: "Address", value: r.address ?? DASH },
+          { label: "Zip", value: r.zip ?? DASH },
+          { label: "Units", value: r.units != null ? String(r.units) : DASH },
+          { label: "Stories", value: r.stories != null ? String(r.stories) : DASH },
+          { label: "Size SF", value: fmtNum(r.sizeSf) },
+          { label: "Vintage", value: r.yearBuilt != null ? String(r.yearBuilt) : DASH },
+          { label: "Occupancy", value: fmtPct(r.occupancyPct, 1) },
+          { label: "Loan Amount", value: fmtMoney(r.loanAmount) },
+          { label: "Loan / Unit", value: fmtMoney(r.loanPerUnit) },
+          { label: "Loan PSF", value: fmtMoney(r.loanPerSf) },
+          { label: "All-in Rate", value: fmtPct(r.ratePct, 2) },
+          { label: "LTV", value: fmtPct(r.ltvPct, 1) },
+          { label: "LTC", value: fmtPct(r.ltcPct, 1) },
+          { label: "DSCR", value: fmtX(r.dscr) },
+          { label: "Debt Yield", value: fmtPct(r.debtYieldPct, 1) },
+          { label: "Total Project Cost", value: fmtMoney(r.totalProjectCost) },
+          { label: "TPC / Unit", value: fmtMoney(r.tpcPerUnit) },
+          { label: "Sponsor", value: r.borrowerSponsor ?? DASH },
+        ],
       }))
     );
   // Row id → its duplicate group, so each DUP? badge opens just its own copies.
