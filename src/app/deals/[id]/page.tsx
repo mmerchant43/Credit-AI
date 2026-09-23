@@ -109,6 +109,93 @@ function parseCriteria(p: Params): { criteria: Criteria; anySet: boolean } {
   return { criteria, anySet };
 }
 
+// ── The Subject vs. Comps table, in two flavors (Mason, 9/23/26): the
+//    Distribution column holds either the range strip or, toggled, a
+//    vertical bar chart per deal in the SAME cell — same table, taller rows.
+function StatsTable({
+  mode, rows, comps, hasSubject,
+}: {
+  mode: "strips" | "bars";
+  rows: StatRow[];
+  comps: Record<string, unknown>[]; // orderedMatched, table order = bar order
+  hasSubject: boolean;
+}) {
+  return (
+    <div className="card overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
+            <th className="px-3 py-2 text-left">Metric</th>
+            <th className="px-3 py-2 text-right">Subject</th>
+            <th className="px-3 py-2 text-right">Min</th>
+            <th className="px-3 py-2 text-right">Median</th>
+            <th className="px-3 py-2 text-right">Max</th>
+            <th className="px-3 py-2 text-center w-[45%] min-w-[380px]"
+              title={mode === "strips" ? "comps (navy) · median (tick) · subject (gold)" : "one bar per deal — subject (gold, S) · comps (navy, numbered)"}>
+              Distribution
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.filter((row) => row.key !== "impliedCapPct").map((row) => {
+            const values = comps
+              .map((c) => statValue(c, row.key))
+              .filter((v): v is number => v != null);
+            return (
+              <Fragment key={row.key}>
+              {/* Two parts per Mason (9/22/26): Cost Basis, then Loan Amount. */}
+              {(row.key === "totalProjectCost" || row.key === "loanAmount") && (
+                <tr className="bg-slate-50 border-b border-slate-200">
+                  <td colSpan={6} className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    {row.key === "totalProjectCost" ? "Total Cost Basis" : "Loan Amount"}
+                  </td>
+                </tr>
+              )}
+              <tr className="border-b border-slate-100">
+                <td className="px-3 py-2">{row.label}{
+                  // Range flag (Mason, 9/22/26): every metric with a
+                  // subject value and a comp range gets one — green
+                  // within, red below/above.
+                  row.subject != null && row.min != null && row.max != null && (
+                    row.subject < row.min
+                      ? <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">below range</span>
+                      : row.subject > row.max
+                        ? <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">above range</span>
+                        : <span className="badge bg-green-50 text-green-700 border-green-200 ml-2">within range</span>
+                  )
+                }</td>
+                <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBy(row.kind, row.subject)}</td>
+                <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.min)}</td>
+                <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.median)}</td>
+                <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.max)}</td>
+                <td className="px-3 py-2">
+                  {mode === "strips" ? (
+                    <MetricStrip kind={row.kind} values={values} subject={row.subject} median={row.median} />
+                  ) : (
+                    <MetricBars
+                      kind={row.kind}
+                      h={130}
+                      items={[
+                        ...(hasSubject ? [{ label: "S", value: row.subject, isSubject: true }] : []),
+                        ...comps.map((c, i) => ({
+                          label: String(i + 1),
+                          value: statValue(c, row.key),
+                          isSubject: false,
+                        })),
+                      ]}
+                    />
+                  )}
+                </td>
+              </tr>
+              </Fragment>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default async function DealAnalysisPage({
   params, searchParams,
 }: { params: { id: string }; searchParams?: Params }) {
@@ -359,14 +446,16 @@ export default async function DealAnalysisPage({
               </tr>
             </thead>
             <tbody>
-              {rows.map(({ r, isSubject }, i) => (
+              {rows.map(({ r, isSubject }) => (
                 <tr key={r.id} className={`border-b border-slate-100 ${isSubject ? "human font-medium" : "hover:bg-slate-50"}`}>
                   <td className="px-2 py-2 text-center">
+                    {/* Numbered by comp order (numById) — stays 1-based and
+                        aligned with map pins/bars even with no subject row. */}
                     <span
                       className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white ${isSubject ? "bg-accent" : "bg-navy"}`}
-                      title={isSubject ? "Subject — gold pin on the map" : `Comp ${i} — navy pin ${i} on the map`}
+                      title={isSubject ? "Subject — gold pin on the map" : `Comp ${numById.get(r.id)} — navy pin ${numById.get(r.id)} on the map`}
                     >
-                      {isSubject ? "S" : i}
+                      {isSubject ? "S" : numById.get(r.id)}
                     </span>
                   </td>
                   <td className="px-3 py-2">
@@ -413,85 +502,8 @@ export default async function DealAnalysisPage({
         <section>
           <div className="section-head"><h2>{s ? "Subject vs. Comps" : "Comp Set Metrics"}</h2><div className="rule" /></div>
           <StatsViewToggle
-            bars={
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {view.stats.filter((row) => row.key !== "impliedCapPct").map((row) => (
-                  <div key={row.key} className="card p-4">
-                    <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-2">
-                      {row.label}
-                      <span className="ml-2 normal-case font-normal text-slate-400 tracking-normal">subject (gold) · comps (navy, numbered)</span>
-                    </div>
-                    <MetricBars
-                      kind={row.kind}
-                      items={[
-                        ...(s ? [{ label: "S", value: row.subject, isSubject: true }] : []),
-                        ...orderedMatched.map((c, i) => ({
-                          label: String(i + 1),
-                          value: statValue(c as unknown as Record<string, unknown>, row.key),
-                          isSubject: false,
-                        })),
-                      ]}
-                    />
-                  </div>
-                ))}
-              </div>
-            }
-            table={
-          <div className="card overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
-                  <th className="px-3 py-2 text-left">Metric</th>
-                  <th className="px-3 py-2 text-right">Subject</th>
-                  <th className="px-3 py-2 text-right">Min</th>
-                  <th className="px-3 py-2 text-right">Median</th>
-                  <th className="px-3 py-2 text-right">Max</th>
-                  <th className="px-3 py-2 text-center w-[45%] min-w-[380px]" title="comps (navy) · median (tick) · subject (gold)">Distribution</th>
-                </tr>
-              </thead>
-              <tbody>
-                {view.stats.filter((row) => row.key !== "impliedCapPct").map((row) => {
-                  const values = orderedMatched
-                    .map((c) => statValue(c as unknown as Record<string, unknown>, row.key))
-                    .filter((v): v is number => v != null);
-                  return (
-                    <Fragment key={row.key}>
-                    {/* Two parts per Mason (9/22/26): Cost Basis, then Loan Amount. */}
-                    {(row.key === "totalProjectCost" || row.key === "loanAmount") && (
-                      <tr className="bg-slate-50 border-b border-slate-200">
-                        <td colSpan={6} className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                          {row.key === "totalProjectCost" ? "Total Cost Basis" : "Loan Amount"}
-                        </td>
-                      </tr>
-                    )}
-                    <tr className="border-b border-slate-100">
-                      <td className="px-3 py-2">{row.label}{
-                        // Range flag (Mason, 9/22/26): every metric with a
-                        // subject value and a comp range gets one — green
-                        // within, red below/above.
-                        row.subject != null && row.min != null && row.max != null && (
-                          row.subject < row.min
-                            ? <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">below range</span>
-                            : row.subject > row.max
-                              ? <span className="badge bg-red-50 text-red-700 border-red-200 ml-2">above range</span>
-                              : <span className="badge bg-green-50 text-green-700 border-green-200 ml-2">within range</span>
-                        )
-                      }</td>
-                      <td className="px-3 py-2 text-right tabular-nums font-medium">{fmtBy(row.kind, row.subject)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.min)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.median)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{fmtBy(row.kind, row.max)}</td>
-                      <td className="px-3 py-2">
-                        <MetricStrip kind={row.kind} values={values} subject={row.subject} median={row.median} />
-                      </td>
-                    </tr>
-                    </Fragment>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-            }
+            table={<StatsTable mode="strips" rows={view.stats} comps={orderedMatched as unknown as Record<string, unknown>[]} hasSubject={s != null} />}
+            bars={<StatsTable mode="bars" rows={view.stats} comps={orderedMatched as unknown as Record<string, unknown>[]} hasSubject={s != null} />}
           />
         </section>
       )}

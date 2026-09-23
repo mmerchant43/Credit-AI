@@ -29,6 +29,14 @@ export default async function CompMapPage() {
       lat: c.lat as number,
       lon: c.lon as number,
       precision: c.geoPrecision ?? "zip",
+      // Filter fields (Mason, 9/23/26) — filtering happens client-side, so
+      // the dots update instantly.
+      category: c.category,
+      state: c.state,
+      yearBuilt: c.yearBuilt,
+      loanAmount: c.loanAmount,
+      debtYieldPct: c.debtYieldPct,
+      units: c.units,
     }));
   const unmappable = comps.length - points.length;
 

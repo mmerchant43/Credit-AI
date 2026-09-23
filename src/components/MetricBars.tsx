@@ -10,16 +10,18 @@ export interface BarItem {
 }
 
 export default function MetricBars({
-  kind, items,
+  kind, items, h = 200,
 }: {
   kind: "usd" | "pct" | "x" | "num";
   items: BarItem[];
+  /** viewBox height — 200 standalone; ~130 inline in the stats table (Mason, 9/23/26). */
+  h?: number;
 }) {
   const vals = items.map((i) => i.value).filter((v): v is number => v != null && isFinite(v));
   if (vals.length === 0)
     return <div className="text-center text-xs text-slate-400 py-8">no values</div>;
 
-  const W = 420, H = 200, PAD = 14, TOP = 30, BOT = 20;
+  const W = 420, H = h, PAD = 14, TOP = 30, BOT = 20;
   const n = items.length;
   const slot = (W - PAD * 2) / n;
   const barW = Math.min(36, Math.max(8, slot * 0.68));

@@ -28,6 +28,7 @@ export function TopBar() {
         <nav className="hidden md:flex items-center gap-1 text-sm text-white/80">
           <Link className="px-2 py-1 rounded-sm hover:text-white hover:bg-white/10 font-semibold text-white" href="/">Home</Link>
           <Link className="px-2 py-1 rounded-sm hover:text-white hover:bg-white/10" href="/comps">Comps</Link>
+          <Link className="px-2 py-1 rounded-sm hover:text-white hover:bg-white/10" href="/map">Comp Map</Link>
         </nav>
         <div className="flex-1" />
         <div className="relative">
