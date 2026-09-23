@@ -5,7 +5,7 @@
 // strip fills its column at a taller, larger-type scale so the distribution
 // is actually readable.
 
-function fmtShort(kind: string, v: number): string {
+export function fmtShort(kind: string, v: number): string {
   if (kind === "usd") {
     if (Math.abs(v) >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}M`;
     if (Math.abs(v) >= 1_000) return `$${Math.round(v / 1000)}K`;

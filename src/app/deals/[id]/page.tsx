@@ -11,6 +11,8 @@ import { ensureCoords, ensureAddressCoords } from "@/lib/geo";
 import CriteriaPanel from "@/components/CriteriaPanel";
 import DealMap, { type MapPoint, type UnmappedComp } from "@/components/DealMap";
 import MetricStrip from "@/components/MetricStrip";
+import MetricBars from "@/components/MetricBars";
+import StatsViewToggle from "@/components/StatsViewToggle";
 import { RemoveCompButton, UndoRemoveButton } from "@/components/CompRemove";
 
 export const dynamic = "force-dynamic";
@@ -144,6 +146,7 @@ export default async function DealAnalysisPage({
       capRate: number | null; saleDate: string | null; isSubject: boolean | null;
     }[];
     fromOmUpload?: boolean;
+    setLabel?: string | null;
     projectedRents?: { avgRent: number | null; rentPsf: number | null } | null;
   };
 
@@ -152,7 +155,7 @@ export default async function DealAnalysisPage({
     candidatesScreened: number; modeLabel: string; matchedCount: number; live: boolean;
   };
 
-  if (anySet) {
+  if (anySet && s) {
     const comps = excludeSameName(
       s as unknown as Screenable,
       (await prisma.creditComp.findMany({
@@ -181,6 +184,22 @@ export default async function DealAnalysisPage({
       candidatesScreened: screen.candidatesScreened,
       modeLabel, matchedCount: kept.length, live: true,
     };
+  } else if (anySet && !s) {
+    // Subject-less comp set (Mason, 9/23/26): no screening to re-run —
+    // ✕ removals just shrink the saved set, stats recomputed live.
+    const keptIds = (savedSnap.matchedIds ?? []).filter((id) => !excluded.has(id));
+    const keptFull = await prisma.creditComp.findMany({
+      where: { id: { in: keptIds }, archived: false },
+    });
+    view = {
+      matchedIds: keptIds,
+      trace: (savedSnap.trace ?? []).filter((tr) => !excluded.has(tr.compId)),
+      stats: summarize({}, keptFull as unknown as Record<string, unknown>[]),
+      candidatesScreened: savedSnap.candidatesScreened ?? keptIds.length,
+      modeLabel: "hand-picked comps (live)",
+      matchedCount: keptIds.length,
+      live: true,
+    };
   } else {
     view = {
       matchedIds: savedSnap.matchedIds ?? [], trace: savedSnap.trace ?? [], stats: savedSnap.stats ?? [],
@@ -201,13 +220,13 @@ export default async function DealAnalysisPage({
     .map((id) => matched.find((m) => m.id === id))
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
   if (!view.live) view.matchedCount = orderedMatched.length;
-  const rows = [{ r: s, isSubject: true }, ...orderedMatched.map((r) => ({ r, isSubject: false }))];
+  const rows = [...(s ? [{ r: s, isSubject: true }] : []), ...orderedMatched.map((r) => ({ r, isSubject: false }))];
 
   const avail = {
-    zip: Boolean(s.zip),
-    yearBuilt: s.yearBuilt != null,
-    occupancy: s.category !== "CONSTRUCTION" && s.occupancyPct != null,
-    category: Boolean(s.category),
+    zip: Boolean(s?.zip),
+    yearBuilt: s?.yearBuilt != null,
+    occupancy: s != null && s.category !== "CONSTRUCTION" && s.occupancyPct != null,
+    category: Boolean(s?.category),
   };
 
   // ── Map data: subject + matched comps. Comps get a pin ONLY at exact,
@@ -215,22 +234,22 @@ export default async function DealAnalysisPage({
   //    no dot (Mason, 9/22/26); those comps are flagged below the map with
   //    an address box instead. The subject keeps its pin at any precision
   //    (it anchors the radius/boundary tools; its popup says "approximate"). ──
-  const mapRows = [s, ...orderedMatched];
+  const mapRows = s ? [s, ...orderedMatched] : [...orderedMatched];
   await ensureCoords(mapRows);
   await ensureAddressCoords(mapRows);
   // Pin labels match the Comparison table: S = subject, 1..N = comp order.
   const numById = new Map<string, string>(orderedMatched.map((m, i) => [m.id, String(i + 1)]));
   const mapPoints: MapPoint[] = mapRows
-    .filter((r) => r.lat != null && r.lon != null && (r.id === s.id || r.geoPrecision === "address"))
+    .filter((r) => r.lat != null && r.lon != null && (r.id === s?.id || r.geoPrecision === "address"))
     .map((r) => ({
       id: r.id,
       name: r.propertyName ?? r.dealName ?? "—",
       lat: r.lat as number,
       lon: r.lon as number,
-      isSubject: r.id === s.id,
+      isSubject: r.id === s?.id,
       precision: r.geoPrecision ?? "zip",
       detail: [[r.city, r.state].filter(Boolean).join(", "), r.zip, fmtMoney(r.loanAmount)].filter(Boolean).join(" · "),
-      label: r.id === s.id ? "S" : numById.get(r.id) ?? "•",
+      label: r.id === s?.id ? "S" : numById.get(r.id) ?? "•",
     }));
   // Everything not on the map gets flagged with an inline address box —
   // save an address and the pin appears (Mason, 9/22/26).
@@ -238,7 +257,7 @@ export default async function DealAnalysisPage({
     .filter((r) => r.lat == null || r.lon == null || !r.address || r.geoPrecision !== "address")
     .map((r) => ({
       id: r.id,
-      name: (r.propertyName ?? r.dealName ?? "—") + (r.id === s.id ? " (Subject)" : ""),
+      name: (r.propertyName ?? r.dealName ?? "—") + (r.id === s?.id ? " (Subject)" : ""),
       location: [r.city, r.state].filter(Boolean).join(", ") || "location unknown",
       hasAddress: Boolean(r.address),
     }))
@@ -247,12 +266,13 @@ export default async function DealAnalysisPage({
   return (
     <div className="space-y-8 pb-10">
       <div className="section-head">
-        <h2>Deal Analysis — {s.propertyName ?? s.dealName ?? "Subject"}</h2>
+        <h2>Deal Analysis — {s ? s.propertyName ?? s.dealName ?? "Subject" : savedSnap.setLabel ?? "Comp Set"}</h2>
         <div className="rule" />
         <Link href="/deals/new" className="btn text-sm">+ New Analysis</Link>
       </div>
 
-      {/* Subject snapshot */}
+      {/* Subject snapshot — absent on a subject-less comp set */}
+      {s && (
       <section className="card human p-4">
         <div className="flex flex-wrap gap-x-8 gap-y-2 text-base">
           <span><b className="font-display text-lg">{s.propertyName ?? DASH}</b></span>
@@ -287,10 +307,14 @@ export default async function DealAnalysisPage({
         ) : null}
       </section>
 
-      {/* Screening criteria — inline card; location lives on the map below */}
-      <Suspense>
-        <CriteriaPanel avail={avail} />
-      </Suspense>
+      )}
+
+      {/* Screening criteria — subject-relative, so hidden on a comp set */}
+      {s && (
+        <Suspense>
+          <CriteriaPanel avail={avail} />
+        </Suspense>
+      )}
 
       {/* Map — subject + matched comps; radius control lives on the map.
           The ring only renders when it reflects the match set on screen
@@ -300,11 +324,13 @@ export default async function DealAnalysisPage({
           points={mapPoints}
           unmapped={unmapped}
           radiusMiles={
-            view.live
-              ? (criteria.location === "radius" ? criteria.radiusMiles : null)
-              : (analysis.locationMode === "radius" ? criteria.radiusMiles : null)
+            s == null
+              ? null
+              : view.live
+                ? (criteria.location === "radius" ? criteria.radiusMiles : null)
+                : (analysis.locationMode === "radius" ? criteria.radiusMiles : null)
           }
-          polygon={view.live && criteria.location === "polygon" ? criteria.polygon ?? null : null}
+          polygon={s != null && view.live && criteria.location === "polygon" ? criteria.polygon ?? null : null}
         />
       </Suspense>
 
@@ -381,10 +407,36 @@ export default async function DealAnalysisPage({
         </div>
       </section>
 
-      {/* Subject vs. comps — line charts */}
+      {/* Subject vs. comps — distribution strips, flippable to per-deal
+          vertical bars (Mason, 9/23/26): subject gold, comps Crow navy. */}
       {view.matchedCount > 0 && (
         <section>
-          <div className="section-head"><h2>Subject vs. Comps</h2><div className="rule" /></div>
+          <div className="section-head"><h2>{s ? "Subject vs. Comps" : "Comp Set Metrics"}</h2><div className="rule" /></div>
+          <StatsViewToggle
+            bars={
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {view.stats.filter((row) => row.key !== "impliedCapPct").map((row) => (
+                  <div key={row.key} className="card p-4">
+                    <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-2">
+                      {row.label}
+                      <span className="ml-2 normal-case font-normal text-slate-400 tracking-normal">subject (gold) · comps (navy, numbered)</span>
+                    </div>
+                    <MetricBars
+                      kind={row.kind}
+                      items={[
+                        ...(s ? [{ label: "S", value: row.subject, isSubject: true }] : []),
+                        ...orderedMatched.map((c, i) => ({
+                          label: String(i + 1),
+                          value: statValue(c as unknown as Record<string, unknown>, row.key),
+                          isSubject: false,
+                        })),
+                      ]}
+                    />
+                  </div>
+                ))}
+              </div>
+            }
+            table={
           <div className="card overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -439,6 +491,8 @@ export default async function DealAnalysisPage({
               </tbody>
             </table>
           </div>
+            }
+          />
         </section>
       )}
 
@@ -495,11 +549,11 @@ export default async function DealAnalysisPage({
                     ? { ...subjRow, avgRent: subjRow.avgRent ?? proj?.avgRent ?? null, rentPsf: subjRow.rentPsf ?? proj?.rentPsf ?? null }
                     : proj
                       ? {
-                          name: s.propertyName ?? s.dealName ?? "Subject",
-                          city: s.city, state: s.state,
-                          units: s.units, yearBuilt: s.yearBuilt,
+                          name: s?.propertyName ?? s?.dealName ?? "Subject",
+                          city: s?.city ?? null, state: s?.state ?? null,
+                          units: s?.units ?? null, yearBuilt: s?.yearBuilt ?? null,
                           // omRentComps occupancy is AS PERCENT; the deal record stores a fraction.
-                          occupancyPct: s.category === "CONSTRUCTION" || s.occupancyPct == null ? null : s.occupancyPct * 100,
+                          occupancyPct: !s || s.category === "CONSTRUCTION" || s.occupancyPct == null ? null : s.occupancyPct * 100,
                           avgRent: proj.avgRent, rentPsf: proj.rentPsf, isSubject: true,
                         }
                       : undefined;

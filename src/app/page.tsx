@@ -21,6 +21,14 @@ const Icons = {
   search: (
     <svg viewBox="0 0 48 48"><circle cx="21" cy="21" r="12" /><path d="M30 30l10 10" strokeLinecap="round" /></svg>
   ),
+  map: (
+    // Folded map with a location pin — the national Comp Map (Mason, 9/23/26)
+    <svg viewBox="0 0 48 48">
+      <path d="M8 14l10-4 12 4 10-4v24l-10 4-12-4-10 4z" strokeLinejoin="round" />
+      <path d="M18 10v24M30 14v24" />
+      <circle cx="24" cy="22" r="4" />
+    </svg>
+  ),
 };
 
 export default async function Home() {
@@ -37,9 +45,12 @@ export default async function Home() {
 
   const toItem = (a: (typeof recent)[number]) => ({
     id: a.id,
-    subjectName: a.subject.propertyName ?? a.subject.dealName ?? "Subject",
-    location: [a.subject.city, a.subject.state].filter(Boolean).join(", "),
-    category: a.subject.category === "BRIDGE_REFI" ? "Bridge / Refi" : a.subject.category === "CONSTRUCTION" ? "Construction" : "—",
+    // A subject-less comp set (Mason, 9/23/26) has no subject row at all.
+    subjectName:
+      a.subject?.propertyName ?? a.subject?.dealName ??
+      ((a.snapshot as { setLabel?: string } | null)?.setLabel ?? "Comp Set"),
+    location: a.subject ? [a.subject.city, a.subject.state].filter(Boolean).join(", ") : "",
+    category: a.subject?.category === "BRIDGE_REFI" ? "Bridge / Refi" : a.subject?.category === "CONSTRUCTION" ? "Construction" : "—",
     matchedCount: a.matchedCount,
     createdBy: a.createdBy,
     createdAt: a.createdAt,
@@ -49,9 +60,10 @@ export default async function Home() {
   const recentDeals = recent.filter((a) => !a.pinned).slice(0, 8).map(toItem);
 
   const tiles = [
-    { href: "/deals/new", label: "New Deal Analysis", icon: Icons.deal },
+    { href: "/deals/new", label: "Analyze a New Deal", icon: Icons.deal },
     { href: "/comps/new", label: "Add a Comp", icon: Icons.add },
     { href: "/comps", label: "Search Comps", icon: Icons.search },
+    { href: "/map", label: "Comp Map", icon: Icons.map },
   ];
 
   return (
@@ -61,7 +73,7 @@ export default async function Home() {
           <h2>Quick Actions</h2>
           <div className="rule" />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {tiles.map((t) => (
             <Link key={t.href} href={t.href} className="tile">
               {t.icon}

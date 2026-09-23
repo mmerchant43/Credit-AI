@@ -189,8 +189,10 @@ model CompMetricYear {
 /// future deal. The matched set and stats are snapshotted for reproducibility.
 model DealAnalysis {
   id           String     @id @default(cuid())
-  subjectId    String
-  subject      CreditComp @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  // subjectId is OPTIONAL (Mason, 9/23/26): a comp-set analysis — comps
+  // selected on the comps page — has no subject at all.
+  subjectId    String?
+  subject      CreditComp? @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   locationMode String // "zip" | "city" | "none"
   matchedCount Int
   pinned       Boolean    @default(false) // starred on the homepage (Mason, 9/22/26)
