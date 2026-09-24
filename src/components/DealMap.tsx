@@ -188,6 +188,10 @@ export default function DealMap({
         dots: [] as import("leaflet").CircleMarker[],
       };
       let verts: [number, number][] = [];
+      // The radius ring + drag handle, when drawn below — hidden while a
+      // boundary is being sketched so only the corner clicks show
+      // (Mason, 9/24/26), restored on Cancel.
+      const radiusLayers: import("leaflet").Layer[] = [];
       const clearSketch = () => {
         sketch.line?.remove();
         sketch.dots.forEach((d) => d.remove());
@@ -200,6 +204,7 @@ export default function DealMap({
         start: () => {
           if (!map) return;
           clearSketch();
+          radiusLayers.forEach((l) => l.remove()); // circle out of the way
           sketch.line = L.polyline([], { color: "#A78C52", weight: 2, dashArray: "6 4" }).addTo(map);
           drawingRef.current = true;
           setDrawing(true);
@@ -207,6 +212,7 @@ export default function DealMap({
         },
         cancel: () => {
           clearSketch();
+          if (map) radiusLayers.forEach((l) => l.addTo(map!)); // circle back
           drawingRef.current = false;
           setDrawing(false);
           map?.doubleClickZoom.enable();
@@ -339,6 +345,7 @@ export default function DealMap({
           const mi = Math.round(haversineMi(subject.lat, subject.lon, p.lat, p.lng) * 100) / 100;
           pushRadius(mi);
         });
+        radiusLayers.push(circle, handle); // hidden while sketching a boundary
       }
       if (viewRef.current) {
         // The user has positioned the map — keep their view across re-screens.

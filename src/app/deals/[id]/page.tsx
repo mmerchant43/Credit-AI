@@ -113,12 +113,13 @@ function parseCriteria(p: Params): { criteria: Criteria; anySet: boolean } {
 //    Distribution column holds either the range strip or, toggled, a
 //    vertical bar chart per deal in the SAME cell — same table, taller rows.
 function StatsTable({
-  mode, rows, comps, hasSubject,
+  mode, rows, comps, hasSubject, subjectName,
 }: {
   mode: "strips" | "bars";
   rows: StatRow[];
-  comps: Record<string, unknown>[]; // orderedMatched, table order = bar order
+  comps: Record<string, unknown>[]; // orderedMatched — numbering source
   hasSubject: boolean;
+  subjectName: string;
 }) {
   return (
     <div className="card overflow-x-auto">
@@ -176,9 +177,10 @@ function StatsTable({
                       kind={row.kind}
                       h={130}
                       items={[
-                        ...(hasSubject ? [{ label: "S", value: row.subject, isSubject: true }] : []),
+                        ...(hasSubject ? [{ label: "S", name: subjectName, value: row.subject, isSubject: true }] : []),
                         ...comps.map((c, i) => ({
                           label: String(i + 1),
+                          name: String(c.propertyName ?? c.dealName ?? `Comp ${i + 1}`),
                           value: statValue(c, row.key),
                           isSubject: false,
                         })),
@@ -368,7 +370,7 @@ export default async function DealAnalysisPage({
           <span>Units: <b>{s.units ?? DASH}</b></span>
           <span>Stories: <b>{s.stories ?? DASH}</b></span>
           <span>Vintage: <b>{s.yearBuilt ?? DASH}</b></span>
-          <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? DASH : fmtPct(s.occupancyPct, 1)}</b></span>
+          <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? "0% (not built yet)" : fmtPct(s.occupancyPct, 1)}</b></span>
           {/* Projected rents live in the Lease Comps subject row, not here (Mason, 9/23/26). */}
           {s.omLink && (
             <a href={s.omLink} target="_blank" rel="noopener noreferrer" className="text-accent underline font-medium">
@@ -502,8 +504,8 @@ export default async function DealAnalysisPage({
         <section>
           <div className="section-head"><h2>{s ? "Subject vs. Comps" : "Comp Set Metrics"}</h2><div className="rule" /></div>
           <StatsViewToggle
-            table={<StatsTable mode="strips" rows={view.stats} comps={orderedMatched as unknown as Record<string, unknown>[]} hasSubject={s != null} />}
-            bars={<StatsTable mode="bars" rows={view.stats} comps={orderedMatched as unknown as Record<string, unknown>[]} hasSubject={s != null} />}
+            table={<StatsTable mode="strips" rows={view.stats} comps={orderedMatched as unknown as Record<string, unknown>[]} hasSubject={s != null} subjectName={s?.propertyName ?? s?.dealName ?? "Subject"} />}
+            bars={<StatsTable mode="bars" rows={view.stats} comps={orderedMatched as unknown as Record<string, unknown>[]} hasSubject={s != null} subjectName={s?.propertyName ?? s?.dealName ?? "Subject"} />}
           />
         </section>
       )}
