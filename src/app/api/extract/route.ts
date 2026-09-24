@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     // budget on internal reasoning and truncate). Fallback: retry without the
     // thinking param if the API rejects it, and retry once terser if the
     // response still hits the length ceiling.
-    const call = async (promptSuffix: string, withThinking: boolean) =>
+    const call = async (promptSuffix: string, withThinking: boolean, charBudget = 180000) =>
       fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
           model: "claude-sonnet-5",
           max_tokens: 28000,
           ...(withThinking ? { thinking: { type: "disabled" } } : {}),
-          messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, 180000) + promptSuffix }],
+          messages: [{ role: "user", content: EXTRACTION_PROMPT + text.slice(0, charBudget) + promptSuffix }],
         }),
         signal: AbortSignal.timeout(280000),
       });
@@ -76,13 +76,32 @@ export async function POST(req: Request) {
     let thinkingOk = true;
     let res = await call("", thinkingOk);
     if (res.status === 400) {
+      // A 400 has a REASON — read it and say it (Mason, 9/24/26: the old
+      // catch-all "rejected the request" hid what was actually wrong).
       const detail = await res.text().catch(() => "");
+      const apiMsg =
+        ((): string => {
+          try { return (JSON.parse(detail) as { error?: { message?: string } }).error?.message ?? ""; }
+          catch { return ""; }
+        })().slice(0, 200);
       if (/thinking/i.test(detail)) {
         thinkingOk = false;
         res = await call("", thinkingOk); // param unsupported — retry plain
+      } else if (/credit balance|billing|purchase credits/i.test(detail)) {
+        console.error("anthropic 400 credits", detail.slice(0, 300));
+        return NextResponse.json(
+          { error: "The Anthropic API account is out of credits — add credits at console.anthropic.com (Billing), then try again. Enter the deal manually in the meantime." },
+          { status: 502 }
+        );
+      } else if (/too long|too many tokens|maximum.*tokens|max.*context/i.test(detail)) {
+        // OM text blew the input limit — one automatic retry on a shorter slice.
+        res = await call("", thinkingOk, 120000);
       } else {
         console.error("anthropic 400", detail.slice(0, 300));
-        return NextResponse.json({ error: "Extraction service rejected the request. Try again, or enter the deal manually." }, { status: 502 });
+        return NextResponse.json(
+          { error: `Extraction service rejected the request${apiMsg ? ` — "${apiMsg}"` : ""}. Try again, or enter the deal manually.` },
+          { status: 502 }
+        );
       }
     }
     if (res.ok) {
@@ -110,7 +129,15 @@ export async function POST(req: Request) {
           { status: 502 }
         );
       }
-      return NextResponse.json({ error: `Extraction service error (${res.status}). Try again, or enter the deal manually.` }, { status: 502 });
+      const tailMsg =
+        ((): string => {
+          try { return (JSON.parse(detail) as { error?: { message?: string } }).error?.message ?? ""; }
+          catch { return ""; }
+        })().slice(0, 200);
+      return NextResponse.json(
+        { error: `Extraction service error (${res.status})${tailMsg ? ` — "${tailMsg}"` : ""}. Try again, or enter the deal manually.` },
+        { status: 502 }
+      );
     }
     const body = (await res.json()) as { content?: { type: string; text?: string }[]; stop_reason?: string };
     if (body.stop_reason === "max_tokens") {
