@@ -59,6 +59,17 @@ for (const r of records) {
   }
   try {
     const existing = await prisma.creditComp.findUnique({ where: { sourceKey } });
+    // If the seed changes a row's zip or address and doesn't itself carry
+    // coordinates, clear the old ones (and any failed-geocode sentinel) so
+    // the site re-geocodes from the new location (Mason, 9/23/26).
+    if (
+      existing && fields.lat == null &&
+      ((fields.zip ?? null) !== (existing.zip ?? null) || (fields.address ?? null) !== (existing.address ?? null))
+    ) {
+      fields.lat = null;
+      fields.lon = null;
+      fields.geoPrecision = null;
+    }
     const comp = existing
       ? await prisma.creditComp.update({ where: { sourceKey }, data: fields })
       : await prisma.creditComp.create({ data: { ...fields, sourceKey } });
