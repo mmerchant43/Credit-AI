@@ -14,6 +14,7 @@ import MetricStrip from "@/components/MetricStrip";
 import MetricBars from "@/components/MetricBars";
 import StatsViewToggle from "@/components/StatsViewToggle";
 import { RemoveCompButton, UndoRemoveButton } from "@/components/CompRemove";
+import DeadToggle from "@/components/DeadToggle";
 
 export const dynamic = "force-dynamic";
 // First view of an analysis geocodes its pins (Census/zip lookups) before
@@ -357,6 +358,7 @@ export default async function DealAnalysisPage({
       <div className="section-head">
         <h2>Deal Analysis — {s ? s.propertyName ?? s.dealName ?? "Subject" : savedSnap.setLabel ?? "Comp Set"}</h2>
         <div className="rule" />
+        <DeadToggle id={analysis.id} dead={analysis.dead} name={s?.propertyName ?? s?.dealName ?? "this deal"} />
         <Link href="/deals/new" className="btn text-sm">+ New Analysis</Link>
       </div>
 

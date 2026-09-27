@@ -37,7 +37,7 @@ export default async function Home() {
     prisma.creditComp.groupBy({ by: ["market"], where: { archived: false } }).then((g) => g.length).catch(() => 0),
     prisma.dealAnalysis.findMany({
       where: { archived: false },
-      orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
+      orderBy: [{ pinned: "desc" }, { dead: "asc" }, { createdAt: "desc" }],
       take: 30,
       include: { subject: true },
     }).catch(() => []),
@@ -55,6 +55,7 @@ export default async function Home() {
     createdBy: a.createdBy,
     createdAt: a.createdAt,
     pinned: a.pinned,
+    dead: a.dead,
   });
   const pinnedDeals = recent.filter((a) => a.pinned).map(toItem);
   const recentDeals = recent.filter((a) => !a.pinned).slice(0, 8).map(toItem);

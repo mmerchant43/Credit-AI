@@ -196,6 +196,7 @@ model DealAnalysis {
   locationMode String // "zip" | "city" | "none"
   matchedCount Int
   pinned       Boolean    @default(false) // starred on the homepage (Mason, 9/22/26)
+  dead         Boolean    @default(false) // deal marked DEAD (Mason, 9/25/26) — stays listed, badged, sorted below live deals
   archived     Boolean    @default(false) // ✕'d off the homepage — never hard-deleted
   snapshot     Json // { matchedIds, trace, stats } as computed at save time
   createdBy    String? // signed-in user's name

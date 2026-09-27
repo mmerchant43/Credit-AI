@@ -2,6 +2,7 @@
 import Link from "next/link";
 import PinStar from "./PinStar";
 import ArchiveAnalysis from "./ArchiveAnalysis";
+import DeadToggle from "./DeadToggle";
 
 export interface AnalysisListItem {
   id: string;
@@ -12,6 +13,7 @@ export interface AnalysisListItem {
   createdBy: string | null;
   createdAt: Date;
   pinned: boolean;
+  dead: boolean;
 }
 
 export function ActiveDealAnalyses({
@@ -40,7 +42,7 @@ export function ActiveDealAnalyses({
       ) : (
         <div className="card divide-y divide-slate-100">
           {analyses.map((a) => (
-            <div key={a.id} className="flex items-center gap-2 px-4 py-3 hover:bg-slate-50">
+            <div key={a.id} className={`flex items-center gap-2 px-4 py-3 hover:bg-slate-50 ${a.dead ? "opacity-60" : ""}`}>
               <PinStar id={a.id} pinned={a.pinned} />
               <Link href={`/deals/${a.id}`} className="flex flex-1 items-center justify-between gap-4 min-w-0">
                 <span className="text-sm truncate">
@@ -52,6 +54,7 @@ export function ActiveDealAnalyses({
                   {a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                 </span>
               </Link>
+              <DeadToggle id={a.id} dead={a.dead} name={a.subjectName} />
               <ArchiveAnalysis id={a.id} name={a.subjectName} />
             </div>
           ))}

@@ -32,9 +32,11 @@ export default async function CompMapPage() {
       // Filter fields (Mason, 9/23/26) — filtering happens client-side, so
       // the dots update instantly.
       category: c.category,
+      city: c.city,
       state: c.state,
       yearBuilt: c.yearBuilt,
       loanAmount: c.loanAmount,
+      loanPerUnit: c.loanPerUnit,
       debtYieldPct: c.debtYieldPct,
       units: c.units,
     }));

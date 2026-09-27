@@ -4383,7 +4383,7 @@
  {
   "sourceKey": "38556d1220fe",
   "propertyName": "Adelaide at Park Eight",
-  "address": null,
+  "address": "10200 Bellaire Blvd",
   "city": "Houston",
   "state": "TX",
   "zip": "77072",
@@ -4418,7 +4418,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: TX, Houston - Adelaide at Park Eight.pdf",
-  "notes": "Category evidence: Proposed mixed-use development (386 micro/studio units + 8,000 SF retail) within a larger 70-acre master-planned project; construction has not started (start date July 2023), address listed as 'TBD', and underwriting is a development cost budget with pro forma untrended/trended NOI, not a rent roll or T-12. Initial multifamily occupancy not projected until Nov 2024.\nPricing/Interest Rate listed only as 'Best Available' (Amortization: Interest Only); no index, spread, or numeric rate stated. Term shown as '3+1+1' (3-year initial term + two 1-year extension options); termMonths captures only the 36-month initial term. No LTV given, only 60% LTC. No cap rate stated anywhere - only in-place/stabilized debt yield (10.7%/11.3%); DSCR is not given for either period. Net Multifamily Rentable Area is 171,768 SF; total project NRSF including the 8,000 SF of retail is 179,768 SF (used for the loan $/SF calc). Address field explicitly states 'TBD'. No explicit OM date stated; construction close date is anticipated Q3 2023, implying the OM predates that.\nExtraction confidence: medium",
+  "notes": "Category evidence: Proposed mixed-use development (386 micro/studio units + 8,000 SF retail) within a larger 70-acre master-planned project; construction has not started (start date July 2023), address listed as 'TBD', and underwriting is a development cost budget with pro forma untrended/trended NOI, not a rent roll or T-12. Initial multifamily occupancy not projected until Nov 2024.\nPricing/Interest Rate listed only as 'Best Available' (Amortization: Interest Only); no index, spread, or numeric rate stated. Term shown as '3+1+1' (3-year initial term + two 1-year extension options); termMonths captures only the 36-month initial term. No LTV given, only 60% LTC. No cap rate stated anywhere - only in-place/stabilized debt yield (10.7%/11.3%); DSCR is not given for either period. Net Multifamily Rentable Area is 171,768 SF; total project NRSF including the 8,000 SF of retail is 179,768 SF (used for the loan $/SF calc). Address field explicitly states 'TBD'. No explicit OM date stated; construction close date is anticipated Q3 2023, implying the OM predates that.\nExtraction confidence: medium\nAddress looked up from public sources (LoopNet/CultureMap - Park Eight Place (Adelaide Real Estate); confidence high) - NOT OM-stated - 9/24/26.",
   "metricYears": [
    {
     "yearLabel": "In-Place (Untrended)",
@@ -5252,7 +5252,7 @@
  {
   "sourceKey": "41d3651ca2d0",
   "propertyName": "Iron District Phase I - Wrap Multifamily",
-  "address": null,
+  "address": "1335 S Clarkson St",
   "city": "Charlotte",
   "state": "NC",
   "zip": "28208",
@@ -5287,7 +5287,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: NC, Charlotte - 700 Central.pdf",
-  "notes": "Category evidence: Ground-up development on a former foundry site (operations halted late 2024); package presents a project cost budget/sources & uses, ground lease terms, and a 2028 delivery date for Phase 1 - no rent roll, T-12, or in-place occupancy.\nThis OM offers combined equity+debt capitalization for a two-parcel mixed-use Phase 1 (Wrap Multifamily 294 units + separate Office tower 225,687 SF); figures captured here are for the Wrap Multifamily component only. Office component (not a multifamily asset): Total Uses $132,585,671 ($587/NRSF), Debt (55%) $72,922,119, Equity (45%) $59,663,552. No LTV, interest rate, term, DSCR, debt yield, or cap rate stated for either component - this is an early-stage capital-raise package, not a lender term sheet. 'Debt (55%)' is interpreted as loan-to-cost of 55%; site has no street address/zip given, only 'Iron District' / Charlotte urban core intersection of CBD, South End and FreeMoreWest submarkets. Cover disclaimer copyright dated 2025; no explicit OM month/date found. Pre-development cost-sharing of $1.5mm mentioned for Wrap Multifamily but not part of the capital stack tables.\nExtraction confidence: medium\nZip 28208 pulled from the OM text on re-read (was blank) - 9/23/26.",
+  "notes": "Category evidence: Ground-up development on a former foundry site (operations halted late 2024); package presents a project cost budget/sources & uses, ground lease terms, and a 2028 delivery date for Phase 1 - no rent roll, T-12, or in-place occupancy.\nThis OM offers combined equity+debt capitalization for a two-parcel mixed-use Phase 1 (Wrap Multifamily 294 units + separate Office tower 225,687 SF); figures captured here are for the Wrap Multifamily component only. Office component (not a multifamily asset): Total Uses $132,585,671 ($587/NRSF), Debt (55%) $72,922,119, Equity (45%) $59,663,552. No LTV, interest rate, term, DSCR, debt yield, or cap rate stated for either component - this is an early-stage capital-raise package, not a lender term sheet. 'Debt (55%)' is interpreted as loan-to-cost of 55%; site has no street address/zip given, only 'Iron District' / Charlotte urban core intersection of CBD, South End and FreeMoreWest submarkets. Cover disclaimer copyright dated 2025; no explicit OM month/date found. Pre-development cost-sharing of $1.5mm mentioned for Wrap Multifamily but not part of the capital stack tables.\nExtraction confidence: medium\nZip 28208 pulled from the OM text on re-read (was blank) - 9/23/26.\nAddress looked up from public sources (Trammell Crow / Daily Herald coverage of Iron District Phase I (press unit counts vary by phase); confidence medium) - NOT OM-stated - 9/24/26.",
   "metricYears": [],
   "omPath": "2.0 - Dead/NC, Charlotte - 700 Central.pdf"
  },
@@ -5593,7 +5593,7 @@
     "debtYieldPct": 0.0723
    }
   ],
-  "omPath": "2.0 - Dead/River Vista - JLL Financing Memorandum.pdf",
+  "omPath": "3.0 - Closed/River Vista - JLL Financing Memorandum.pdf",
   "lat": 27.985244,
   "lon": -82.347593,
   "geoPrecision": "address"
@@ -6928,7 +6928,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: UT, SLC - Jordan Valley Station.pdf",
-  "notes": "Category evidence: Momentum is an existing, completed (2023) 243-unit Class-A apartment community; the OM describes seeking to recapitalize the existing partnership, indicating a built, operating asset rather than a to-be-built project (a separate 16.18-acre entitled parcel for future development is also included but is not itself the financed asset).\nDigest is OCR of an image-only PDF (first 14 pages only) per the source note, and is heavily garbled; most page text is unreadable noise. No loan amount, rate, LTV/LTC, DSCR, debt yield, occupancy percentage, street address, or OM date could be located in the readable text. This appears to be an equity recapitalization/partnership offering rather than a debt financing request, so most loan-specific fields are null. Remaining entitlements on the 16.18 acres: 676 residential units, 83,200 SF office/medical, 20,120 SF retail/restaurant (not part of the built asset's unit count).\nExtraction confidence: low\nAddress/zip looked up from public sources (liveatmomentum.com / Apartments.com) - NOT OM-stated - 9/23/26.",
+  "notes": "Category evidence: Momentum is an existing, completed (2023) 243-unit Class-A apartment community; the OM describes seeking to recapitalize the existing partnership, indicating a built, operating asset rather than a to-be-built project (a separate 16.18-acre entitled parcel for future development is also included but is not itself the financed asset).\nDigest is OCR of an image-only PDF (first 14 pages only) per the source note, and is heavily garbled; most page text is unreadable noise. No loan amount, rate, LTV/LTC, DSCR, debt yield, occupancy percentage, street address, or OM date could be located in the readable text. This appears to be an equity recapitalization/partnership offering rather than a debt financing request, so most loan-specific fields are null. Remaining entitlements on the 16.18 acres: 676 residential units, 83,200 SF office/medical, 20,120 SF retail/restaurant (not part of the built asset's unit count).\nExtraction confidence: low\nAddress/zip looked up from public sources (liveatmomentum.com / Apartments.com) - NOT OM-stated - 9/23/26.\nImage-only OM (no text layer): units 243 and vintage 2023 re-verified via OCR - 9/24/26 audit.",
   "metricYears": [],
   "omPath": "2.0 - Dead/UT, SLC - Jordan Valley Station.pdf"
  },
@@ -8681,7 +8681,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: OR, Portland - Pine Street Lofts.pdf",
-  "notes": "Category evidence: To-be-built 144-unit, 7-story mid-rise construction financing opportunity; the prior single-story printing shop has been demolished/abated, land use approval obtained, vertical construction start May 2023 with completion Nov 2024 and stabilization Jun 2025; uses pro forma cash flow projections rather than in-place rent roll/T-12.\nSOURCE PDF IS IMAGE-ONLY / OCR'd for most pages per digest header, with substantial garbling on several key summary boxes (page 6/'Loan Summary' box renders as near-unreadable OCR noise). A separate, cleaner 'Loan Request Summary and Timeline' page confirms Loan Amount $28,714,241 (62.0% LTC, $199,404/unit), All-In Coupon Rate est. SOFR+350bps = 8.00%, Rate Type 3+1+1 Floating-Rate, Full-Term I/O, Non-Recourse with Completion Guarantee, Total Cost Basis $46,313,292 ($321,620/unit; one instance shows a typo'd $46,318,292), and stabilized value $63,297,763 ($440K/unit) at a 4.5% cap rate (stated separately in narrative text as $63.3MM/$439,568 per unit at 4.5% cap). A garbled OCR figure of '45.4% LTV' appears on the construction-loan summary box but is too unreliable to record given the OCR quality; a separately-labeled Perm (takeout) Loan shows Fixed 5.00% rate / 65.0% LTV / $41,143,546 amount, which is a future refinance, not the construction loan being marketed, so it was not used for the primary loan fields. No DSCR or debt-yield figures found in the readable text; only a stabilized trended Return-on-Cost of 5.89% is given. No street address or zip stated; general location given only as the Buckman neighborhood, Portland, OR.\nExtraction confidence: low\nZip/address looked up from public sources (Capacity Commercial listing, Pine Street Lofts) - NOT OM-stated - 9/23/26.",
+  "notes": "Category evidence: To-be-built 144-unit, 7-story mid-rise construction financing opportunity; the prior single-story printing shop has been demolished/abated, land use approval obtained, vertical construction start May 2023 with completion Nov 2024 and stabilization Jun 2025; uses pro forma cash flow projections rather than in-place rent roll/T-12.\nSOURCE PDF IS IMAGE-ONLY / OCR'd for most pages per digest header, with substantial garbling on several key summary boxes (page 6/'Loan Summary' box renders as near-unreadable OCR noise). A separate, cleaner 'Loan Request Summary and Timeline' page confirms Loan Amount $28,714,241 (62.0% LTC, $199,404/unit), All-In Coupon Rate est. SOFR+350bps = 8.00%, Rate Type 3+1+1 Floating-Rate, Full-Term I/O, Non-Recourse with Completion Guarantee, Total Cost Basis $46,313,292 ($321,620/unit; one instance shows a typo'd $46,318,292), and stabilized value $63,297,763 ($440K/unit) at a 4.5% cap rate (stated separately in narrative text as $63.3MM/$439,568 per unit at 4.5% cap). A garbled OCR figure of '45.4% LTV' appears on the construction-loan summary box but is too unreliable to record given the OCR quality; a separately-labeled Perm (takeout) Loan shows Fixed 5.00% rate / 65.0% LTV / $41,143,546 amount, which is a future refinance, not the construction loan being marketed, so it was not used for the primary loan fields. No DSCR or debt-yield figures found in the readable text; only a stabilized trended Return-on-Cost of 5.89% is given. No street address or zip stated; general location given only as the Buckman neighborhood, Portland, OR.\nExtraction confidence: low\nZip/address looked up from public sources (Capacity Commercial listing, Pine Street Lofts) - NOT OM-stated - 9/23/26.\nFinancial pages are scanned images: loan $28,714,241, $199,404/unit, 62% LTC, 144 units, 4.5% stabilized cap, 8.00% rate and 3+1+1 term re-verified via OCR; sizeSf and spread sit in OCR-illegible table regions and rest on the original vision extraction - 9/24/26 audit.",
   "metricYears": [],
   "omPath": "2.0 - Dead/OR, Portland - Pine Street Lofts.pdf"
  },
@@ -10306,10 +10306,10 @@
  {
   "sourceKey": "8e835304fbe5",
   "propertyName": "The Heights",
-  "address": null,
+  "address": "318 E Golf Rd",
   "city": "Arlington Heights",
   "state": "IL",
-  "zip": null,
+  "zip": "60005",
   "market": "Chicago, IL",
   "submarket": "Des Plaines/Arlington Heights",
   "propertyType": "MULTIFAMILY",
@@ -10341,7 +10341,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: IL, Arlington Heights - The Heights.pdf",
-  "notes": "Category evidence: Described as a '266-unit $99.9M new construction multifamily development'; Property Status listed as 'Under Contract / Municipal Approvals', with a full sources-and-uses construction budget (purchase price, hard/soft costs, developer fee) and no in-place rent roll \u2014 the rent-comp table lists the subject's Year Built as 2025 (future delivery).\nNo specific street address given; site is described as the corner of Arlington Heights Road (33,000 cars/day) and Golf Road (29,000 cars/day). Village of Arlington Heights providing $11.4M in TIF support; footnote states cost/unit nets to $332k netting out TIF and $315k netting out retail. Return on Cost given as 7.3% (trended) / 6.9% (untrended) \u2014 not labeled a cap rate, so not mapped to impliedCapPct/stabilizedCapPct. Leveraged IRR 27.8% (Deal Level), Investment Period 48 months (hold period, not loan term). No DSCR or debt yield figures stated. Market data presented as of Q4 2024; no explicit OM publish date given.\nExtraction confidence: medium",
+  "notes": "Category evidence: Described as a '266-unit $99.9M new construction multifamily development'; Property Status listed as 'Under Contract / Municipal Approvals', with a full sources-and-uses construction budget (purchase price, hard/soft costs, developer fee) and no in-place rent roll \u2014 the rent-comp table lists the subject's Year Built as 2025 (future delivery).\nNo specific street address given; site is described as the corner of Arlington Heights Road (33,000 cars/day) and Golf Road (29,000 cars/day). Village of Arlington Heights providing $11.4M in TIF support; footnote states cost/unit nets to $332k netting out TIF and $315k netting out retail. Return on Cost given as 7.3% (trended) / 6.9% (untrended) \u2014 not labeled a cap rate, so not mapped to impliedCapPct/stabilizedCapPct. Leveraged IRR 27.8% (Deal Level), Investment Period 48 months (hold period, not loan term). No DSCR or debt yield figures stated. Market data presented as of Q4 2024; no explicit OM publish date given.\nExtraction confidence: medium\nAddress looked up from public sources (Daily Herald/Crain's - International Plaza site, UrbanStreet Group, 266 units; confidence high) - NOT OM-stated - 9/24/26.",
   "metricYears": [],
   "omPath": "2.0 - Dead/IL, Arlington Heights - The Heights.pdf"
  },
@@ -10876,7 +10876,7 @@
   "sourceNote": "OM: Caldwell BFR Community on Shaw OM (March 2023) - Revised.pdf (OM date 2023-03)",
   "notes": "Category evidence: To-be-formed LP developing 28.01 acres into a 204-unit build-for-rent community; only conceptual plans, conceptual unit mix/rent roll, an 18-month construction period, and forecasted stabilized rents are given, with no existing rent roll or in-place occupancy.\nThis is a private-placement equity OM (LP investment), not a debt financing package; no loan amount, rate, LTC/LTV, or DSCR/debt yield are stated anywhere in the digest. Total land cost is $4,100,000 (28.01 acres) but no total project cost or budget breakdown is given. Return on cost is stated as 6.5-7.0% (a range, so not captured as a discrete cap field) with a target equity multiple of 1.9-2.1x. omDate of 2023-03 is taken from the filename ('March 2023'), the closest verbatim date reference available; no in-body 'as of' date was found.\nExtraction confidence: medium",
   "metricYears": [],
-  "omPath": "2.0 - Dead/Caldwell BFR Community on Shaw OM (March 2023) - Revised.pdf"
+  "omPath": "3.0 - Closed/Caldwell BFR Community on Shaw OM (March 2023) - Revised.pdf"
  },
  {
   "sourceKey": "96f82637b524",
@@ -11550,7 +11550,7 @@
   "sourceNote": "OM: Asher Spring Cypress OM 05.07.2025.pdf (OM date 2025-05)",
   "notes": "Category evidence: OM is an investment offering to fund 'the development of 25.6 acres into a 330-unit Class A multifamily project'; site is shovel-ready with Construction Start Q3 2025 / Completion Q1 2027, financials are a development cost budget (land, hard costs, soft costs, developer fee, interest carry) with sensitivity cases, and no rent roll or in-place occupancy is given (only 95% stabilized occupancy projection).\nThis OM is a direct equity offering by the sponsor (Caldwell Companies), not a third-party brokered loan submission -- no brokerage identified (Cushman & Wakefield is listed only as property manager). loanAmount/ltcPct reflect the $41,760,000 Construction Loan (61% LTC) line in the capital stack; the actual investor ask is preferred/LP equity (see omRequest). termMonths (20) taken from stated 'Construction Period' rather than an explicitly labeled loan term. No DSCR or debt-yield figures stated anywhere; Stabilized Return on Cost (7.8% base case) and Equity IRR/Multiple figures given instead. Exit/Terminal Cap Rate of 5.25% (base case) used as stabilizedCapPct; sensitivity cases show cap rates from 5.00%-5.50%. OM date taken from source filename (05.07.2025); holding period stated as 4 years with projected sale in 2028 at $88,050,000 ($266,818/unit).\nExtraction confidence: medium",
   "metricYears": [],
-  "omPath": "2.0 - Dead/Asher Spring Cypress OM 05.07.2025.pdf"
+  "omPath": "3.0 - Closed/Asher Spring Cypress OM 05.07.2025.pdf"
  },
  {
   "sourceKey": "a33a16997f8e",
@@ -11645,7 +11645,7 @@
   "sourceNote": "OM: The Collective_Financing Memorandum (1).pdf",
   "notes": "Category evidence: OM is explicitly a 'Construction Financing Request' for 'the development of The Collective'; deal includes a development budget (land, hard costs, soft costs, financing costs, operating deficit) and a Development Timeline with Loan Close/Construction Start/First Occupancy/Construction Complete dates -- no rent roll or in-place occupancy given, property does not yet exist.\nNo interest rate (stated only as 'Fixed or Floating'), spread, DSCR, debt yield, or cap rate figures found anywhere in the digest; the table of contents references a 'Financial Overview' section starting at page 31, but the digest text ends at page 21, so those pages were not available to extract from. Property sits on a 75-year ground lease with The Kuhn Foundation (commenced Nov-2021, matures Nov-2096, $60,000 initial annual payment, CPI-U annual increases, $15,000,000 purchase option) and is in an Opportunity Zone with a sponsor-stated minimum 10-year hold. Development Timeline: Loan Close/Construction Start June 2023, First Occupancy May 2025, Construction Complete November 2025, Stabilized Occupancy May 2026, Exit June 2033 -- yearBuilt (2025) taken from Construction Complete. Document's copyright footer reads '\u00a92022', which predates the stated June-2023 loan-close/construction-start timeline; no other explicit OM date found, so omDate left null.\nExtraction confidence: medium",
   "metricYears": [],
-  "omPath": "2.0 - Dead/The Collective_Financing Memorandum (1).pdf"
+  "omPath": "3.0 - Closed/The Collective_Financing Memorandum (1).pdf"
  },
  {
   "sourceKey": "a39fefba4eb7",
@@ -13757,7 +13757,7 @@
     "debtYieldPct": 0.0856
    }
   ],
-  "omPath": "2.0 - Dead/CBRE Apartments at Brayden Financing Request - 3.4.26.pdf"
+  "omPath": "3.0 - Closed/CBRE Apartments at Brayden Financing Request - 3.4.26.pdf"
  },
  {
   "sourceKey": "c5846bda7662",
@@ -16047,7 +16047,7 @@
     "debtYieldPct": null
    }
   ],
-  "omPath": "2.0 - Dead/Circa at Fishhawk Ranch - Preferred Equity FM - July 2024.pdf"
+  "omPath": "4.0 - Realized/Circa at Fishhawk Ranch - Preferred Equity FM - July 2024.pdf"
  },
  {
   "sourceKey": "e45ca92cd688",
@@ -17132,7 +17132,7 @@
  {
   "sourceKey": "f057a6f407b5",
   "propertyName": "G3 Portfolio",
-  "address": null,
+  "address": "720 SW 34th St",
   "city": "Gainesville",
   "state": "FL",
   "zip": "32607",
@@ -17167,7 +17167,7 @@
   "outcome": "PASSED",
   "outcomeNote": "Dead folder \u2014 imported from OM read-through 9/21/26",
   "sourceNote": "OM: FL, Gainesville - G3 Portfolio.pdf",
-  "notes": "Category evidence: Three existing, previously built (Mirabella 1972, Camelot 1968, Hammocks at Camelot 1965) and recently renovated (2023) apartment communities with in-place portfolio occupancy of 95.76% and full rent rolls; the request is a cash-neutral refinancing (new Fannie Mae senior loan plus preferred equity) to retire the existing mortgage, not new construction.\nThis is a 3-property portfolio (Mirabella, 720 SW 34th Street; Camelot, 3425 SW 2nd Avenue; Hammocks at Camelot, 328 SW 34th Street \u2014 all Gainesville, FL 32607, adjacent to the University of Florida), so single-value address/stories/sizeSf/yearBuilt fields are left null; per-property Year Built/Renovated are 1972/2023, 1968/2023, and 1965/2023 respectively. loanAmount/loanPerUnit/ltvPct/metricYears use the 'Last Dollar' (Senior + Preferred Equity combined) portfolio-level figures from the Equity Request Analysis table, since the preferred equity being brokered by JLL is last in the capital stack; the Senior-only portfolio metrics are In-Place LTV 65.1%, Debt Yield 7.74%, DSCR (IO) 1.58x/(Amortizing) 1.25x, with Senior Loan Amount $43,402,000 (a separate Executive Summary table cites a slightly different $43,425,000 Fannie Mae senior amount and $55,530,000 total funding request vs. this table's $55,655,000 total). Preferred Equity terms: 5-year term coterminous with the senior Fannie Mae loan; 'Spread | Current Pay' of 6.50% and 'Estimated All-In Coupon' of 13.00% (portfolio) \u2014 captured as spreadBps 650 / ratePct 0.13; the underlying Preferred Equity Annual Debt Service is exactly double under 'Total Pay' vs. 'Current Pay,' indicating an accruing/PIK component, so rateType and indexName are left null as the structure isn't a simple fixed/floating index rate. impliedCapPct (0.0504) is the portfolio 'Cap Rate' on Appraised Value/current NOI; stabilizedCapPct (0.055) is the portfolio Year-3 'Stabilized Cap Rate.' Sponsor purchased the portfolio for $56.7M in June 2022 and spent $8.6M on renovations by end of 2023, but no line item is explicitly labeled 'Total Project Cost.' No explicit OM date stated; body text references market occupancy 'as of Q125' (Q1 2025), suggesting the OM was produced in early-to-mid 2025. [Harvest2] totalProjectCost = $55,655,000, combined portfolio Total Uses of Funds (Total Sources of Funds also $55,655,000) across the two G3 Portfolio properties ($26,947,000 + $28,708,000). tpcPerUnit = $168,652 stated in the same Uses of Funds table for the combined portfolio (330 units).\nExtraction confidence: high",
+  "notes": "Category evidence: Three existing, previously built (Mirabella 1972, Camelot 1968, Hammocks at Camelot 1965) and recently renovated (2023) apartment communities with in-place portfolio occupancy of 95.76% and full rent rolls; the request is a cash-neutral refinancing (new Fannie Mae senior loan plus preferred equity) to retire the existing mortgage, not new construction.\nThis is a 3-property portfolio (Mirabella, 720 SW 34th Street; Camelot, 3425 SW 2nd Avenue; Hammocks at Camelot, 328 SW 34th Street \u2014 all Gainesville, FL 32607, adjacent to the University of Florida), so single-value address/stories/sizeSf/yearBuilt fields are left null; per-property Year Built/Renovated are 1972/2023, 1968/2023, and 1965/2023 respectively. loanAmount/loanPerUnit/ltvPct/metricYears use the 'Last Dollar' (Senior + Preferred Equity combined) portfolio-level figures from the Equity Request Analysis table, since the preferred equity being brokered by JLL is last in the capital stack; the Senior-only portfolio metrics are In-Place LTV 65.1%, Debt Yield 7.74%, DSCR (IO) 1.58x/(Amortizing) 1.25x, with Senior Loan Amount $43,402,000 (a separate Executive Summary table cites a slightly different $43,425,000 Fannie Mae senior amount and $55,530,000 total funding request vs. this table's $55,655,000 total). Preferred Equity terms: 5-year term coterminous with the senior Fannie Mae loan; 'Spread | Current Pay' of 6.50% and 'Estimated All-In Coupon' of 13.00% (portfolio) \u2014 captured as spreadBps 650 / ratePct 0.13; the underlying Preferred Equity Annual Debt Service is exactly double under 'Total Pay' vs. 'Current Pay,' indicating an accruing/PIK component, so rateType and indexName are left null as the structure isn't a simple fixed/floating index rate. impliedCapPct (0.0504) is the portfolio 'Cap Rate' on Appraised Value/current NOI; stabilizedCapPct (0.055) is the portfolio Year-3 'Stabilized Cap Rate.' Sponsor purchased the portfolio for $56.7M in June 2022 and spent $8.6M on renovations by end of 2023, but no line item is explicitly labeled 'Total Project Cost.' No explicit OM date stated; body text references market occupancy 'as of Q125' (Q1 2025), suggesting the OM was produced in early-to-mid 2025. [Harvest2] totalProjectCost = $55,655,000, combined portfolio Total Uses of Funds (Total Sources of Funds also $55,655,000) across the two G3 Portfolio properties ($26,947,000 + $28,708,000). tpcPerUnit = $168,652 stated in the same Uses of Funds table for the combined portfolio (330 units).\nExtraction confidence: high\nAddress looked up from public sources (JLL/Apartments.com - Mirabella, largest of the 3 G3 Portfolio assets; confidence high) - NOT OM-stated - 9/24/26.",
   "metricYears": [
    {
     "yearLabel": "Year 1",

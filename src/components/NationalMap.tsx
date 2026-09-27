@@ -18,12 +18,16 @@ export interface NationalPoint {
   lon: number;
   precision: string | null; // "address" or zip-centroid fallback
   category: string | null; // BRIDGE_REFI | CONSTRUCTION
+  city: string | null;
   state: string | null;
   yearBuilt: number | null;
   loanAmount: number | null;
+  loanPerUnit: number | null;
   debtYieldPct: number | null; // fraction
   units: number | null;
 }
+
+const money = (v: number | null) => (v == null ? "—" : `$${Math.round(v).toLocaleString("en-US")}`);
 
 const inRange = (v: number | null, min: string, max: string): boolean => {
   if (min === "" && max === "") return true;
@@ -136,6 +140,11 @@ export default function NationalMap({ points }: { points: NationalPoint[] }) {
     }
   }, [ready, filtered]);
 
+  const anyFilter =
+    cat !== "" || state.trim() !== "" || vinMin !== "" || vinMax !== "" ||
+    loanMin !== "" || loanMax !== "" || dyMin !== "" || dyMax !== "" || uMin !== "" || uMax !== "";
+  const LIST_CAP = 100;
+
   const colTitle = "text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1";
   const mini = "field !w-16 text-center !py-1";
   const reset = () => {
@@ -205,6 +214,61 @@ export default function NationalMap({ points }: { points: NationalPoint[] }) {
       <div className="card overflow-hidden">
         <div ref={containerRef} className="relative z-0" style={{ height: 560, width: "100%" }} />
       </div>
+
+      {/* The filtered comps, listed under the map (Mason, 9/25/26) —
+          appears as soon as any filter is active. */}
+      {anyFilter && (
+        <div className="card overflow-x-auto">
+          <div className="px-3 pt-3 pb-1 flex items-center gap-3">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+              Filtered Comps ({filtered.length})
+            </span>
+            {filtered.length > LIST_CAP && (
+              <span className="text-xs text-slate-400">showing the first {LIST_CAP} — tighten the filters to narrow down</span>
+            )}
+          </div>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-xs text-slate-500 uppercase tracking-wide border-b border-slate-200">
+                <th className="px-3 py-2 text-left">Property</th>
+                <th className="px-3 py-2 text-left">Location</th>
+                <th className="px-3 py-2 text-center">Category</th>
+                <th className="px-3 py-2 text-center">Units</th>
+                <th className="px-3 py-2 text-center">Vintage</th>
+                <th className="px-3 py-2 text-right">Loan Amount</th>
+                <th className="px-3 py-2 text-right">$/Unit</th>
+                <th className="px-3 py-2 text-center">Debt Yield</th>
+                <th className="px-3 py-2 text-center">Pin</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.slice(0, LIST_CAP).map((p) => (
+                <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50">
+                  <td className="px-3 py-2">
+                    <a className="text-accent hover:underline font-medium" href={`/comps?name=${encodeURIComponent(p.name)}`}>
+                      {p.name}
+                    </a>
+                  </td>
+                  <td className="px-3 py-2 text-xs text-slate-600">{[p.city, p.state].filter(Boolean).join(", ") || "—"}</td>
+                  <td className="px-3 py-2 text-center text-xs text-slate-500">
+                    {p.category === "BRIDGE_REFI" ? "Bridge / Refi" : p.category === "CONSTRUCTION" ? "Construction" : "—"}
+                  </td>
+                  <td className="px-3 py-2 text-center tabular-nums">{p.units ?? "—"}</td>
+                  <td className="px-3 py-2 text-center tabular-nums">{p.yearBuilt ?? "—"}</td>
+                  <td className="px-3 py-2 text-right tabular-nums">{money(p.loanAmount)}</td>
+                  <td className="px-3 py-2 text-right tabular-nums">{money(p.loanPerUnit)}</td>
+                  <td className="px-3 py-2 text-center tabular-nums">
+                    {p.debtYieldPct != null ? `${(p.debtYieldPct * 100).toFixed(1)}%` : "—"}
+                  </td>
+                  <td className="px-3 py-2 text-center text-[11px] text-slate-400">
+                    {p.precision === "address" ? "address" : "zip"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
