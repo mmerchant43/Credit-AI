@@ -357,7 +357,7 @@ export default async function DealAnalysisPage({
     .filter((u) => !u.hasAddress || mapPoints.every((p) => p.id !== u.id));
 
   return (
-    <div className="space-y-8 pb-10">
+    <div id="analysis-report" className="space-y-8 pb-10">
       {/* auto-saves the screening state so reopening restores this view (Mason, 9/30/26) */}
       <Suspense><ScreenStateSaver id={analysis.id} /></Suspense>
       <div className="section-head">
@@ -764,7 +764,7 @@ export default async function DealAnalysisPage({
           </div>
         </details>
       </section>
-      <ExportPdf />
+      <ExportPdf name={s ? s.propertyName ?? s.dealName ?? "Deal" : savedSnap.setLabel ?? "Comp Set"} />
     </div>
   );
 }

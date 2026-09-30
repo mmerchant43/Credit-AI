@@ -293,6 +293,7 @@ export default function DealMap({
           `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${stadiaKey}`,
           {
             maxZoom: 20,
+            crossOrigin: true,
             attribution:
               '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           }
@@ -300,11 +301,11 @@ export default function DealMap({
       } else {
         L.tileLayer(
           "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-          { maxNativeZoom: 16, maxZoom: 18, attribution: "Tiles &copy; Esri &mdash; Esri, HERE, Garmin" }
+          { maxNativeZoom: 16, maxZoom: 18, crossOrigin: true, attribution: "Tiles &copy; Esri &mdash; Esri, HERE, Garmin" }
         ).addTo(map);
         L.tileLayer(
           "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
-          { maxNativeZoom: 16, maxZoom: 18, attribution: "" }
+          { maxNativeZoom: 16, maxZoom: 18, crossOrigin: true, attribution: "" }
         ).addTo(map);
       }
 

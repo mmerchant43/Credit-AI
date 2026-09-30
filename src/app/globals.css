@@ -135,3 +135,25 @@ body {
   /* The map: DealMap sets 700×360 at print time; hide its controls. */
   .leaflet-control-container, .leaflet-popup { display: none !important; }
 }
+
+
+/* ── pdf-mode (Mason, 9/30/26): the SAME tidy layout as @media print,
+   applied as a class while html2pdf rasterizes the page for the direct
+   PDF download. Kept in lockstep with the print block above. ── */
+.pdf-mode header, .pdf-mode nav, .pdf-mode .print-hide, .pdf-mode .btn,
+.pdf-mode button, .pdf-mode input, .pdf-mode select, .pdf-mode details { display: none !important; }
+.pdf-mode body { background: #fff !important; }
+.pdf-mode #analysis-report { width: 780px; margin: 0 auto; }
+.pdf-mode .card { box-shadow: none !important; border: 1px solid #E2E8F0 !important; }
+.pdf-mode .overflow-x-auto, .pdf-mode .overflow-hidden { overflow: visible !important; }
+.pdf-mode [class*="min-w-"] { min-width: 0 !important; }
+.pdf-mode table { width: 100% !important; font-size: 10px !important; }
+.pdf-mode td, .pdf-mode th { padding: 3px 5px !important; }
+.pdf-mode svg { max-width: 100% !important; height: auto !important; }
+.pdf-mode .dist-col { width: 38% !important; }
+.pdf-mode tr { break-inside: avoid; }
+.pdf-mode section { margin: 0 0 8px 0 !important; }
+.pdf-mode .space-y-8 > * + * { margin-top: 8px !important; }
+.pdf-mode h2 { font-size: 15px !important; }
+.pdf-mode .stats-print-page { break-before: page; break-inside: avoid; }
+.pdf-mode .leaflet-control-container, .pdf-mode .leaflet-popup { display: none !important; }

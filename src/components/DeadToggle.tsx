@@ -26,15 +26,28 @@ export default function DeadToggle({ id, dead, name }: { id: string; dead: boole
     }
   }
   return dead ? (
-    <button
-      type="button"
-      className="badge bg-red-50 text-red-700 border-red-200 cursor-pointer hover:bg-red-100 whitespace-nowrap"
-      title={`${name} is dead — click to revive`}
-      disabled={busy}
-      onClick={toggle}
-    >
-      {busy ? "…" : "DEAD"}
-    </button>
+    // Explicit undo next to the badge (Mason, 9/30/26) — the badge itself
+    // still revives on click too.
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+      <button
+        type="button"
+        className="badge bg-red-50 text-red-700 border-red-200 cursor-pointer hover:bg-red-100"
+        title={`${name} is dead — click to revive`}
+        disabled={busy}
+        onClick={toggle}
+      >
+        {busy ? "…" : "DEAD"}
+      </button>
+      <button
+        type="button"
+        className="text-[11px] text-slate-400 hover:text-accent underline"
+        title={`Revive ${name}`}
+        disabled={busy}
+        onClick={toggle}
+      >
+        undo
+      </button>
+    </span>
   ) : (
     <button
       type="button"
