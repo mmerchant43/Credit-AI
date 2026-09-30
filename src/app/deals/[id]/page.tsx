@@ -17,7 +17,7 @@ import { RemoveCompButton, UndoRemoveButton } from "@/components/CompRemove";
 import DeadToggle from "@/components/DeadToggle";
 import EditComp, { type EditableComp } from "@/components/EditComp";
 import ScreenStateSaver from "@/components/ScreenStateSaver";
-import ExportPdf from "@/components/ExportPdf";
+import ExportPdf, { type ExportData } from "@/components/ExportPdf";
 
 export const dynamic = "force-dynamic";
 // First view of an analysis geocodes its pins (Census/zip lookups) before
@@ -355,6 +355,52 @@ export default async function DealAnalysisPage({
       hasAddress: Boolean(r.address),
     }))
     .filter((u) => !u.hasAddress || mapPoints.every((p) => p.id !== u.id));
+
+  // ── Structured data for the native PDF report (Mason, 9/30/26) ──
+  const exportName = s ? s.propertyName ?? s.dealName ?? "Deal" : savedSnap.setLabel ?? "Comp Set";
+  const exportData: ExportData = {
+    name: exportName,
+    subjectLine: s
+      ? [
+          `Location: ${[s.city, s.state].filter(Boolean).join(", ") || "\u2014"}${s.zip ? ` ${s.zip}` : ""}`,
+          `Category: ${s.category ? CATEGORY_LABELS[s.category] ?? s.category : "\u2014"}`,
+          `Units: ${s.units ?? "\u2014"}`,
+          `Vintage: ${s.yearBuilt ?? "\u2014"}`,
+          `Occupancy: ${s.category === "CONSTRUCTION" ? "0% (not built yet)" : fmtPct(s.occupancyPct, 1)}`,
+        ].join("   \u00b7   ")
+      : `Hand-picked comp set \u00b7 ${view.matchedCount} comps`,
+    screenedLine: `${view.candidatesScreened} screened via ${view.modeLabel} \u2192 ${view.matchedCount} match${view.matchedCount === 1 ? "" : "es"}`,
+    comps: rows.map(({ r, isSubject }) => ({
+      num: isSubject ? "S" : numById.get(r.id) ?? "\u2022",
+      isSubject,
+      name: (r.propertyName ?? r.dealName ?? "\u2014") + (isSubject ? " (Subject)" : ""),
+      location: `${[r.city, r.state].filter(Boolean).join(", ") || "\u2014"}${r.zip ? ` ${r.zip}` : ""}`,
+      category: r.category ? CATEGORY_LABELS[r.category] ?? r.category : "\u2014",
+      vintage: r.yearBuilt != null ? String(r.yearBuilt) : "\u2014",
+      units: r.units != null ? String(r.units) : "\u2014",
+      loan: r.loanAmount != null ? fmtMoney(r.loanAmount) : "\u2014",
+    })),
+    metrics: view.stats
+      .filter((row) => row.key !== "impliedCapPct")
+      .map((row) => ({
+        label: row.label,
+        kind: row.kind,
+        group: row.key === "totalProjectCost" ? "Total Cost Basis" : row.key === "loanAmount" ? "Loan Amount" : null,
+        subject: row.subject,
+        min: row.min,
+        median: row.median,
+        max: row.max,
+        bars: [
+          ...(s ? [{ label: "S", name: exportName, value: row.subject, isSubject: true }] : []),
+          ...orderedMatched.map((c, i) => ({
+            label: String(i + 1),
+            name: String(c.propertyName ?? c.dealName ?? `Comp ${i + 1}`),
+            value: statValue(c as unknown as Record<string, unknown>, row.key),
+            isSubject: false,
+          })),
+        ],
+      })),
+  };
 
   return (
     <div id="analysis-report" className="space-y-8 pb-10">
@@ -764,7 +810,7 @@ export default async function DealAnalysisPage({
           </div>
         </details>
       </section>
-      <ExportPdf name={s ? s.propertyName ?? s.dealName ?? "Deal" : savedSnap.setLabel ?? "Comp Set"} />
+      <ExportPdf data={exportData} />
     </div>
   );
 }
