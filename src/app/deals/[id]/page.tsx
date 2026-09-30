@@ -135,7 +135,7 @@ function StatsTable({
             <th className="px-3 py-2 text-right">Min</th>
             <th className="px-3 py-2 text-right">Median</th>
             <th className="px-3 py-2 text-right">Max</th>
-            <th className="px-3 py-2 text-center w-[45%] min-w-[380px]"
+            <th className="dist-col px-3 py-2 text-center w-[45%] min-w-[380px]"
               title={mode === "strips" ? "comps (navy) · median (tick) · subject (gold)" : "one bar per deal — subject (gold, S) · comps (navy, numbered)"}>
               Distribution
             </th>
@@ -511,7 +511,7 @@ export default async function DealAnalysisPage({
       {/* Subject vs. comps — distribution strips, flippable to per-deal
           vertical bars (Mason, 9/23/26): subject gold, comps Crow navy. */}
       {view.matchedCount > 0 && (
-        <section>
+        <section className="stats-print-page">
           <div className="section-head"><h2>{s ? "Subject vs. Comps" : "Comp Set Metrics"}</h2><div className="rule" /></div>
           <StatsViewToggle
             table={<StatsTable mode="strips" rows={view.stats} comps={orderedMatched as unknown as Record<string, unknown>[]} hasSubject={s != null} subjectName={s?.propertyName ?? s?.dealName ?? "Subject"} />}

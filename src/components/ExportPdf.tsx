@@ -11,7 +11,7 @@ export default function ExportPdf() {
         <div className="text-sm font-medium">Export this analysis as a PDF</div>
         <div className="text-xs text-slate-500">
           Prints the page as a compact report — the map and whichever metrics view is showing (flip to Bar
-          Charts first if that&apos;s what you want). In the dialog choose &ldquo;Save as PDF&rdquo;.
+          Charts first if that&apos;s what you want). In the dialog choose &ldquo;Save as PDF&rdquo; and, under More settings, turn OFF &ldquo;Headers and footers&rdquo; for a clean page.
         </div>
       </div>
       <button

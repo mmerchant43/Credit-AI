@@ -413,7 +413,7 @@ export default function DealMap({
           <div ref={containerRef} className="relative z-0" style={{ height: 420, width: "100%" }} />
           {/* Manual pin placement banner */}
           {placing && (
-            <div className="absolute top-2 left-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
+            <div className="print-hide absolute top-2 left-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
               <span className="text-xs text-slate-600">
                 Click the map to place the pin for <b>{placing.name}</b>
               </span>
@@ -421,7 +421,7 @@ export default function DealMap({
             </div>
           )}
           {/* Radius control lives ON the map (Mason, 9/22/26). Default 1 mi. */}
-          <div className="absolute top-2 right-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
+          <div className="print-hide absolute top-2 right-2 z-10 card bg-white/95 px-3 py-2 flex items-center gap-2 shadow">
             {hasSubjectPin ? (
               <>
                 {/* Circle ↔ drawn boundary toggle (Mason, 9/22/26) */}
@@ -483,7 +483,7 @@ export default function DealMap({
           </div>
         </div>
         {unmapped.length > 0 && (
-          <div className="border-t border-slate-200">
+          <div className="print-hide border-t border-slate-200">
             <div className="px-3 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
               Not on the map — add an exact address to pin
             </div>
