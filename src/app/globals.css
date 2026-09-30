@@ -107,19 +107,28 @@ body {
 }
 
 
-/* ── PDF export (Mason, 9/30/26): the browser's print dialog produces a
-   compact one-pager-ish report — chrome, buttons and interactive bits
-   hidden; map and charts kept. ── */
+/* ── PDF export (Mason, 9/30/26; fidelity fixes 9/30/26 PM): the browser's
+   print dialog produces a compact report — chrome, buttons and interactive
+   bits hidden; the map re-renders at print width via beforeprint (DealMap),
+   and NOTHING is allowed to clip behind a scrollbar. ── */
 @media print {
   @page { size: letter; margin: 9mm; }
   header, nav, .print-hide, .btn, button, input, select, details { display: none !important; }
   body { background: #fff !important; }
-  .card { box-shadow: none !important; border: 1px solid #E2E8F0 !important; break-inside: avoid; }
-  section { break-inside: avoid; }
-  .space-y-8 > * + * { margin-top: 10px !important; }
-  .leaflet-container { height: 280px !important; }
-  .leaflet-control-container, .leaflet-popup { display: none !important; }
-  table { font-size: 10px !important; }
-  td, th { padding-top: 2px !important; padding-bottom: 2px !important; }
+  .card { box-shadow: none !important; border: 1px solid #E2E8F0 !important; }
+  /* No horizontal scroll containers in a PDF — everything must FIT. */
+  .overflow-x-auto, .overflow-hidden { overflow: visible !important; }
+  [class*="min-w-"] { min-width: 0 !important; }
+  table { width: 100% !important; font-size: 9.5px !important; }
+  td, th { padding: 2px 4px !important; white-space: normal !important; }
+  /* Charts scale down with their cells instead of clipping. */
+  svg { max-width: 100% !important; height: auto !important; }
+  /* Keep each ROW together but let long tables flow across pages —
+     forcing whole sections onto one page is what pushed charts off. */
+  tr { break-inside: avoid; }
+  section { margin: 0 0 8px 0 !important; }
+  .space-y-8 > * + * { margin-top: 8px !important; }
   h2 { font-size: 15px !important; }
+  /* The map: DealMap sets 700×360 at print time; hide its controls. */
+  .leaflet-control-container, .leaflet-popup { display: none !important; }
 }

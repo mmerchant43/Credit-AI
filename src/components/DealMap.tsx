@@ -182,6 +182,37 @@ export default function DealMap({
         viewRef.current = { lat: c.lat, lng: c.lng, zoom: map.getZoom() };
       });
 
+      // PDF export fidelity (Mason, 9/30/26): before printing, resize the
+      // map container to the printed page's width and re-render at the SAME
+      // center and zoom the user has on screen — the browser snapshots the
+      // page after beforeprint runs, so the PDF shows the map as arranged.
+      const printPrev = { w: "", h: "" };
+      const onBeforePrint = () => {
+        const el = containerRef.current;
+        if (!el || !map) return;
+        const center = map.getCenter();
+        const zoom = map.getZoom();
+        printPrev.w = el.style.width; printPrev.h = el.style.height;
+        el.style.width = "700px"; el.style.height = "360px";
+        map.invalidateSize({ animate: false });
+        map.setView(center, zoom, { animate: false });
+      };
+      const onAfterPrint = () => {
+        const el = containerRef.current;
+        if (!el || !map) return;
+        const center = map.getCenter();
+        const zoom = map.getZoom();
+        el.style.width = printPrev.w; el.style.height = printPrev.h;
+        map.invalidateSize({ animate: false });
+        map.setView(center, zoom, { animate: false });
+      };
+      window.addEventListener("beforeprint", onBeforePrint);
+      window.addEventListener("afterprint", onAfterPrint);
+      map.on("unload", () => {
+        window.removeEventListener("beforeprint", onBeforePrint);
+        window.removeEventListener("afterprint", onAfterPrint);
+      });
+
       // ── Boundary drawing wiring ──
       const sketch = {
         line: null as import("leaflet").Polyline | null,
