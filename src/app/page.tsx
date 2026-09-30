@@ -56,6 +56,7 @@ export default async function Home() {
     createdAt: a.createdAt,
     pinned: a.pinned,
     dead: a.dead,
+    screenParams: a.screenParams ?? null,
   });
   const pinnedDeals = recent.filter((a) => a.pinned).map(toItem);
   const recentDeals = recent.filter((a) => !a.pinned).slice(0, 8).map(toItem);

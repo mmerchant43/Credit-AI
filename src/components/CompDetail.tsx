@@ -5,6 +5,7 @@
 // stated it.
 import { useState } from "react";
 import { DASH, fmtMoney, fmtPct, fmtX, CATEGORY_LABELS, POSITION_LABELS, OUTCOME_LABELS } from "@/lib/format";
+import EditComp from "./EditComp";
 
 export interface CompFull {
   id: string;
@@ -94,6 +95,8 @@ export default function CompDetail({ comp }: { comp: CompFull }) {
                 </p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
+                {/* Edit metrics after the fact (Mason, 9/30/26) */}
+                <EditComp comp={c} label="Edit" />
                 {c.omLink && (
                   <a href={c.omLink} target="_blank" rel="noopener noreferrer" className="btn text-sm">
                     Open OM ↗

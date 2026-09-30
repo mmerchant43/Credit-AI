@@ -14,6 +14,7 @@ export interface AnalysisListItem {
   createdAt: Date;
   pinned: boolean;
   dead: boolean;
+  screenParams: string | null;
 }
 
 export function ActiveDealAnalyses({
@@ -44,7 +45,7 @@ export function ActiveDealAnalyses({
           {analyses.map((a) => (
             <div key={a.id} className={`flex items-center gap-2 px-4 py-3 hover:bg-slate-50 ${a.dead ? "opacity-60" : ""}`}>
               <PinStar id={a.id} pinned={a.pinned} />
-              <Link href={`/deals/${a.id}`} className="flex flex-1 items-center justify-between gap-4 min-w-0">
+              <Link href={`/deals/${a.id}${a.screenParams ? `?${a.screenParams}` : ""}`} className="flex flex-1 items-center justify-between gap-4 min-w-0">
                 <span className="text-sm truncate">
                   <b className="font-medium">{a.subjectName}</b>
                   <span className="text-slate-500"> · {a.location} · {a.category}</span>

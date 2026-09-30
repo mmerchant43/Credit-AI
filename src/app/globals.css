@@ -105,3 +105,21 @@ body {
 .tile-label {
   @apply font-display text-lg tracking-wide;
 }
+
+
+/* ── PDF export (Mason, 9/30/26): the browser's print dialog produces a
+   compact one-pager-ish report — chrome, buttons and interactive bits
+   hidden; map and charts kept. ── */
+@media print {
+  @page { size: letter; margin: 9mm; }
+  header, nav, .print-hide, .btn, button, input, select, details { display: none !important; }
+  body { background: #fff !important; }
+  .card { box-shadow: none !important; border: 1px solid #E2E8F0 !important; break-inside: avoid; }
+  section { break-inside: avoid; }
+  .space-y-8 > * + * { margin-top: 10px !important; }
+  .leaflet-container { height: 280px !important; }
+  .leaflet-control-container, .leaflet-popup { display: none !important; }
+  table { font-size: 10px !important; }
+  td, th { padding-top: 2px !important; padding-bottom: 2px !important; }
+  h2 { font-size: 15px !important; }
+}

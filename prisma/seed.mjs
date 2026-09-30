@@ -62,9 +62,18 @@ for (const r of records) {
     // If the seed changes a row's zip or address and doesn't itself carry
     // coordinates, clear the old ones (and any failed-geocode sentinel) so
     // the site re-geocodes from the new location (Mason, 9/23/26).
+    // Fields hand-edited on the site are the user's (Mason, 9/30/26) —
+    // the seed NEVER overwrites them, deploy after deploy.
+    if (existing && Array.isArray(existing.editedFields)) {
+      for (const f of existing.editedFields) delete fields[f];
+    }
+    // (compare against what will actually land — a user-edited zip/address
+    // was just removed from the payload and so is NOT changing)
+    const nextZip = "zip" in fields ? fields.zip ?? null : existing?.zip ?? null;
+    const nextAddr = "address" in fields ? fields.address ?? null : existing?.address ?? null;
     if (
       existing && fields.lat == null &&
-      ((fields.zip ?? null) !== (existing.zip ?? null) || (fields.address ?? null) !== (existing.address ?? null))
+      (nextZip !== (existing.zip ?? null) || nextAddr !== (existing.address ?? null))
     ) {
       fields.lat = null;
       fields.lon = null;

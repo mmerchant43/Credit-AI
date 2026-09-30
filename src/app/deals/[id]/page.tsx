@@ -15,6 +15,9 @@ import MetricBars from "@/components/MetricBars";
 import StatsViewToggle from "@/components/StatsViewToggle";
 import { RemoveCompButton, UndoRemoveButton } from "@/components/CompRemove";
 import DeadToggle from "@/components/DeadToggle";
+import EditComp, { type EditableComp } from "@/components/EditComp";
+import ScreenStateSaver from "@/components/ScreenStateSaver";
+import ExportPdf from "@/components/ExportPdf";
 
 export const dynamic = "force-dynamic";
 // First view of an analysis geocodes its pins (Census/zip lookups) before
@@ -154,7 +157,7 @@ function StatsTable({
                 </tr>
               )}
               <tr className="border-b border-slate-100">
-                <td className="px-3 py-2">{row.label}{
+                <td className="px-3 py-2 text-[15px] font-medium whitespace-nowrap">{row.label}{
                   // Range flag (Mason, 9/22/26): every metric with a
                   // subject value and a comp range gets one — green
                   // within, red below/above.
@@ -355,6 +358,8 @@ export default async function DealAnalysisPage({
 
   return (
     <div className="space-y-8 pb-10">
+      {/* auto-saves the screening state so reopening restores this view (Mason, 9/30/26) */}
+      <Suspense><ScreenStateSaver id={analysis.id} /></Suspense>
       <div className="section-head">
         <h2>Deal Analysis — {s ? s.propertyName ?? s.dealName ?? "Subject" : savedSnap.setLabel ?? "Comp Set"}</h2>
         <div className="rule" />
@@ -374,6 +379,7 @@ export default async function DealAnalysisPage({
           <span>Vintage: <b>{s.yearBuilt ?? DASH}</b></span>
           <span>Occupancy: <b>{s.category === "CONSTRUCTION" ? "0% (not built yet)" : fmtPct(s.occupancyPct, 1)}</b></span>
           {/* Projected rents live in the Lease Comps subject row, not here (Mason, 9/23/26). */}
+          <EditComp comp={s as unknown as EditableComp} label="Edit metrics" />
           {s.omLink && (
             <a href={s.omLink} target="_blank" rel="noopener noreferrer" className="text-accent underline font-medium">
               Open OM ↗
@@ -402,9 +408,11 @@ export default async function DealAnalysisPage({
 
       {/* Screening criteria — subject-relative, so hidden on a comp set */}
       {s && (
-        <Suspense>
-          <CriteriaPanel avail={avail} />
-        </Suspense>
+        <div className="print-hide">
+          <Suspense>
+            <CriteriaPanel avail={avail} />
+          </Suspense>
+        </div>
       )}
 
       {/* Map — subject + matched comps; radius control lives on the map.
@@ -730,7 +738,7 @@ export default async function DealAnalysisPage({
       )}
 
       {/* Screening trace — failed candidates stay out of the way unless opened */}
-      <section>
+      <section className="print-hide">
         <details className="card">
           <summary className="px-4 py-3 text-sm text-slate-600 cursor-pointer select-none">
             {view.trace.filter((t) => !t.passed).length} comp{view.trace.filter((t) => !t.passed).length === 1 ? "" : "s"} didn&apos;t
@@ -756,6 +764,7 @@ export default async function DealAnalysisPage({
           </div>
         </details>
       </section>
+      <ExportPdf />
     </div>
   );
 }

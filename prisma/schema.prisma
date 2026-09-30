@@ -103,6 +103,7 @@ model CreditComp {
   zip          String? // location filter #1 works zip-first
   lat          Float? // geocoded lazily and cached (radius filter + map)
   lon          Float?
+  editedFields String[]  @default([]) // fields hand-edited on the site (Mason, 9/30/26) — the seed never overwrites these
   geoPrecision String? // "address" (Census street match) | "zip" (centroid)
   market       String
   submarket    String?
@@ -197,6 +198,7 @@ model DealAnalysis {
   matchedCount Int
   pinned       Boolean    @default(false) // starred on the homepage (Mason, 9/22/26)
   dead         Boolean    @default(false) // deal marked DEAD (Mason, 9/25/26) — stays listed, badged, sorted below live deals
+  screenParams String? // last screening URL query (Mason, 9/30/26) — reopening the analysis restores the filtered view
   archived     Boolean    @default(false) // ✕'d off the homepage — never hard-deleted
   snapshot     Json // { matchedIds, trace, stats } as computed at save time
   createdBy    String? // signed-in user's name
